@@ -46,6 +46,7 @@
     BOOL        _needNewPath;
     UITextField *_newPathField;
 }
+NSString *const sharedFolderPath = @"smb://172.18.34.230/c0120/";
 
 - (void) setPath:(NSString *)path
 {
@@ -191,7 +192,7 @@
         _newPathField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _newPathField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
         // 共有フォルダのパスを設定
-        _newPathField.text = @"smb://172.18.34.230/c0120/";
+        _newPathField.text = sharedFolderPath;
     }
     
     [alert addSubview:_newPathField];

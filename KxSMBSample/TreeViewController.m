@@ -177,11 +177,20 @@ NSString *const sharedFolderPath = @"smb://172.18.34.230/c0120/";
 }
 
 - (void) requestNewPath {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connect to Host"
+    NSString *connectionMessage = @"";
+    BOOL isAvailableSharedServer = NO;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"]) {
+        connectionMessage = @"前回使用したファイル共有サーバに接続しますか？";
+    } else if(isAvailableSharedServer) {
+        connectionMessage = @"接続する共有サーバを選択してください。";
+    } else {
+        connectionMessage = @"使用できる共有サーバがありません。";
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:connectionMessage
                                                     message:@"\n\n"
                                                    delegate:self
-                                          cancelButtonTitle:@"Cancel"
-                                          otherButtonTitles:@"Go", nil];
+                                          cancelButtonTitle:@"キャンセル"
+                                          otherButtonTitles:@"接続", nil];
     
     if(_newPathField == nil) {
         _newPathField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 30)];

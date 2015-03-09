@@ -1,3 +1,5 @@
+KxSMBのサンプルを元に作成した。
+
 KxSMB is objective-c wrapper for libsmbclient lib. 
 ===========================================
 

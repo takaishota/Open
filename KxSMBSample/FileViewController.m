@@ -264,6 +264,14 @@
                         imageView.frame = CGRectMake(0, 220, self.view.frame.size.width, self.view.frame.size.height-220);
                         imageView.contentMode = UIViewContentModeScaleAspectFit;
                         [self.view addSubview:imageView];
+                    } else {
+                        UIWebView *webView = [[UIWebView alloc] init];
+                        webView.frame = CGRectMake(0, 220, self.view.frame.size.width, self.view.frame.size.height - 220);
+                        webView.contentMode = UIViewContentModeScaleAspectFit;
+                        NSURL *path = [NSURL fileURLWithPath:_filePath];
+                        NSURLRequest *urlrequest = [NSURLRequest requestWithURL:path];
+                        [webView loadRequest:urlrequest];
+                        [self.view addSubview:webView];
                     }
                 } else {
                     [self download];

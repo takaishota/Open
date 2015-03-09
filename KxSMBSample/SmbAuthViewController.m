@@ -59,60 +59,63 @@
     CGRect frame = [[UIScreen mainScreen] applicationFrame];    
     const CGFloat W = frame.size.width;
     const CGFloat H = frame.size.height;
+    UIFont *const fontSize = [UIFont boldSystemFontOfSize:16];
+    
+    const int labelPositionX = 10;
+    const int labelFirstPositionY = 64;
+    const int labelWidth = 90;
+    const int labelHeight = 30;
+    UIColor *const labelBackgroundColor = [UIColor clearColor];
+    UIColor *const labelTextColor = [UIColor darkTextColor];
     
     self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, W, H)];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    /*
-    UILabel *titleLabel;
-    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,10,W-20,30)];
-    titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.textColor = [UIColor redColor];
-    titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    titleLabel.text = NSLocalizedString(@"Authorization required", nil);
-    [self.view addSubview:titleLabel];
-    */
-    
-    _pathLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,10,W-20,30)];
-    _pathLabel.backgroundColor = [UIColor clearColor];
-    _pathLabel.textColor = [UIColor darkTextColor];
-    _pathLabel.font = [UIFont systemFontOfSize:16];
+    _pathLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelPositionX, labelFirstPositionY + 20, W-20,labelHeight)];
+    _pathLabel.backgroundColor = labelBackgroundColor;
+    _pathLabel.textColor = labelTextColor;
+    _pathLabel.font = fontSize;
     [self.view addSubview:_pathLabel];
     
     UILabel *workgroupLabel;
-    workgroupLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,40,90,30)];
-    workgroupLabel.backgroundColor = [UIColor clearColor];
-    workgroupLabel.textColor = [UIColor darkTextColor];
-    workgroupLabel.font = [UIFont boldSystemFontOfSize:16];
+    workgroupLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelPositionX,labelFirstPositionY + 70,labelWidth,labelHeight)];
+    workgroupLabel.backgroundColor = labelBackgroundColor;
+    workgroupLabel.textColor = labelTextColor;
+    workgroupLabel.font = fontSize;
     workgroupLabel.text = NSLocalizedString(@"Workgroup", nil);
     [self.view addSubview:workgroupLabel];
     
     UILabel *usernameLabel;
-    usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,90,90,30)];
-    usernameLabel.backgroundColor = [UIColor clearColor];
-    usernameLabel.textColor = [UIColor darkTextColor];
-    usernameLabel.font = [UIFont boldSystemFontOfSize:16];
+    usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelPositionX,labelFirstPositionY + 120,labelWidth,labelHeight)];
+    usernameLabel.backgroundColor = labelBackgroundColor;
+    usernameLabel.textColor = labelTextColor;
+    usernameLabel.font = fontSize;
     usernameLabel.text = NSLocalizedString(@"Username", nil);
     [self.view addSubview:usernameLabel];
     
     UILabel *passwordLabel;
-    passwordLabel = [[UILabel alloc] initWithFrame:CGRectMake(10,140,90,30)];
-    passwordLabel.backgroundColor = [UIColor clearColor];
-    passwordLabel.textColor =  [UIColor darkTextColor];
-    passwordLabel.font = [UIFont boldSystemFontOfSize:16];
+    passwordLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelPositionX,labelFirstPositionY + 170,labelWidth,labelHeight)];
+    passwordLabel.backgroundColor = labelBackgroundColor;
+    passwordLabel.textColor = labelTextColor;
+    passwordLabel.font = fontSize;
     passwordLabel.text = NSLocalizedString(@"Password", nil);    
     [self.view addSubview:passwordLabel];
     
-    _workgroupField = [[UITextField alloc] initWithFrame:CGRectMake(100, 41, W - 110, 30)];
+    const int textFieldPositionX = 100;
+    const int textFieldFirstPositionY = 41;
+    UIColor *const textFieldBackgroundColor = [UIColor lightGrayColor];
+    UIColor *const textFieldTextColor = [UIColor blueColor];
+    
+    _workgroupField = [[UITextField alloc] initWithFrame:CGRectMake(textFieldPositionX, textFieldFirstPositionY + 100, W - 110, labelHeight)];
     _workgroupField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     _workgroupField.autocorrectionType = UITextAutocorrectionTypeNo;
     _workgroupField.spellCheckingType = UITextSpellCheckingTypeNo;
     _workgroupField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _workgroupField.clearButtonMode =  UITextFieldViewModeWhileEditing;
-    _workgroupField.textColor = [UIColor blueColor];
-    _workgroupField.font = [UIFont systemFontOfSize:16];
+    _workgroupField.textColor = textFieldTextColor;
+    _workgroupField.font = fontSize;
     _workgroupField.borderStyle = UITextBorderStyleRoundedRect;
-    _workgroupField.backgroundColor = [UIColor lightGrayColor];
+    _workgroupField.backgroundColor = textFieldBackgroundColor;
     _workgroupField.returnKeyType = UIReturnKeyNext;
     
     [_workgroupField addTarget:self
@@ -121,16 +124,16 @@
     
     [self.view addSubview:_workgroupField];
     
-    _usernameField = [[UITextField alloc] initWithFrame:CGRectMake(100, 91, W - 110, 30)];
+    _usernameField = [[UITextField alloc] initWithFrame:CGRectMake(textFieldPositionX, textFieldFirstPositionY + 150, W - 110, labelHeight)];
     _usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     _usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
     _usernameField.spellCheckingType = UITextSpellCheckingTypeNo;
     _usernameField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _usernameField.clearButtonMode =  UITextFieldViewModeWhileEditing;
-    _usernameField.textColor = [UIColor blueColor];
-    _usernameField.font = [UIFont systemFontOfSize:16];
+    _usernameField.textColor = textFieldTextColor;
+    _usernameField.font = fontSize;
     _usernameField.borderStyle = UITextBorderStyleRoundedRect;
-    _usernameField.backgroundColor = [UIColor lightGrayColor];
+    _usernameField.backgroundColor = textFieldBackgroundColor;
     _usernameField.returnKeyType = UIReturnKeyDone;
     
     [_usernameField addTarget:self
@@ -139,16 +142,16 @@
     
     [self.view addSubview:_usernameField];
     
-    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(100, 141, W - 110, 30)];
+    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(textFieldPositionX, textFieldFirstPositionY + 200, W - 110, labelHeight)];
     _passwordField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     _passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
     _passwordField.spellCheckingType = UITextSpellCheckingTypeNo;
     _passwordField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     _passwordField.clearButtonMode =  UITextFieldViewModeWhileEditing;
-    _passwordField.textColor = [UIColor blueColor];
-    _passwordField.font = [UIFont systemFontOfSize:16];
+    _passwordField.textColor = textFieldTextColor;
+    _passwordField.font = fontSize;
     _passwordField.borderStyle = UITextBorderStyleRoundedRect;
-    _passwordField.backgroundColor = [UIColor lightGrayColor];
+    _passwordField.backgroundColor = textFieldBackgroundColor;
     _passwordField.returnKeyType = UIReturnKeyDone;
     _passwordField.secureTextEntry = YES;    
     

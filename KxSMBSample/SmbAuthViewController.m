@@ -103,8 +103,8 @@
     
     const int textFieldPositionX = 100;
     const int textFieldFirstPositionY = 41;
-    UIColor *const textFieldBackgroundColor = [UIColor lightGrayColor];
-    UIColor *const textFieldTextColor = [UIColor blueColor];
+    UIColor *const textFieldBackgroundColor = [UIColor whiteColor];
+    UIColor *const textFieldTextColor = [UIColor darkGrayColor];
     
     _workgroupField = [[UITextField alloc] initWithFrame:CGRectMake(textFieldPositionX, textFieldFirstPositionY + 100, W - 110, labelHeight)];
     _workgroupField.autocapitalizationType = UITextAutocapitalizationTypeNone;

@@ -163,9 +163,7 @@ NSString *const sharedFolderPath = @"smb://172.18.34.230/c0120/";
             [self updateStatus:nil];
             
             if ([result isKindOfClass:[NSArray class]]) {
-                
-                _items = [result copy];
-                
+                _items = [[self excludeHiddenFile:result] copy];
             } else if ([result isKindOfClass:[KxSMBItem class]]) {
                 
                 _items = @[result];
@@ -402,5 +400,22 @@ NSString *const sharedFolderPath = @"smb://172.18.34.230/c0120/";
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
+
+#pragma mark - private
+- (NSArray*)excludeHiddenFile:(NSArray*)array {
+    // 隠しファイルを除外する
+    NSMutableArray *filteredResult = [NSMutableArray array];
+    for (KxSMBItem *item in array) {
+        NSString *itemPathTmp = item.path;
+        NSString *fileName = (NSString*)[[itemPathTmp componentsSeparatedByString:@"/"] lastObject];
+        
+        if(![fileName hasPrefix:@"."]) {
+            [filteredResult addObject:item];
+        }
+    }
+    return filteredResult;
+}
+
+
 
 @end

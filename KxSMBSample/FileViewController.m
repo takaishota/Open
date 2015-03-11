@@ -70,6 +70,9 @@
     self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     self.view.backgroundColor = [UIColor whiteColor];
     
+    NSString *fileName = [[_smbFile.path componentsSeparatedByString:@"/"] lastObject];
+    self.navigationItem.title = fileName;
+    
     const float W = self.view.bounds.size.width;
         
     _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, W - 20, 30)];

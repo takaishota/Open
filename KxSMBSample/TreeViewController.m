@@ -178,7 +178,7 @@ NSString *const sharedFolderPath = @"smb://172.18.34.230/c0120/";
     NSString *connectionMessage = @"";
     BOOL isAvailableSharedServer = NO;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"]) {
-        connectionMessage = @"前回使用したファイル共有サーバに接続しますか？";
+        connectionMessage = [NSString stringWithFormat:@"前回使用したファイル共有サーバに接続しますか？\n%@", sharedFolderPath];
     } else if(isAvailableSharedServer) {
         connectionMessage = @"接続する共有サーバを選択してください。";
     } else {

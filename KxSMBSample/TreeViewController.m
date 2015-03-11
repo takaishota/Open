@@ -89,18 +89,6 @@ NSString *const sharedFolderPath = @"smb://172.18.34.230/c0120/";
                                                                                               target:self
                                                                                               action:@selector(requestNewPath)];
     }
-    
-    self.navigationItem.rightBarButtonItems =
-    @[
-      [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                    target:self
-                                                    action:@selector(actionMkDir:)],
-      
-      [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
-                                                    target:self
-                                                    action:@selector(actionCopyFile:)],
-      ];
-
 }
 
 - (void)viewDidLoad

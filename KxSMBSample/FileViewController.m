@@ -40,9 +40,6 @@
 
 @implementation FileViewController {
     
-    UILabel         *_nameLabel;
-    UILabel         *_sizeLabel;
-    UILabel         *_dateLabel;
     UIButton        *_downloadButton;
     UIProgressView  *_downloadProgress;
     UILabel         *_downloadLabel;
@@ -74,27 +71,6 @@
     self.navigationItem.title = fileName;
     
     const float W = self.view.bounds.size.width;
-        
-    _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, W - 20, 30)];
-    _nameLabel.font = [UIFont boldSystemFontOfSize:16];
-    _nameLabel.textColor = [UIColor darkTextColor];
-    _nameLabel.opaque = NO;
-    _nameLabel.backgroundColor = [UIColor clearColor];
-    _nameLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    
-    _sizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, W - 20, 30)];
-    _sizeLabel.font = [UIFont systemFontOfSize:14];
-    _sizeLabel.textColor = [UIColor darkTextColor];
-    _sizeLabel.opaque = NO;
-    _sizeLabel.backgroundColor = [UIColor clearColor];
-    _sizeLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    
-    _dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 70, W - 20, 30)];
-    _dateLabel.font = [UIFont systemFontOfSize:14];;
-    _dateLabel.textColor = [UIColor darkTextColor];
-    _dateLabel.opaque = NO;
-    _dateLabel.backgroundColor = [UIColor clearColor];
-    _dateLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
     _downloadButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     _downloadButton.frame = CGRectMake(10, 120, 100, 30);
@@ -115,9 +91,6 @@
     _downloadProgress.frame = CGRectMake(10, 190, W - 20, 30);
     _downloadProgress.hidden = YES;
 
-    [self.view addSubview:_nameLabel];
-    [self.view addSubview:_sizeLabel];
-    [self.view addSubview:_dateLabel];
     [self.view addSubview:_downloadButton];
     [self.view addSubview:_downloadLabel];
     [self.view addSubview:_downloadProgress];    
@@ -136,10 +109,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    _nameLabel.text = _smbFile.path;
-    _sizeLabel.text = [NSString stringWithFormat:@"size: %ld", _smbFile.stat.size];
-    _dateLabel.text = [NSString stringWithFormat:@"date: %@", _smbFile.stat.lastModified];
 }
 
 - (void) viewWillDisappear:(BOOL)animated

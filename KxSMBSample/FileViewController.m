@@ -221,12 +221,12 @@
                     // 画像ファイルの場合、ImageViewに表示する
                     if([@[@"png",@"jpg",@"gif"] containsObject:[[_smbFile.path pathExtension] lowercaseString]]) {
                         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:_filePath]];
-                        imageView.frame = CGRectMake(0, 220, self.view.frame.size.width, self.view.frame.size.height-220);
+                        imageView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
                         imageView.contentMode = UIViewContentModeScaleAspectFit;
                         [self.view addSubview:imageView];
                     } else {
                         UIWebView *webView = [[UIWebView alloc] init];
-                        webView.frame = CGRectMake(0, 220, self.view.frame.size.width, self.view.frame.size.height - 220);
+                        webView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
                         webView.contentMode = UIViewContentModeScaleAspectFit;
                         NSURL *path = [NSURL fileURLWithPath:_filePath];
                         NSURLRequest *urlrequest = [NSURLRequest requestWithURL:path];

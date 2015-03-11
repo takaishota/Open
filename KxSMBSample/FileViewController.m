@@ -40,7 +40,6 @@
 
 @implementation FileViewController {
     
-    UIButton        *_downloadButton;
     UIProgressView  *_downloadProgress;
     UILabel         *_downloadLabel;
     NSString        *_filePath;
@@ -67,17 +66,12 @@
     self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     self.view.backgroundColor = [UIColor whiteColor];
     
+    [self downloadAction];
+    
     NSString *fileName = [[_smbFile.path componentsSeparatedByString:@"/"] lastObject];
     self.navigationItem.title = fileName;
     
     const float W = self.view.bounds.size.width;
-    
-    _downloadButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    _downloadButton.frame = CGRectMake(10, 120, 100, 30);
-    _downloadButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
-    [_downloadButton setTitle:@"Download" forState:UIControlStateNormal];
-    [_downloadButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [_downloadButton addTarget:self action:@selector(downloadAction) forControlEvents:UIControlEventTouchUpInside];
     
     _downloadLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, W - 20, 40)];
     _downloadLabel.font = [UIFont systemFontOfSize:14];;
@@ -91,7 +85,6 @@
     _downloadProgress.frame = CGRectMake(10, 190, W - 20, 30);
     _downloadProgress.hidden = YES;
 
-    [self.view addSubview:_downloadButton];
     [self.view addSubview:_downloadLabel];
     [self.view addSubview:_downloadProgress];    
 }
@@ -149,7 +142,6 @@
  
         if (_fileHandle) {
         
-            [_downloadButton setTitle:@"Cancel" forState:UIControlStateNormal];
             _downloadLabel.text = @"starting ..";
             
             _downloadedBytes = 0;
@@ -165,8 +157,6 @@
         }
         
     } else {
-        
-        [_downloadButton setTitle:@"Download" forState:UIControlStateNormal];
         _downloadLabel.text = @"cancelled";
         [self closeFiles];
     }
@@ -178,7 +168,6 @@
          
         NSError *error = result;
         
-        [_downloadButton setTitle:@"Download" forState:UIControlStateNormal];
         _downloadLabel.text = [NSString stringWithFormat:@"failed: %@", error.localizedDescription];
         _downloadProgress.hidden = YES;        
        [self closeFiles];
@@ -188,8 +177,7 @@
         NSData *data = result;
                 
         if (data.length == 0) {
-        
-            [_downloadButton setTitle:@"Download" forState:UIControlStateNormal];          
+            
             [self closeFiles];
             
         } else {

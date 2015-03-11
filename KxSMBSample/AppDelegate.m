@@ -88,7 +88,12 @@
     if (!_smbAuthViewController) {
         _smbAuthViewController = [[SmbAuthViewController alloc] init];
         _smbAuthViewController.delegate = self;
-        _smbAuthViewController.username = @"guest";
+        
+        // TODO:前回アプリ終了時にユーザデフォルトに保存しておいたデータを取得するように変更する予定
+//        _smbAuthViewController.username = @"guest";
+        _smbAuthViewController.username = @"s-takai";
+        _smbAuthViewController.password = @"e9GNHwWh";
+
     }
     
     UINavigationController *nav = (UINavigationController *)self.window.rootViewController;

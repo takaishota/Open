@@ -47,6 +47,7 @@
     SmbAuthViewController *_smbAuthViewController;
 }
 
+#pragma mark - ViewController LifeCycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {   
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -81,7 +82,7 @@
 {
 }
 
-#pragma mark - KxSMBProviderDelegate
+#pragma mark - private method
 
 - (void) presentSmbAuthViewControllerForServer: (NSString *) server
 {
@@ -104,11 +105,29 @@
     _smbAuthViewController.server = server;
     
     UIViewController *vc = [[UINavigationController alloc] initWithRootViewController:_smbAuthViewController];
-    
     [nav.topViewController presentViewController:vc
                                         animated:NO
                                       completion:nil];
 }
+
+#pragma mark - KxSMBProviderDelegate
+
+- (KxSMBAuth *) smbAuthForServer: (NSString *) server
+                       withShare: (NSString *) share
+{
+    KxSMBAuth *auth = _cachedAuths[server.uppercaseString];
+    if (auth)
+        return auth;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self presentSmbAuthViewControllerForServer:server];
+    });
+    
+    return nil;
+}
+
+#pragma mark - SmbAuthViewControllerDelegate
 
 - (void) couldSmbAuthViewController: (SmbAuthViewController *) controller
                                done: (BOOL) done
@@ -131,19 +150,6 @@
     [_headVC reloadPath];
 }
 
-- (KxSMBAuth *) smbAuthForServer: (NSString *) server
-                       withShare: (NSString *) share
-{   
-    KxSMBAuth *auth = _cachedAuths[server.uppercaseString];
-    if (auth)
-        return auth;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-    
-        [self presentSmbAuthViewControllerForServer:server];
-    });
-    
-    return nil;
-}
+
 
 @end

@@ -177,9 +177,6 @@ NSString *const personalFolderPath = @"個人フォルダ/s-takai/";
         _newPathField.text = [sharedFolderPath stringByAppendingString:personalFolderPath];
     }
     
-    [alert addSubview:_newPathField];
-    
-    [alert show];
     
     [_newPathField becomeFirstResponder];
 }

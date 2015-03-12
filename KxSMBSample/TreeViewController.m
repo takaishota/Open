@@ -177,6 +177,9 @@ NSString *const personalFolderPath = @"個人フォルダ/s-takai/";
         _newPathField.text = [sharedFolderPath stringByAppendingString:personalFolderPath];
     }
     
+    self.path = _newPathField.text;
+    [[NSUserDefaults standardUserDefaults] setObject:_newPathField.text forKey:@"LastServer"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     [_newPathField becomeFirstResponder];
 }

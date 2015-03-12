@@ -164,20 +164,6 @@ NSString *const personalFolderPath = @"個人フォルダ/s-takai/";
 }
 
 - (void) requestNewPath {
-    NSString *connectionMessage = @"";
-    BOOL isAvailableSharedServer = NO;
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"]) {
-        connectionMessage = [NSString stringWithFormat:@"前回使用したファイル共有サーバに接続しますか？\n%@", sharedFolderPath];
-    } else if(isAvailableSharedServer) {
-        connectionMessage = @"接続する共有サーバを選択してください。";
-    } else {
-        connectionMessage = @"使用できる共有サーバがありません。";
-    }
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:connectionMessage
-                                                    message:@"\n\n"
-                                                   delegate:self
-                                          cancelButtonTitle:@"キャンセル"
-                                          otherButtonTitles:@"接続", nil];
     
     if(_newPathField == nil) {
         _newPathField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 30)];

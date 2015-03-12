@@ -319,7 +319,7 @@ NSString *const personalFolderPath = @"個人フォルダ/s-takai/";
     } else {
         
         cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld", item.stat.size];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld KB", item.stat.size / 1000];
     }
     
     return cell;

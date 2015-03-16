@@ -62,6 +62,7 @@
     // 詳細用ViewControllerの生成
     FileViewController *fileViewController = [[FileViewController alloc] init];
     UINavigationController *fileNavigationViewController = [[UINavigationController alloc] initWithRootViewController:fileViewController];
+    _headVC.fileViewNavigationController = fileNavigationViewController;
     
     splitViewController.delegate = fileViewController;
     

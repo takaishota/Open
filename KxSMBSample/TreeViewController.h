@@ -38,4 +38,5 @@
 - (id)initAsHeadViewController;
 - (void) reloadPath;
 @property (readwrite, nonatomic, strong) NSString *path;
+@property (nonatomic, strong) UINavigationController *fileViewNavigationController;
 @end

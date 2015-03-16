@@ -342,7 +342,9 @@ NSString *const personalFolderPath = @"c0120/個人フォルダ/s-takai/";
         
         FileViewController *vc = [[FileViewController alloc] init];
         vc.smbFile = (KxSMBItemFile *)item;
-        [self.navigationController pushViewController:vc animated:YES];
+        // fileViewのnavigationViewにpushする
+        [self.fileViewNavigationController pushViewController:vc animated:YES];
+//        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 

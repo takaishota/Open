@@ -46,8 +46,8 @@
     BOOL        _needNewPath;
     UITextField *_newPathField;
 }
-NSString *const sharedFolderPath = @"smb://172.18.34.230/c0120/";
-NSString *const personalFolderPath = @"個人フォルダ/s-takai/";
+static NSString *const  sharedFolderPath = @"smb://172.18.34.230/";
+NSString *const personalFolderPath = @"c0120/個人フォルダ/s-takai/";
 
 - (void) setPath:(NSString *)path
 {

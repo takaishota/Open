@@ -35,6 +35,6 @@
 
 @class KxSMBItemFile;
 
-@interface FileViewController : UIViewController
+@interface FileViewController : UIViewController <UISplitViewControllerDelegate>
 @property (readwrite, nonatomic, strong) KxSMBItemFile* smbFile;
 @end

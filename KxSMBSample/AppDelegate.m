@@ -34,6 +34,7 @@
 
 #import "AppDelegate.h"
 #import "TreeViewController.h"
+#import "FileViewController.h"
 #import "SmbAuthViewController.h"
 #import "KxSMBProvider.h"
 
@@ -51,13 +52,33 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {   
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    _headVC = [[TreeViewController alloc] initAsHeadViewController];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:_headVC];
-    [self.window makeKeyAndVisible];
+
+    // split Viewの生成
+    UISplitViewController *splitViewController = [[UISplitViewController alloc] init];
     
+    // メニュー用ViewControllerの生成
+    _headVC = [[TreeViewController alloc] initAsHeadViewController];
+    UINavigationController *treeNavigationViewController = [[UINavigationController alloc] initWithRootViewController:_headVC];
+    // 詳細用ViewControllerの生成
+    FileViewController *fileViewController = [[FileViewController alloc] init];
+    UINavigationController *fileNavigationViewController = [[UINavigationController alloc] initWithRootViewController:fileViewController];
+    
+    splitViewController.delegate = fileViewController;
+    
+    // split Viewに各viewControllerを追加
+    [splitViewController addChildViewController:treeNavigationViewController];
+    [splitViewController addChildViewController:fileNavigationViewController];
+    
+    // windowのrootViewControllerとしてSplitViewControllerを設定
+    self.window.rootViewController = splitViewController;
+    
+    // SMBProviderを生成し、デリゲートを設定する
     _cachedAuths = [NSMutableDictionary dictionary];
     KxSMBProvider *provider = [KxSMBProvider sharedSmbProvider];
     provider.delegate = self;
+    
+    // 内容を表示する
+    [self.window makeKeyAndVisible];
     
     return YES;
 }
@@ -103,11 +124,21 @@
         return;
     
     _smbAuthViewController.server = server;
+    [self couldSmbAuthViewController:_smbAuthViewController done:YES];
     
-    UIViewController *vc = [[UINavigationController alloc] initWithRootViewController:_smbAuthViewController];
-    [nav.topViewController presentViewController:vc
-                                        animated:NO
-                                      completion:nil];
+//    UIViewController *vc = [[UINavigationController alloc] initWithRootViewController:_smbAuthViewController];
+//    [nav presentViewController:vc animated:NO completion:nil];
+}
+
+#pragma mark - Split view
+
+- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
+    if ([secondaryViewController isKindOfClass:[UINavigationController class]] && [[(UINavigationController *)secondaryViewController topViewController] isKindOfClass:[TreeViewController class]]/* && ([(TreeViewController *)[(UINavigationController *)secondaryViewController topViewController] detailItem] == nil)*/) {
+        // Return YES to indicate that we have handled the collapse by doing nothing; the secondary controller will be discarded.
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 #pragma mark - KxSMBProviderDelegate

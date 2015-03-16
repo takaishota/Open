@@ -110,7 +110,7 @@ NSString *const personalFolderPath = @"c0120/個人フォルダ/s-takai/";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

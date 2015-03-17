@@ -138,6 +138,24 @@
             [fm removeItemAtPath:_filePath error:nil];
         [fm createFileAtPath:_filePath contents:nil attributes:nil];
         
+        // Documentsディレクトリが存在しなければ作成する
+        // FIXME:Documentsファイルができてしまうので削除してから消す。なぜファイルができるかは不明。
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *dir = [paths objectAtIndex:0];
+        BOOL isDirectory;
+        if(!([fm fileExistsAtPath:dir isDirectory:&isDirectory] && isDirectory)) {
+            NSLog(@"Documentsフォルダが存在しません");
+            BOOL resultRemoveFile = [fm removeItemAtPath:dir error:nil];
+            BOOL resultCreateDirectory = [fm createDirectoryAtPath:dir
+                   withIntermediateDirectories:YES
+                                    attributes:nil error:nil];
+            if (!resultRemoveFile) {
+                NSLog(@"Documentsファイルの削除に失敗しました");
+            } else if (!resultCreateDirectory) {
+                NSLog(@"Documentsフォルダの作成に失敗しました");
+            }
+        }
+        
         NSError *error;
         _fileHandle = [NSFileHandle fileHandleForWritingToURL:[NSURL fileURLWithPath:_filePath]
                                                         error:&error];

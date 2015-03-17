@@ -34,7 +34,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TreeViewController : UITableViewController <UIAlertViewDelegate>
+@interface TreeViewController : UITableViewController
 - (id)initAsHeadViewController;
 - (void) reloadPath;
 @property (readwrite, nonatomic, strong) NSString *path;

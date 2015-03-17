@@ -367,16 +367,6 @@ NSString *const personalFolderPath = @"c0120/個人フォルダ/s-takai/";
     }
 }
 
-#pragma mark - Alert view delegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 1) {
-        self.path = _newPathField.text;
-        [[NSUserDefaults standardUserDefaults] setObject:_newPathField.text forKey:@"LastServer"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
 #pragma mark - private
 - (NSArray*)excludeHiddenFile:(NSArray*)array {
     // 隠しファイルを除外する

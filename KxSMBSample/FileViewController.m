@@ -138,8 +138,8 @@
             [fm removeItemAtPath:_filePath error:nil];
         [fm createFileAtPath:_filePath contents:nil attributes:nil];
         
-        // Documentsディレクトリが存在しなければ作成する
-        // FIXME:Documentsファイルができてしまうので削除してから消す。なぜファイルができるかは不明。
+        // ???:アプリ起動時にDOcumentsフォルダではなくDocumentsファイルができてしまい、ファイルを保存できないので削除してからDocumentsフォルダを作成する
+        //     なぜファイルができるかは不明。
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *dir = [paths objectAtIndex:0];
         BOOL isDirectory;

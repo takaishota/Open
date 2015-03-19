@@ -29,48 +29,20 @@
     
     self.title = @"SMB認証情報の設定";
     
-    const CGFloat navHeight = 60;
-    const CGFloat offsetX = 20;
-    const CGFloat lWidth = w - 40;
-    const CGFloat lHeight = 20;
-    const CGFloat tfWidth = w - 40;
-    const CGFloat tfHeight = 40;
-    
-    UILabel *pathLabel = [[UILabel alloc] initWithFrame:CGRectMake(offsetX, navHeight + 70, lWidth, lHeight)];
-    [self formatLabel:pathLabel];
-    pathLabel.text = @"サーバアドレス";
-    [self.view addSubview:pathLabel];
-    
-    _pathField = [[AuthViewTextField alloc] initWithFrame:CGRectMake(offsetX, navHeight + 100, tfWidth, tfHeight)];
-    [self formatTextFieldStyle:_pathField];
+    [self.view addSubview:[self generateAuthItemLabel:@"サーバアドレス" AtIndex:0]];
+    _pathField = [self generateAuthTextField:@"172.18.34.230" AtIndex:0 IsPasswordFormat:NO];
     [self.view addSubview:_pathField];
     
-    UILabel *workgroupLabel = [[UILabel alloc] initWithFrame:CGRectMake(offsetX, navHeight +  150, lWidth, lHeight)];
-    [self formatLabel:workgroupLabel];
-    workgroupLabel.text = @"ワークグループ";
-    [self.view addSubview:workgroupLabel];
-    
-    _workgroupField = [[AuthViewTextField alloc] initWithFrame:CGRectMake(offsetX, navHeight + 180, tfWidth, tfHeight)];
-    [self formatTextFieldStyle:_workgroupField];
+    [self.view addSubview:[self generateAuthItemLabel:@"ワークグループ" AtIndex:1]];
+    _workgroupField = [self generateAuthTextField:@"WORKGROUP" AtIndex:1 IsPasswordFormat:NO];
     [self.view addSubview:_workgroupField];
     
-    UILabel *userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(offsetX, navHeight + 230, lWidth, lHeight)];
-    [self formatLabel:userNameLabel];
-    userNameLabel.text = @"ユーザ名";
-    [self.view addSubview:userNameLabel];
-    
-    _usernameField = [[AuthViewTextField alloc] initWithFrame:CGRectMake(offsetX, navHeight + 260, tfWidth, tfHeight)];
-    [self formatTextFieldStyle:_usernameField];
+    [self.view addSubview:[self generateAuthItemLabel:@"ユーザ名" AtIndex:2]];
+    _usernameField = [self generateAuthTextField:@"s-takai" AtIndex:2 IsPasswordFormat:NO];
     [self.view addSubview:_usernameField];
     
-    UILabel *passwordLabel = [[UILabel alloc] initWithFrame:CGRectMake(offsetX, navHeight + 310, lWidth, lHeight)];
-    [self formatLabel:passwordLabel];
-    passwordLabel.text = @"パスワード";
-    [self.view addSubview:passwordLabel];
-    
-    _passwordField = [[AuthViewTextField alloc] initWithFrame:CGRectMake(offsetX, navHeight + 340, tfWidth, tfHeight)];
-    [self formatTextFieldStyle:_passwordField];
-    _passwordField.secureTextEntry = YES;
+    [self.view addSubview:[self generateAuthItemLabel:@"パスワード" AtIndex:3]];
+    _passwordField = [self generateAuthTextField:@"e9GNHwWh" AtIndex:3 IsPasswordFormat:YES];
     [self.view addSubview:_passwordField];
 }
 
@@ -88,6 +60,33 @@
 {
     [super viewWillAppear:animated];
     [_pathField becomeFirstResponder];
+}
+
+const CGFloat _navHeight = 60;
+const CGFloat _offsetX = 20;
+const CGFloat _labelInterval = 80;
+
+- (UILabel*)generateAuthItemLabel:(NSString*)text AtIndex:(NSUInteger)idx{
+    
+    const CGFloat lWidth = self.navigationController.view.frame.size.width - 40;
+    const CGFloat lHeight = 20;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(_offsetX, _labelInterval * idx + _navHeight + 70, lWidth, lHeight)];
+    UILabel *formattedLabel = [self formatLabel:label];
+    formattedLabel.text = text;
+    return formattedLabel;
+}
+
+- (UITextField*)generateAuthTextField:(NSString*)lastValue AtIndex:(NSUInteger)idx IsPasswordFormat:(BOOL)isPass{
+    
+    const CGFloat tfWidth = self.navigationController.view.frame.size.width - 40;
+    const CGFloat tfHeight = 20;
+    
+    UITextField *textField = [[AuthViewTextField alloc] initWithFrame:CGRectMake(_offsetX, _labelInterval * idx + _navHeight + 100, tfWidth, tfHeight)];
+    UITextField *formattedTextField = [self formatTextFieldStyle:textField];
+    formattedTextField.text = lastValue;
+    formattedTextField.secureTextEntry = isPass;
+    return formattedTextField;
 }
 
 - (UILabel*)formatLabel:(UILabel*)label {

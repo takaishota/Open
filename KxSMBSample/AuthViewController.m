@@ -18,14 +18,21 @@
     UITextField *_workgroupField;
     UITextField *_usernameField;
     UITextField *_passwordField;
+    UIColor *_backgroundColor;
+    UIColor *_labelTextColor;
+    UIColor *_inputTextColor;
 }
 
+#define BACKGROUND_COLOR [UIColor WhiteColor]
+
 - (void)loadView {
+    _backgroundColor = [UIColor whiteColor];
+    
     const CGFloat w = self.navigationController.view.frame.size.width;
     const CGFloat h = self.navigationController.view.frame.size.height;
     
     self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, w, h)];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = _backgroundColor;
     
     self.title = @"SMB認証情報の設定";
     
@@ -92,8 +99,8 @@ const CGFloat _labelInterval = 80;
 - (UILabel*)formatLabel:(UILabel*)label {
     
     label.font = [UIFont boldSystemFontOfSize:12];
-    label.backgroundColor = [UIColor whiteColor];
-    label.textColor = [UIColor grayColor];
+    label.backgroundColor = _backgroundColor;
+    label.textColor = _labelTextColor;
     
     return label;
 }
@@ -105,10 +112,10 @@ const CGFloat _labelInterval = 80;
     textField.spellCheckingType = UITextSpellCheckingTypeNo;
     textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     textField.clearButtonMode =  UITextFieldViewModeWhileEditing;
-    textField.textColor = [UIColor darkGrayColor];
+    textField.textColor = _inputTextColor;
     textField.font = [UIFont systemFontOfSize:16];
     textField.borderStyle = UITextBorderStyleNone;
-    textField.backgroundColor = [UIColor whiteColor];
+    textField.backgroundColor = _backgroundColor;
     textField.returnKeyType = UIReturnKeyNext;
     
     return textField;

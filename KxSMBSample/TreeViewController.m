@@ -34,6 +34,7 @@
 #import "TreeViewController.h"
 #import "FileViewController.h"
 #import "KxSMBProvider.h"
+#import "AuthViewController.h"
 
 @interface TreeViewController () <UITableViewDataSource, UITableViewDelegate>
 @end
@@ -89,6 +90,9 @@ NSString *const personalFolderPath = @"c0120/個人フォルダ/s-takai/";
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
                                                                                               target:self
                                                                                               action:@selector(requestNewPath)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                              target:self
+                                                                                              action:@selector(addAuthView)];
     }
 }
 
@@ -163,6 +167,7 @@ NSString *const personalFolderPath = @"c0120/個人フォルダ/s-takai/";
     }];
 }
 
+# pragma mark - pushed navigationbar button
 - (void) requestNewPath {
     
     if(_newPathField == nil) {
@@ -182,6 +187,9 @@ NSString *const personalFolderPath = @"c0120/個人フォルダ/s-takai/";
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [_newPathField becomeFirstResponder];
+}
+- (void) addAuthView {
+    [self.navigationController pushViewController:[[AuthViewController alloc] init] animated:YES];
 }
 
 - (void) updateStatus: (id) status

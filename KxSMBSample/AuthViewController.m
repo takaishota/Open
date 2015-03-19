@@ -56,6 +56,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(doneAction)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -129,12 +131,14 @@ const CGFloat _labelInterval = 80;
 - (void) cancelAction
 {
     // viewを閉じる
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void) doneAction
 {
     // テキストフィールドの情報を保存して、共有サーバに接続する
     // viewを閉じる
+    [self.navigationController popViewControllerAnimated:YES];
 
 }
 

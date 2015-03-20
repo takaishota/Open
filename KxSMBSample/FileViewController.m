@@ -93,7 +93,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.navigationController.hidesBarsOnTap = true;
 }
 
 - (void)didReceiveMemoryWarning
@@ -246,10 +245,11 @@
                         [self.view addSubview:imageView];
                     } else {
                         UIWebView *webView = [[UIWebView alloc] init];
+                        // TODO:画面回転時の対応
                         webView.frame = CGRectMake(0,
-                                                   self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height,
+                                                   0,
                                                    self.view.frame.size.width,
-                                                   self.view.frame.size.height - ( self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height));
+                                                   self.view.frame.size.height);
                         webView.contentMode = UIViewContentModeScaleAspectFit;
                         NSURL *path = [NSURL fileURLWithPath:_filePath];
                         NSURLRequest *urlrequest = [NSURLRequest requestWithURL:path];

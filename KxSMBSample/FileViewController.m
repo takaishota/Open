@@ -246,7 +246,10 @@
                         [self.view addSubview:imageView];
                     } else {
                         UIWebView *webView = [[UIWebView alloc] init];
-                        webView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+                        webView.frame = CGRectMake(0,
+                                                   self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height,
+                                                   self.view.frame.size.width,
+                                                   self.view.frame.size.height - ( self.navigationController.navigationBar.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height));
                         webView.contentMode = UIViewContentModeScaleAspectFit;
                         NSURL *path = [NSURL fileURLWithPath:_filePath];
                         NSURLRequest *urlrequest = [NSURLRequest requestWithURL:path];

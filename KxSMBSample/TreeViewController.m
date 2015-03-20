@@ -178,8 +178,6 @@ NSString *const personalFolderPath = @"c0120/個人フォルダ/s-takai/";
         _newPathField.autocorrectionType = UITextAutocorrectionTypeNo;
         _newPathField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         _newPathField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
-        // 共有フォルダのパスを設定
-        _newPathField.text = [sharedFolderPath stringByAppendingString:personalFolderPath];
     }
     
     self.path = _newPathField.text;

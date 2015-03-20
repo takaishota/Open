@@ -136,10 +136,27 @@ const CGFloat _labelInterval = 80;
 
 - (void) doneAction
 {
-    // テキストフィールドの情報を保存して、共有サーバに接続する
+    // テキストフィールドの情報をユーザデフォルトに保存する
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSString *pathStringAddedProtocol = [NSString stringWithFormat:@"smb:%@", _pathField.text];
+    
+    [ud setObject:pathStringAddedProtocol forKey:@"Path"];
+    [ud setObject:_workgroupField.text forKey:@"Workgroup"];
+    [ud setObject:_usernameField.text forKey:@"Username"];
+    [ud setObject:_passwordField.text forKey:@"Password"];
+    BOOL doneSynchronized = [ud synchronize];
+    
+    if (!doneSynchronized) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"エラー" message:@"保存ができませんでした" delegate:self cancelButtonTitle:@"閉じる" otherButtonTitles:nil, nil];
+        [alert show];
+    }
     // viewを閉じる
     [self.navigationController popViewControllerAnimated:YES];
 
+}
+
+#pragma mark - Alert view delegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 }
 
 @end

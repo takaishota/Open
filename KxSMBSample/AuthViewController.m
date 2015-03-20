@@ -36,20 +36,22 @@
     
     self.title = @"SMB認証情報の設定";
     
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    
     [self.view addSubview:[self generateAuthItemLabel:@"サーバアドレス" AtIndex:0]];
-    _pathField = [self generateAuthTextField:@"172.18.34.230" AtIndex:0 IsPasswordFormat:NO];
+    _pathField = [self generateAuthTextField:[ud stringForKey:@"Path"] AtIndex:0 IsPasswordFormat:NO];
     [self.view addSubview:_pathField];
     
     [self.view addSubview:[self generateAuthItemLabel:@"ワークグループ" AtIndex:1]];
-    _workgroupField = [self generateAuthTextField:@"WORKGROUP" AtIndex:1 IsPasswordFormat:NO];
+    _workgroupField = [self generateAuthTextField:[ud stringForKey:@"Workgroup"] AtIndex:1 IsPasswordFormat:NO];
     [self.view addSubview:_workgroupField];
     
     [self.view addSubview:[self generateAuthItemLabel:@"ユーザ名" AtIndex:2]];
-    _usernameField = [self generateAuthTextField:@"s-takai" AtIndex:2 IsPasswordFormat:NO];
+    _usernameField = [self generateAuthTextField:[ud stringForKey:@"Username"] AtIndex:2 IsPasswordFormat:NO];
     [self.view addSubview:_usernameField];
     
     [self.view addSubview:[self generateAuthItemLabel:@"パスワード" AtIndex:3]];
-    _passwordField = [self generateAuthTextField:@"e9GNHwWh" AtIndex:3 IsPasswordFormat:YES];
+    _passwordField = [self generateAuthTextField:[ud stringForKey:@"Password"] AtIndex:3 IsPasswordFormat:YES];
     [self.view addSubview:_passwordField];
 }
 
@@ -138,9 +140,8 @@ const CGFloat _labelInterval = 80;
 {
     // テキストフィールドの情報をユーザデフォルトに保存する
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSString *pathStringAddedProtocol = [NSString stringWithFormat:@"smb:%@", _pathField.text];
     
-    [ud setObject:pathStringAddedProtocol forKey:@"Path"];
+    [ud setObject:_pathField.text forKey:@"Path"];
     [ud setObject:_workgroupField.text forKey:@"Workgroup"];
     [ud setObject:_usernameField.text forKey:@"Username"];
     [ud setObject:_passwordField.text forKey:@"Password"];

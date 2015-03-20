@@ -39,7 +39,7 @@
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     
     [self.view addSubview:[self generateAuthItemLabel:@"サーバアドレス" AtIndex:0]];
-    _pathField = [self generateAuthTextField:[ud stringForKey:@"Path"] AtIndex:0 IsPasswordFormat:NO];
+    _pathField = [self generateAuthTextField:[ud stringForKey:@"LastServer"] AtIndex:0 IsPasswordFormat:NO];
     [self.view addSubview:_pathField];
     
     [self.view addSubview:[self generateAuthItemLabel:@"ワークグループ" AtIndex:1]];
@@ -141,7 +141,7 @@ const CGFloat _labelInterval = 80;
     // テキストフィールドの情報をユーザデフォルトに保存する
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     
-    [ud setObject:_pathField.text forKey:@"Path"];
+    [ud setObject:_pathField.text forKey:@"LastServer"];
     [ud setObject:_workgroupField.text forKey:@"Workgroup"];
     [ud setObject:_usernameField.text forKey:@"Username"];
     [ud setObject:_passwordField.text forKey:@"Password"];

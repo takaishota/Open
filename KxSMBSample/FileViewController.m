@@ -93,7 +93,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationController.hidesBarsOnTap = true;
+//    self.navigationController.hidesBarsOnTap = true;
 }
 
 - (void)didReceiveMemoryWarning

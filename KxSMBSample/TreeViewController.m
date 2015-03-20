@@ -243,53 +243,6 @@
     }
 }
 
-- (void) actionCopyFile:(id)sender
-{
-    NSString *name = [NSString stringWithFormat:@"%lu.tmp", (unsigned long)[NSDate timeIntervalSinceReferenceDate]];
-    NSString *path = [_path stringByAppendingSMBPathComponent:name];
-    
-    KxSMBProvider *provider = [KxSMBProvider sharedSmbProvider];
-    [provider createFileAtPath:path overwrite:YES block:^(id result) {
-        
-        if ([result isKindOfClass:[KxSMBItemFile class]]) {
-            
-            NSData *data = [@"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." dataUsingEncoding:NSUTF8StringEncoding];
-            
-            KxSMBItemFile *itemFile = result;
-            [itemFile writeData:data block:^(id result) {
-                
-                NSLog(@"completed:%@", result);
-                if (![result isKindOfClass:[NSError class]]) {
-                    [self reloadPath];
-                }
-            }];
-            
-        } else {
-            
-            NSLog(@"%@", result);
-        }
-    }];     
-}
-
-- (void) actionMkDir:(id)sender
-{
-    NSString *path = [_path stringByAppendingSMBPathComponent:@"NewFolder"];
-    KxSMBProvider *provider = [KxSMBProvider sharedSmbProvider];
-    id result = [provider createFolderAtPath:path];
-    if ([result isKindOfClass:[KxSMBItemTree class]]) {
-        
-        NSMutableArray *ma = [_items mutableCopy];
-        [ma addObject:result];
-        _items = [ma copy];
-        
-        [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_items.count-1 inSection:0]]
-                              withRowAnimation:UITableViewRowAnimationAutomatic];
-        
-    } else {
-        
-        NSLog(@"%@", result);
-    }
-}
 
 #pragma mark - Table view data source
 

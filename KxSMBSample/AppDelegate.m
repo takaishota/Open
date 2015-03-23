@@ -127,8 +127,6 @@
     _smbAuthViewController.server = server;
     [self couldSmbAuthViewController:_smbAuthViewController done:YES];
     
-//    UIViewController *vc = [[UINavigationController alloc] initWithRootViewController:_smbAuthViewController];
-//    [nav presentViewController:vc animated:NO completion:nil];
 }
 
 #pragma mark - Split view

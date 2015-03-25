@@ -21,7 +21,6 @@
 		87085FA31705D46C009CD258 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87085FA21705D46C009CD258 /* Default-568h@2x.png */; };
 		87085FB41705D494009CD258 /* KxSMBProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 87085FB31705D494009CD258 /* KxSMBProvider.m */; };
 		87085FBB1705D4AB009CD258 /* FileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87085FB61705D4AB009CD258 /* FileViewController.m */; };
-		87085FBC1705D4AB009CD258 /* SmbAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87085FB81705D4AB009CD258 /* SmbAuthViewController.m */; };
 		87085FBD1705D4AB009CD258 /* TreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87085FBA1705D4AB009CD258 /* TreeViewController.m */; };
 		87085FC41705D4CA009CD258 /* libsmbclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085FBF1705D4CA009CD258 /* libsmbclient.a */; };
 		87085FC51705D4CA009CD258 /* libtalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085FC11705D4CA009CD258 /* libtalloc.a */; };
@@ -48,10 +47,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1F3C5B521ABBE94200DCFFED /* AuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AuthViewController.h; path = "../../../Downloads/SMBFIleReader-master/KxSMBSample/AuthViewController.h"; sourceTree = "<group>"; };
-		1F3C5B531ABBE94200DCFFED /* AuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AuthViewController.m; path = "../../../Downloads/SMBFIleReader-master/KxSMBSample/AuthViewController.m"; sourceTree = "<group>"; };
-		1F3C5B541ABBE94200DCFFED /* AuthViewTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AuthViewTextField.h; path = "../../../Downloads/SMBFIleReader-master/KxSMBSample/AuthViewTextField.h"; sourceTree = "<group>"; };
-		1F3C5B551ABBE94200DCFFED /* AuthViewTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AuthViewTextField.m; path = "../../../Downloads/SMBFIleReader-master/KxSMBSample/AuthViewTextField.m"; sourceTree = "<group>"; };
+		1F3C5B521ABBE94200DCFFED /* AuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthViewController.h; sourceTree = "<group>"; };
+		1F3C5B531ABBE94200DCFFED /* AuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthViewController.m; sourceTree = "<group>"; };
+		1F3C5B541ABBE94200DCFFED /* AuthViewTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthViewTextField.h; sourceTree = "<group>"; };
+		1F3C5B551ABBE94200DCFFED /* AuthViewTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthViewTextField.m; sourceTree = "<group>"; };
 		1F3C5B5B1ABC067500DCFFED /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		1F3C5B5C1ABC067500DCFFED /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		87085F891705D46C009CD258 /* SMBFileReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SMBFileReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,8 +70,6 @@
 		87085FB31705D494009CD258 /* KxSMBProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxSMBProvider.m; sourceTree = "<group>"; };
 		87085FB51705D4AB009CD258 /* FileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FileViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		87085FB61705D4AB009CD258 /* FileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileViewController.m; sourceTree = "<group>"; };
-		87085FB71705D4AB009CD258 /* SmbAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmbAuthViewController.h; sourceTree = "<group>"; };
-		87085FB81705D4AB009CD258 /* SmbAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmbAuthViewController.m; sourceTree = "<group>"; };
 		87085FB91705D4AB009CD258 /* TreeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeViewController.h; sourceTree = "<group>"; };
 		87085FBA1705D4AB009CD258 /* TreeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeViewController.m; sourceTree = "<group>"; };
 		87085FBF1705D4CA009CD258 /* libsmbclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsmbclient.a; path = libs/libsmbclient.a; sourceTree = "<group>"; };
@@ -166,8 +163,6 @@
 				87085FB61705D4AB009CD258 /* FileViewController.m */,
 				1F3C5B5B1ABC067500DCFFED /* RootViewController.h */,
 				1F3C5B5C1ABC067500DCFFED /* RootViewController.m */,
-				87085FB71705D4AB009CD258 /* SmbAuthViewController.h */,
-				87085FB81705D4AB009CD258 /* SmbAuthViewController.m */,
 				87085FB91705D4AB009CD258 /* TreeViewController.h */,
 				87085FBA1705D4AB009CD258 /* TreeViewController.m */,
 				87085F9B1705D46C009CD258 /* AppDelegate.h */,
@@ -313,7 +308,6 @@
 				1F3C5B571ABBE94200DCFFED /* AuthViewTextField.m in Sources */,
 				1F3C5B5D1ABC067500DCFFED /* RootViewController.m in Sources */,
 				87085FBB1705D4AB009CD258 /* FileViewController.m in Sources */,
-				87085FBC1705D4AB009CD258 /* SmbAuthViewController.m in Sources */,
 				87085FBD1705D4AB009CD258 /* TreeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,6 +413,7 @@
 		87085FB11705D46C009CD258 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KxSMBSample/SMBFileReader-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libs\"";

@@ -7,10 +7,18 @@
 
 
 #import <UIKit/UIKit.h>
+@class TreeViewController, AuthViewController;
+
+@protocol TreeViewControllerDelegate <NSObject>
+@optional
+- (void)authViewCloseHandler:(AuthViewController*)controller;
+@end
 
 @interface TreeViewController : UITableViewController
 - (id)initAsHeadViewController;
 - (void) reloadPath;
+
+@property (nonatomic, weak) id delegate;
 @property (readwrite, nonatomic, strong) NSString *path;
 @property (nonatomic, strong) UINavigationController *fileViewNavigationController;
 @end

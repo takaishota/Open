@@ -137,6 +137,11 @@ const CGFloat _labelInterval = 80;
 
 - (void) doneAction
 {
+    
+    self.server = _pathField.text;
+    self.workgroup = _workgroupField.text;
+    self.username = _usernameField.text;
+    self.password = _passwordField.text;
     // テキストフィールドの情報をユーザデフォルトに保存する
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     
@@ -150,6 +155,11 @@ const CGFloat _labelInterval = 80;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"エラー" message:@"保存ができませんでした" delegate:self cancelButtonTitle:@"閉じる" otherButtonTitles:nil, nil];
         [alert show];
     }
+    
+    if ([self.delegate respondsToSelector:@selector(couldAuthViewController:done:)]) {
+        [self.delegate couldAuthViewController:self done:YES];
+    }
+    
     // viewを閉じる
     [self.navigationController popViewControllerAnimated:YES];
 

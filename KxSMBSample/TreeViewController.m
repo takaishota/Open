@@ -11,7 +11,7 @@
 #import "KxSMBProvider.h"
 #import "AuthViewController.h"
 
-@interface TreeViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface TreeViewController () <UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate>
 @end
 
 @implementation TreeViewController {
@@ -100,10 +100,10 @@
 - (void) reloadPath
 {
     NSString *path;
+    NSString *udPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastServer"];
     
-    if (_path.length) {
-        
-        path = _path;
+    if (udPath) {
+        path = udPath;
         self.title = path.lastPathComponent;
         
     } else {
@@ -160,7 +160,9 @@
     [_newPathField becomeFirstResponder];
 }
 - (void) addAuthView {
-    [self.navigationController pushViewController:[[AuthViewController alloc] init] animated:YES];
+    AuthViewController *vc = [[AuthViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+    vc.delegate = self;
 }
 
 - (void) updateStatus: (id) status
@@ -296,6 +298,14 @@
                 [self reloadPath];
             }
         }];        
+    }
+}
+
+#pragma mark - Auth View Controller Delegate
+- (void) couldAuthViewController:(AuthViewController *)controller done:(BOOL)done
+{
+    if ([self.delegate respondsToSelector:@selector(authViewCloseHandler:)]) {
+        [self.delegate authViewCloseHandler:controller];
     }
 }
 

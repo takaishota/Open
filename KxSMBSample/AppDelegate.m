@@ -8,17 +8,17 @@
 #import "AppDelegate.h"
 #import "TreeViewController.h"
 #import "FileViewController.h"
-#import "SmbAuthViewController.h"
+#import "AuthViewController.h"
 #import "KxSMBProvider.h"
 
-@interface AppDelegate() <KxSMBProviderDelegate, SmbAuthViewControllerDelegate>
+@interface AppDelegate() <KxSMBProviderDelegate, AuthViewControllerDelegate, TreeViewControllerDelegate>
 @end
 
 @implementation AppDelegate {
 
     TreeViewController *_headVC;
     NSMutableDictionary *_cachedAuths;
-    SmbAuthViewController *_smbAuthViewController;
+    AuthViewController *_authViewController;
 }
 
 #pragma mark - ViewController LifeCycle
@@ -32,6 +32,8 @@
     // メニュー用ViewControllerの生成
     _headVC = [[TreeViewController alloc] initAsHeadViewController];
     UINavigationController *treeNavigationViewController = [[UINavigationController alloc] initWithRootViewController:_headVC];
+    _headVC.delegate = self;
+    
     // 詳細用ViewControllerの生成
     FileViewController *fileViewController = [[FileViewController alloc] init];
     UINavigationController *fileNavigationViewController = [[UINavigationController alloc] initWithRootViewController:fileViewController];
@@ -79,26 +81,26 @@
 
 #pragma mark - private method
 
-- (void) presentSmbAuthViewControllerForServer: (NSString *) server
+- (void) presentAuthViewControllerForServer: (NSString *) server
 {
-    if (!_smbAuthViewController) {
-        _smbAuthViewController = [[SmbAuthViewController alloc] init];
-        _smbAuthViewController.delegate = self;
+    if (!_authViewController) {
         
-        // TODO:前回アプリ終了時にユーザデフォルトに保存しておいたデータを取得するように変更する予定
-//        _smbAuthViewController.username = @"guest";
-        _smbAuthViewController.username = @"s-takai";
-        _smbAuthViewController.password = @"e9GNHwWh";
-
+        
+        _authViewController = [[AuthViewController alloc] init];
+        _authViewController.delegate = self;
+        _authViewController.username = [[NSUserDefaults standardUserDefaults] stringForKey:@"Username"];
+        _authViewController.password = [[NSUserDefaults standardUserDefaults] stringForKey:@"Password"];
+        _authViewController.workgroup = [[NSUserDefaults standardUserDefaults] stringForKey:@"Workgroup"];
     }
+    
     
     UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
     
     if (nav.presentedViewController)
         return;
     
-    _smbAuthViewController.server = server;
-    [self couldSmbAuthViewController:_smbAuthViewController done:YES];
+    _authViewController.server = server;
+    [self couldAuthViewController:_authViewController done:YES];
     
 }
 
@@ -118,28 +120,39 @@
 - (KxSMBAuth *) smbAuthForServer: (NSString *) server
                        withShare: (NSString *) share
 {
+    // キャッシュがセットされている場合はキャッシュを返す
     KxSMBAuth *auth = _cachedAuths[server.uppercaseString];
     if (auth)
         return auth;
     
+    // セットされていない場合は認証画面を呼び出して何もしない
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [self presentSmbAuthViewControllerForServer:server];
+        [self presentAuthViewControllerForServer:server];
     });
     
     return nil;
 }
 
-#pragma mark - SmbAuthViewControllerDelegate
+#pragma mark - TreeViewControllerDelegate
+- (void) authViewCloseHandler:(AuthViewController*)controller {
+    
+    // キャッシュを初期化する
+    _cachedAuths = [NSMutableDictionary dictionary];
+    
+    [self couldAuthViewController:controller done:YES];
+}
 
-- (void) couldSmbAuthViewController: (SmbAuthViewController *) controller
+#pragma mark - AuthViewControllerDelegate
+- (void) couldAuthViewController: (AuthViewController *) controller
                                done: (BOOL) done
 {
     if (done) {
         
-        KxSMBAuth *auth = [KxSMBAuth smbAuthWorkgroup:controller.workgroup
-                                             username:controller.username
-                                             password:controller.password];
+        // ユーザデフォルトから認証情報を取得してセットする
+        KxSMBAuth *auth = [KxSMBAuth smbAuthWorkgroup:[[NSUserDefaults standardUserDefaults] stringForKey:@"Workgroup"]
+                                             username:[[NSUserDefaults standardUserDefaults] stringForKey:@"Username"]
+                                             password:[[NSUserDefaults standardUserDefaults] stringForKey:@"Password"]];
         
         _cachedAuths[controller.server.uppercaseString] = auth;
         

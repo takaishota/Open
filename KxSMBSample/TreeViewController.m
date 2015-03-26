@@ -105,12 +105,16 @@
 - (void) reloadPath
 {
     NSString *path;
-    NSString *udPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastServer"];
+//    NSString *udPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastServer"];
+//    
+//    
+//    if (udPath) {
+//        path = udPath;
+//        self.title = path.lastPathComponent;
     
-    if (udPath) {
-        path = udPath;
+    if (_path.length) {
+        path = _path;
         self.title = path.lastPathComponent;
-        
     } else {
         
         path = @"smb://";

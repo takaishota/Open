@@ -8,6 +8,7 @@
 
 #import "TreeViewController.h"
 #import "FileViewController.h"
+#import "LocalFileViewController.h"
 #import "KxSMBProvider.h"
 #import "AuthViewController.h"
 
@@ -53,6 +54,8 @@
 
     [super loadView];
     
+    self.navigationController.toolbarHidden = NO;
+    
     if(NSClassFromString(@"UIRefreshControl")) {
         UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
         [refreshControl addTarget:self action:@selector(reloadPath) forControlEvents:UIControlEventValueChanged];
@@ -72,6 +75,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIBarButtonItem *localFileListButton = [[UIBarButtonItem alloc] initWithTitle:@"ローカル" style:UIBarButtonItemStylePlain target:self action:@selector(appearLocalFileList)];
+    self.toolbarItems = @[localFileListButton];
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,6 +100,7 @@
         _needNewPath = NO;
         [self requestNewPath];
     }
+    NSLog(@"toolbarItems:%@", self.navigationController.toolbarItems);
 }
 
 - (void) reloadPath
@@ -218,6 +224,13 @@
         
         [self.refreshControl endRefreshing];
     }
+}
+
+- (void)appearLocalFileList {
+    NSLog(@"didPush");
+    [self.navigationController pushViewController:[LocalFileViewController alloc] animated:YES];
+    
+    return;
 }
 
 

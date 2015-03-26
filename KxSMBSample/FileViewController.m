@@ -7,6 +7,7 @@
 
 
 #import "FileViewController.h"
+#import "FileUtility.h"
 #import "KxSMBProvider.h"
 
 @interface FileViewController ()
@@ -21,6 +22,7 @@
     NSFileHandle    *_fileHandle;
     long            _downloadedBytes;
     NSDate          *_timestamp;
+    UIWebView       *_webView;
 }
 
 - (id)init
@@ -40,6 +42,9 @@
 {
     self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    // ファイルクローズボタンを生成する
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(closeCurrentFile:)];
     
     [self downloadAction];
     
@@ -155,6 +160,15 @@
     }
 }
 
+- (void)closeCurrentFile:(UIView*)view {
+    [_webView removeFromSuperview];
+    [[FileUtility sharedUtility] removeFileAtPath:_filePath];
+    _webView = nil;
+    _filePath = nil;
+    [self.navigationItem setRightBarButtonItems:nil animated:YES];
+    self.title = @"";
+}
+
 -(void) updateDownloadStatus: (id) result
 {
     if ([result isKindOfClass:[NSError class]]) {
@@ -229,6 +243,8 @@
                         NSURLRequest *urlrequest = [NSURLRequest requestWithURL:path];
                         [webView loadRequest:urlrequest];
                         [self.view addSubview:webView];
+                        _webView = webView;
+                        [_downloadLabel removeFromSuperview];
                     }
                 } else {
                     [self download];

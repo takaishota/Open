@@ -105,13 +105,6 @@
 - (void) reloadPath
 {
     NSString *path;
-//    NSString *udPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"LastServer"];
-//    
-//    
-//    if (udPath) {
-//        path = udPath;
-//        self.title = path.lastPathComponent;
-    
     if (_path.length) {
         path = _path;
         self.title = path.lastPathComponent;

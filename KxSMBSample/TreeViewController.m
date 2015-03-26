@@ -100,7 +100,6 @@
         _needNewPath = NO;
         [self requestNewPath];
     }
-    NSLog(@"toolbarItems:%@", self.navigationController.toolbarItems);
 }
 
 - (void) reloadPath

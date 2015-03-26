@@ -15,5 +15,6 @@
 - (NSString*)documentDirectoryWithFileName:(NSString*)fileName;
 - (NSArray*)fileNamesAtDirectoryPath:(NSString*)directoryPath extension:(NSString*)extension;
 - (BOOL)removeFileAtPath:(NSString *)path;
+- (BOOL)resetLocalDocumentsDirectory;
 
 @end

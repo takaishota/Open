@@ -58,4 +58,11 @@ static FileUtility *_sharedInstance = nil;
     return [fileManager removeItemAtPath:path error:nil];;
 }
 
+-(BOOL)resetLocalDocumentsDirectory {
+    NSFileManager *fileManager=[[NSFileManager alloc] init];
+    BOOL result = [fileManager removeItemAtPath:[self documentDirectory] error:nil];
+    result = [fileManager createDirectoryAtPath:[self documentDirectory] withIntermediateDirectories:NO attributes:nil error:nil];
+    return result;
+}
+
 @end

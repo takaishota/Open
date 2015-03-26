@@ -43,9 +43,6 @@
     self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    // ファイルクローズボタンを生成する
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(closeCurrentFile:)];
-    
     [self downloadAction];
     
     NSString *fileName = [[_smbFile.path componentsSeparatedByString:@"/"] lastObject];
@@ -224,6 +221,8 @@
                 
                 if(_downloadedBytes == _smbFile.stat.size) {
                     [self closeFiles];
+                    // ファイルクローズボタンを生成する
+                    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(closeCurrentFile:)];
                     
                     // 画像ファイルの場合、ImageViewに表示する
                     if([@[@"png",@"jpg",@"gif"] containsObject:[[_smbFile.path pathExtension] lowercaseString]]) {

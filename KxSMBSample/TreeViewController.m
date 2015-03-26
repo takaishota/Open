@@ -227,7 +227,6 @@
 }
 
 - (void)appearLocalFileList {
-    NSLog(@"didPush");
     [self.navigationController pushViewController:[LocalFileViewController alloc] animated:YES];
     
     return;

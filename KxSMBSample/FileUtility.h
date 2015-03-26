@@ -12,6 +12,8 @@
 
 + (FileUtility *)sharedUtility;
 - (NSString*)documentDirectory;
+- (NSString*)documentDirectoryWithFileName:(NSString*)fileName;
 - (NSArray*)fileNamesAtDirectoryPath:(NSString*)directoryPath extension:(NSString*)extension;
+- (BOOL)removeFileAtPath:(NSString *)path;
 
 @end

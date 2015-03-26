@@ -29,6 +29,11 @@ static FileUtility *_sharedInstance = nil;
     return [paths objectAtIndex:0];
 }
 
+- (NSString*)documentDirectoryWithFileName:(NSString*)fileName
+{
+    return [[self documentDirectory] stringByAppendingPathComponent:fileName];
+}
+
 - (NSArray*)fileNamesAtDirectoryPath:(NSString*)directoryPath extension:(NSString*)extension
 {
     NSFileManager *fileManager=[[NSFileManager alloc] init];
@@ -46,6 +51,11 @@ static FileUtility *_sharedInstance = nil;
         }
     }
     return hitFileNames;
+}
+
+- (BOOL)removeFileAtPath:(NSString *)path {
+    NSFileManager *fileManager=[[NSFileManager alloc] init];
+    return [fileManager removeItemAtPath:path error:nil];;
 }
 
 @end

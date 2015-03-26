@@ -92,11 +92,20 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%s", __FUNCTION__);
     if (editingStyle != UITableViewCellEditingStyleDelete) {
         return;
     }
+    
+    // ローカルファイルの削除
+    FileUtility *utility = [FileUtility sharedUtility];
+    BOOL result = [utility removeFileAtPath:[utility documentDirectoryWithFileName:_datasource[indexPath.row]]];
+    if (!result) {
+        // アラートを表示する
+        NSLog(@"ファイルの削除に失敗しました");
+        return;
+    }
     [_datasource removeObjectAtIndex:indexPath.row];
+    
     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [tableView reloadRowsAtIndexPaths:[tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationAutomatic];
 }

@@ -126,17 +126,69 @@
 		1F2F50521AC3A4DF00E43763 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				1F2F50591AC3B94A00E43763 /* detail */,
+				1F2F50581AC3B93F00E43763 /* master */,
+				1F3C5B521ABBE94200DCFFED /* AuthViewController.h */,
+				1F3C5B531ABBE94200DCFFED /* AuthViewController.m */,
+				1F2F504F1AC3A46A00E43763 /* LocalFileViewController.h */,
+				1F2F50501AC3A46A00E43763 /* LocalFileViewController.m */,
+				1F3C5B5B1ABC067500DCFFED /* RootViewController.h */,
+				1F3C5B5C1ABC067500DCFFED /* RootViewController.m */,
+				87085FB91705D4AB009CD258 /* TreeViewController.h */,
+				87085FBA1705D4AB009CD258 /* TreeViewController.m */,
 			);
 			name = ViewController;
+			sourceTree = "<group>";
+		};
+		1F2F50561AC3B8D500E43763 /* libsmbc_wrapper */ = {
+			isa = PBXGroup;
+			children = (
+				87085FB21705D494009CD258 /* KxSMBProvider.h */,
+				87085FB31705D494009CD258 /* KxSMBProvider.m */,
+			);
+			name = libsmbc_wrapper;
+			sourceTree = "<group>";
+		};
+		1F2F50571AC3B92200E43763 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				1F2F50531AC3B40A00E43763 /* FileUtility.h */,
+				1F2F50541AC3B40A00E43763 /* FileUtility.m */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
+		1F2F50581AC3B93F00E43763 /* master */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = master;
+			sourceTree = "<group>";
+		};
+		1F2F50591AC3B94A00E43763 /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				87085FB51705D4AB009CD258 /* FileViewController.h */,
+				87085FB61705D4AB009CD258 /* FileViewController.m */,
+			);
+			name = detail;
+			sourceTree = "<group>";
+		};
+		1F2F505A1AC3B97900E43763 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1F3C5B541ABBE94200DCFFED /* AuthViewTextField.h */,
+				1F3C5B551ABBE94200DCFFED /* AuthViewTextField.m */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		87085F801705D46B009CD258 = {
 			isa = PBXGroup;
 			children = (
-				87085FB21705D494009CD258 /* KxSMBProvider.h */,
-				87085FB31705D494009CD258 /* KxSMBProvider.m */,
-				87085FBE1705D4BE009CD258 /* libs */,
 				87085F921705D46C009CD258 /* SMBFileReader */,
+				1F2F50561AC3B8D500E43763 /* libsmbc_wrapper */,
+				87085FBE1705D4BE009CD258 /* libs */,
 				871CC5761774589C00EDD76D /* KxSMB */,
 				87085F8B1705D46C009CD258 /* Frameworks */,
 				87085F8A1705D46C009CD258 /* Products */,
@@ -168,24 +220,12 @@
 		87085F921705D46C009CD258 /* SMBFileReader */ = {
 			isa = PBXGroup;
 			children = (
-				1F2F50521AC3A4DF00E43763 /* ViewController */,
-				1F3C5B521ABBE94200DCFFED /* AuthViewController.h */,
-				1F3C5B531ABBE94200DCFFED /* AuthViewController.m */,
-				1F3C5B541ABBE94200DCFFED /* AuthViewTextField.h */,
-				1F3C5B551ABBE94200DCFFED /* AuthViewTextField.m */,
-				87085FB51705D4AB009CD258 /* FileViewController.h */,
-				87085FB61705D4AB009CD258 /* FileViewController.m */,
-				1F2F504F1AC3A46A00E43763 /* LocalFileViewController.h */,
-				1F2F50501AC3A46A00E43763 /* LocalFileViewController.m */,
-				1F3C5B5B1ABC067500DCFFED /* RootViewController.h */,
-				1F3C5B5C1ABC067500DCFFED /* RootViewController.m */,
-				87085FB91705D4AB009CD258 /* TreeViewController.h */,
-				87085FBA1705D4AB009CD258 /* TreeViewController.m */,
 				87085F9B1705D46C009CD258 /* AppDelegate.h */,
 				87085F9C1705D46C009CD258 /* AppDelegate.m */,
+				1F2F50571AC3B92200E43763 /* Utility */,
+				1F2F50521AC3A4DF00E43763 /* ViewController */,
+				1F2F505A1AC3B97900E43763 /* View */,
 				87085F931705D46C009CD258 /* Supporting Files */,
-				1F2F50531AC3B40A00E43763 /* FileUtility.h */,
-				1F2F50541AC3B40A00E43763 /* FileUtility.m */,
 			);
 			name = SMBFileReader;
 			path = KxSMBSample;

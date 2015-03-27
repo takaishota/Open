@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F16691D1AC4EC0100182F93 /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F16691C1AC4EC0100182F93 /* left.png */; };
+		1F1669231AC54EF100182F93 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F1669221AC54EF100182F93 /* right.png */; };
 		1F2F50511AC3A46A00E43763 /* LocalFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2F50501AC3A46A00E43763 /* LocalFileViewController.m */; };
 		1F2F50551AC3B40A00E43763 /* FileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2F50541AC3B40A00E43763 /* FileUtility.m */; };
 		1F3C5B561ABBE94200DCFFED /* AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C5B531ABBE94200DCFFED /* AuthViewController.m */; };
@@ -49,6 +51,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1F16691C1AC4EC0100182F93 /* left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left.png; sourceTree = "<group>"; };
+		1F1669221AC54EF100182F93 /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right.png; sourceTree = "<group>"; };
 		1F2F504F1AC3A46A00E43763 /* LocalFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalFileViewController.h; sourceTree = "<group>"; };
 		1F2F50501AC3A46A00E43763 /* LocalFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFileViewController.m; sourceTree = "<group>"; };
 		1F2F50531AC3B40A00E43763 /* FileUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtility.h; sourceTree = "<group>"; };
@@ -123,6 +127,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F16691E1AC4EC0900182F93 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				1F16691C1AC4EC0100182F93 /* left.png */,
+				1F1669221AC54EF100182F93 /* right.png */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
 		1F2F50521AC3A4DF00E43763 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +233,7 @@
 		87085F921705D46C009CD258 /* SMBFileReader */ = {
 			isa = PBXGroup;
 			children = (
+				1F16691E1AC4EC0900182F93 /* Resource */,
 				87085F9B1705D46C009CD258 /* AppDelegate.h */,
 				87085F9C1705D46C009CD258 /* AppDelegate.m */,
 				1F2F50571AC3B92200E43763 /* Utility */,
@@ -345,6 +359,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F1669231AC54EF100182F93 /* right.png in Resources */,
+				1F16691D1AC4EC0100182F93 /* left.png in Resources */,
 				87085F971705D46C009CD258 /* InfoPlist.strings in Resources */,
 				87085F9F1705D46C009CD258 /* Default.png in Resources */,
 				87085FA11705D46C009CD258 /* Default@2x.png in Resources */,
@@ -465,6 +481,7 @@
 					"\"$(SRCROOT)/libs\"",
 				);
 				PRODUCT_NAME = SMBFileReader;
+				PROVISIONING_PROFILE = "bb7e71c4-07be-4001-a780-c9063929ae4e";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -484,6 +501,7 @@
 					"\"$(SRCROOT)/libs\"",
 				);
 				PRODUCT_NAME = SMBFileReader;
+				PROVISIONING_PROFILE = "bb7e71c4-07be-4001-a780-c9063929ae4e";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};

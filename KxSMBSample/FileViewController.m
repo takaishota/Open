@@ -7,11 +7,14 @@
 
 
 #import "FileViewController.h"
+#import "TreeViewController.h"
 #import "FileUtility.h"
 #import "KxSMBProvider.h"
 
 @interface FileViewController ()
 @property (strong, nonatomic) UIPopoverController *menuPopoverController;
+@property (nonatomic) CGFloat navigationBarHeight;
+@property (nonatomic) BOOL isHidden;
 @end
 
 @implementation FileViewController {
@@ -69,6 +72,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
+    self.isHidden = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,12 +85,29 @@
 {
     [super viewWillAppear:animated];
     [self.navigationItem setHidesBackButton:YES animated:NO];
+    
+    // ランドスケープ時のみ
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        [self setupDrawBackButton];
+    }
 }
-
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];    
     //[self closeFiles];
+}
+
+- (void) setupDrawBackButton {
+    UIImage *rawImg = [UIImage imageNamed:@"left.png"];
+    UIImage *resizeImg;
+    CGFloat width = 28;
+    CGFloat height = 28;
+    UIGraphicsBeginImageContext(CGSizeMake(width, height));
+    [rawImg drawInRect:CGRectMake(0, 0, width, height)];
+    resizeImg = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:resizeImg style:UIBarButtonItemStylePlain target:self action:@selector(drawBackTree)];
 }
 
 - (void) closeFiles
@@ -97,6 +119,11 @@
     }
     
     [_smbFile close];
+}
+
+- (void) drawBackTree {
+    NSLog(@"draw back button");
+    [self drawAnimationPopOverController];
 }
 
 - (void) downloadAction
@@ -279,9 +306,14 @@
        forPopoverController:(UIPopoverController *)pc
 {
     // UIBarButtonItemのタイトルを設定し、自分のNavigationItemの左ボタンに設定する
+    [self.navigationItem setLeftBarButtonItems:nil animated:YES];
+    self.navigationItem.leftBarButtonItem = nil;
+    self.menuPopoverController = nil;
     barButtonItem.title = @"Menu";
     self.navigationItem.leftBarButtonItem = barButtonItem;
+    [self.navigationItem setLeftBarButtonItems:@[barButtonItem] animated:YES];
     self.menuPopoverController = pc;
+    
 }
 
 // 横向きになるときに呼ばれる
@@ -289,9 +321,56 @@
      willShowViewController:(UIViewController *)aViewController
   invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
-    // UIBarButtonItemを削除
+    // メニューボタンを削除、drawボタンを設定
+    [self.navigationItem setLeftBarButtonItems:nil animated:YES];
     self.navigationItem.leftBarButtonItem = nil;
     self.menuPopoverController = nil;
+    [self setupDrawBackButton];
+}
+
+// マスタビューが出てくるときに呼ばれる
+- (void)splitViewController:(UISplitViewController *)svc popoverController:(UIPopoverController *)pc willPresentViewController:(UIViewController *)aViewController {
+    
+    // ランドスケープ時のみ
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        [self drawAnimationPopOverController];
+    }
+    
+}
+
+- (BOOL) splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation {
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
+        return NO;
+    }else {
+        return YES;
+    }
+    
+}
+
+- (void)drawAnimationPopOverController {
+    NSLog(@"--------button");
+//    CGFloat xOffset = 0;
+//    CGFloat statusBarHeight = 20.0f;
+//    
+//    if (self.isHidden) {
+//        xOffset  = 320.0f;
+//        self.isHidden = NO;
+//    } else {
+//        xOffset  = 0;
+//        self.isHidden = YES;
+//    }
+//    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+//        self.view.frame = CGRectMake(xOffset, self.view.frame.origin.y, self.view.frame.size.width - xOffset, self.view.frame.size.height);
+//        self.navigationController.navigationBar.frame = CGRectMake(xOffset,
+//                                                                   0,
+//                                                                   self.navigationController.navigationBar.frame.size.width - xOffset,
+//                                                                   self.navigationBarHeight + statusBarHeight);
+//    } completion:^ (BOOL finished){
+//        // 完了時のコールバック
+//        NSLog(@"finish Animation");
+//    }];
+//
 }
 
 @end

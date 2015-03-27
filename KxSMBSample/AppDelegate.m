@@ -28,6 +28,7 @@
 
     // split Viewの生成
     UISplitViewController *splitViewController = [[UISplitViewController alloc] init];
+//    splitViewController.presentsWithGesture = NO; // フリック禁止
     
     // メニュー用ViewControllerの生成
     _headVC = [[TreeViewController alloc] initAsHeadViewController];

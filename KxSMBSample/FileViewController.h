@@ -9,6 +9,13 @@
 
 @class KxSMBItemFile;
 
+@protocol FileViewControllerDelegate <NSObject>
+
+- (void) drawBackButtonWithStatus:(BOOL)isHidden;
+
+@end
+
 @interface FileViewController : UIViewController <UISplitViewControllerDelegate>
+@property (nonatomic) id <FileViewControllerDelegate> delegate;
 @property (readwrite, nonatomic, strong) KxSMBItemFile* smbFile;
 @end

@@ -1969,9 +1969,6 @@ static void my_smbc_get_auth_data_fn(const char *srv,
                                 withShare:[NSString stringWithUTF8String:shr]];
     }
     
-#ifdef DEBUG
-    NSLog(@"n:%@, p:%@, g:%@", auth.username, auth.password, auth.workgroup);
-#endif
     if (auth.username.length)
         strncpy(username, auth.username.UTF8String, unlen - 1);
     else

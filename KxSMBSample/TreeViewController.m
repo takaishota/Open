@@ -254,16 +254,18 @@
     KxSMBItem *item = _items[indexPath.row];
     cell.textLabel.text = item.path.lastPathComponent;
     
+    UIImage *image = nil;
     if ([item isKindOfClass:[KxSMBItemTree class]]) {
-        
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.detailTextLabel.text =  @"";
-        
+        image = [UIImage imageNamed:@"folder.png"];
     } else {
         
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld KB", item.stat.size / 1000];
+        image = [UIImage imageNamed:@"file.png"];
     }
+    cell.imageView.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];;
     
     return cell;
 }

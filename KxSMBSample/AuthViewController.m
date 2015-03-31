@@ -45,6 +45,7 @@
     
     // プロパティの初期化
     _server = [NSString string];
+    _localDir = [NSString string];
     _workgroup = [NSString string];
     _username = [NSString string];
     _password = [NSString string];
@@ -53,11 +54,11 @@
     _fieldsList = [NSMutableArray array];
     
     // プロパティの参照を配列にセットする
-    _propertyList = [@[_server, _workgroup, _username, _password] mutableCopy];
+    _propertyList = [@[_server, _workgroup, _localDir, _username, _password] mutableCopy];
     
     // フォームに表示する項目
-    _formLabels = @[@"サーバアドレス", @"ワークグループ", @"ユーザ名", @"パスワード"];
-    _userdefaultKeys = @[@"LastServer", @"Workgroup", @"Username", @"Password"];
+    _formLabels = @[@"サーバアドレス", @"ローカルディレクトリ", @"ワークグループ", @"ユーザ名", @"パスワード"];
+    _userdefaultKeys = @[@"LastServer", @"LocalDirectory", @"Workgroup", @"Username", @"Password"];
     
     [self setupformItems];
 }

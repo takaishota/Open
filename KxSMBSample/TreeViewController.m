@@ -155,7 +155,10 @@
         _newPathField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
     }
     
-    self.path = _newPathField.text;
+    NSString *appendedPath = [NSString stringWithFormat:@"smb://%@/%@",
+                              _newPathField.text,
+                              [[NSUserDefaults standardUserDefaults] objectForKey:@"LocalDirectory"]];
+    self.path = appendedPath;
     [[NSUserDefaults standardUserDefaults] setObject:_newPathField.text forKey:@"LastServer"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     

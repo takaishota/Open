@@ -57,8 +57,8 @@
     _propertyList = [@[_server, _workgroup, _localDir, _username, _password] mutableCopy];
     
     // フォームに表示する項目
-    _formLabels = @[@"サーバアドレス", @"ローカルディレクトリ", @"ワークグループ", @"ユーザ名", @"パスワード"];
-    _userdefaultKeys = @[@"LastServer", @"LocalDirectory", @"Workgroup", @"Username", @"Password"];
+    _formLabels = @[@"サーバアドレス", @"リモートディレクトリ", @"ワークグループ", @"ユーザ名", @"パスワード"];
+    _userdefaultKeys = @[@"LastServer", @"RemoteDirectory", @"Workgroup", @"Username", @"Password"];
     
     [self setupformItems];
 }

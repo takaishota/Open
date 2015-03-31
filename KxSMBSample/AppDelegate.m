@@ -88,7 +88,7 @@
         _authViewController = [[AuthViewController alloc] init];
         _authViewController.delegate = self;
         _authViewController.username = [[NSUserDefaults standardUserDefaults] stringForKey:@"Username"];
-        _authViewController.localDir = [[NSUserDefaults standardUserDefaults] stringForKey:@"LocalDirectory"];
+        _authViewController.localDir = [[NSUserDefaults standardUserDefaults] stringForKey:@"RemoteDirectory"];
         _authViewController.password = [[NSUserDefaults standardUserDefaults] stringForKey:@"Password"];
         _authViewController.workgroup = [[NSUserDefaults standardUserDefaults] stringForKey:@"Workgroup"];
     }

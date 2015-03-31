@@ -51,22 +51,11 @@
     NSString *fileName = [[_smbFile.path componentsSeparatedByString:@"/"] lastObject];
     self.navigationItem.title = fileName;
     
-    const float W = self.view.bounds.size.width;
-    
-    _downloadLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, W - 20, 40)];
-    _downloadLabel.font = [UIFont systemFontOfSize:14];;
-    _downloadLabel.textColor = [UIColor darkTextColor];
-    _downloadLabel.opaque = NO;
-    _downloadLabel.backgroundColor = [UIColor clearColor];
-    _downloadLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    _downloadLabel.numberOfLines = 2;
-    
-    _downloadProgress = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-    _downloadProgress.frame = CGRectMake(10, 190, W - 20, 30);
-    _downloadProgress.hidden = YES;
+    _downloadLabel = [self setupDownloadLabel];
+    _downloadProgress = [self setupDownloadProgress];
 
     [self.view addSubview:_downloadLabel];
-    [self.view addSubview:_downloadProgress];    
+    [self.view addSubview:_downloadProgress];
 }
 
 - (void)viewDidLoad
@@ -124,8 +113,27 @@
 - (void) drawBackTree {
     NSLog(@"draw back button");
     [self drawAnimationPopOverController];
+- (UILabel*) setupDownloadLabel {
+    const float W = self.view.bounds.size.width;
+    UILabel *downloadLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, W - 20, 40)];
+    downloadLabel.font = [UIFont systemFontOfSize:14];;
+    downloadLabel.textColor = [UIColor darkTextColor];
+    downloadLabel.opaque = NO;
+    downloadLabel.backgroundColor = [UIColor clearColor];
+    downloadLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    downloadLabel.numberOfLines = 2;
+    
+    return downloadLabel;
 }
 
+- (UIProgressView*) setupDownloadProgress {
+    const float W = self.view.bounds.size.width;
+    UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+    _downloadProgress.frame = CGRectMake(10, 190, W - 20, 30);
+    _downloadProgress.hidden = YES;
+    
+    return progressView;
+}
 - (void) downloadAction
 {
     if (!_fileHandle) {

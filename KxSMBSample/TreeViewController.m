@@ -181,14 +181,7 @@
         
         UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, W, H)];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, W, font.lineHeight)];
-        label.text = status;
-        label.font = font;
-        label.textColor = [UIColor grayColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.opaque = NO;
-        label.backgroundColor = [UIColor clearColor];
-        label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        UILabel *label = [self setupCellLabel:status textColor:[UIColor grayColor]];
         
         [v addSubview:label];
         
@@ -199,16 +192,8 @@
         
     } else if ([status isKindOfClass:[NSError class]]) {
         
-        const float W = self.tableView.frame.size.width;
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, W, font.lineHeight)];
-        label.text = ((NSError *)status).localizedDescription;
-        label.font = font;
-        label.textColor = [UIColor redColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.opaque = NO;
-        label.backgroundColor = [UIColor clearColor];
-        label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        UILabel *label = [self setupCellLabel:((NSError *)status).localizedDescription
+                                    textColor:[UIColor redColor]];
         
         self.tableView.tableHeaderView = label;
         
@@ -220,6 +205,22 @@
         
         [self.refreshControl endRefreshing];
     }
+}
+
+- (UILabel*)setupCellLabel:(NSString*)text textColor:(UIColor*)color {
+    UIFont *font = [UIFont boldSystemFontOfSize:16];
+    const float W = self.tableView.frame.size.width;
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, W, font.lineHeight)];
+    label.text = text;
+    label.font = font;
+    label.textColor = color;
+    label.textAlignment = NSTextAlignmentCenter;
+    label.opaque = NO;
+    label.backgroundColor = [UIColor clearColor];
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    
+    return label;
 }
 
 - (void)appearLocalFileList {

@@ -14,6 +14,9 @@
 		1F3C5B561ABBE94200DCFFED /* AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C5B531ABBE94200DCFFED /* AuthViewController.m */; };
 		1F3C5B571ABBE94200DCFFED /* AuthViewTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C5B551ABBE94200DCFFED /* AuthViewTextField.m */; };
 		1F3C5B5D1ABC067500DCFFED /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C5B5C1ABC067500DCFFED /* RootViewController.m */; };
+		1F570E311ACA8EA600447727 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F570E301ACA8EA600447727 /* folder.png */; };
+		1F570E331ACA8ECF00447727 /* file.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F570E321ACA8ECF00447727 /* file.png */; };
+		1FE7C0F91AC8E6D000D2B683 /* LeftBarButtonImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7C0F81AC8E6D000D2B683 /* LeftBarButtonImage.m */; };
 		87085F8D1705D46C009CD258 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F8C1705D46C009CD258 /* UIKit.framework */; };
 		87085F8F1705D46C009CD258 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F8E1705D46C009CD258 /* Foundation.framework */; };
 		87085F911705D46C009CD258 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F901705D46C009CD258 /* CoreGraphics.framework */; };
@@ -63,6 +66,10 @@
 		1F3C5B551ABBE94200DCFFED /* AuthViewTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthViewTextField.m; sourceTree = "<group>"; };
 		1F3C5B5B1ABC067500DCFFED /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		1F3C5B5C1ABC067500DCFFED /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		1F570E301ACA8EA600447727 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
+		1F570E321ACA8ECF00447727 /* file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = file.png; sourceTree = "<group>"; };
+		1FE7C0F71AC8E6D000D2B683 /* LeftBarButtonImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftBarButtonImage.h; sourceTree = "<group>"; };
+		1FE7C0F81AC8E6D000D2B683 /* LeftBarButtonImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftBarButtonImage.m; sourceTree = "<group>"; };
 		87085F891705D46C009CD258 /* SMBFileReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SMBFileReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87085F8C1705D46C009CD258 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		87085F8E1705D46C009CD258 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -130,6 +137,8 @@
 		1F16691E1AC4EC0900182F93 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				1F570E321ACA8ECF00447727 /* file.png */,
+				1F570E301ACA8EA600447727 /* folder.png */,
 				1F16691C1AC4EC0100182F93 /* left.png */,
 				1F1669221AC54EF100182F93 /* right.png */,
 			);
@@ -192,6 +201,8 @@
 			children = (
 				1F3C5B541ABBE94200DCFFED /* AuthViewTextField.h */,
 				1F3C5B551ABBE94200DCFFED /* AuthViewTextField.m */,
+				1FE7C0F71AC8E6D000D2B683 /* LeftBarButtonImage.h */,
+				1FE7C0F81AC8E6D000D2B683 /* LeftBarButtonImage.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -363,7 +374,9 @@
 				1F16691D1AC4EC0100182F93 /* left.png in Resources */,
 				87085F971705D46C009CD258 /* InfoPlist.strings in Resources */,
 				87085F9F1705D46C009CD258 /* Default.png in Resources */,
+				1F570E311ACA8EA600447727 /* folder.png in Resources */,
 				87085FA11705D46C009CD258 /* Default@2x.png in Resources */,
+				1F570E331ACA8ECF00447727 /* file.png in Resources */,
 				87085FA31705D46C009CD258 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -385,6 +398,7 @@
 				1F2F50511AC3A46A00E43763 /* LocalFileViewController.m in Sources */,
 				87085FBB1705D4AB009CD258 /* FileViewController.m in Sources */,
 				87085FBD1705D4AB009CD258 /* TreeViewController.m in Sources */,
+				1FE7C0F91AC8E6D000D2B683 /* LeftBarButtonImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +485,7 @@
 		87085FB01705D46C009CD258 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KxSMBSample/SMBFileReader-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libs\"";

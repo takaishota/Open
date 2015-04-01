@@ -8,13 +8,13 @@
 
 #import "FileViewController.h"
 #import "TreeViewController.h"
+#import "LeftBarButtonImage.h"
 #import "FileUtility.h"
 #import "KxSMBProvider.h"
 
 @interface FileViewController ()
 @property (strong, nonatomic) UIPopoverController *menuPopoverController;
 @property (nonatomic) CGFloat navigationBarHeight;
-@property (nonatomic) BOOL isHidden;
 @end
 
 @implementation FileViewController {
@@ -26,6 +26,8 @@
     long            _downloadedBytes;
     NSDate          *_timestamp;
     UIWebView       *_webView;
+    BOOL            _treeViewIsHidden;
+    UIBarButtonItem *_barButtonItem;
 }
 
 - (id)init
@@ -62,7 +64,17 @@
 {
     [super viewDidLoad];
     self.navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
-    self.isHidden = NO;
+    [self.navigationItem setHidesBackButton:YES animated:NO];
+    
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    BOOL isLandscape;
+    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        isLandscape = YES;
+        _treeViewIsHidden = NO;
+    } else {
+        isLandscape = NO;
+        _treeViewIsHidden = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,30 +85,23 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.navigationItem setHidesBackButton:YES animated:NO];
     
-    // ランドスケープ時のみ
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-        [self setupDrawBackButton];
-    }
+    [self updateLeftBarButtonItem];
 }
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];    
     //[self closeFiles];
 }
-
-- (void) setupDrawBackButton {
-    UIImage *rawImg = [UIImage imageNamed:@"left.png"];
-    UIImage *resizeImg;
-    CGFloat width = 28;
-    CGFloat height = 28;
-    UIGraphicsBeginImageContext(CGSizeMake(width, height));
-    [rawImg drawInRect:CGRectMake(0, 0, width, height)];
-    resizeImg = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:resizeImg style:UIBarButtonItemStylePlain target:self action:@selector(drawBackTree)];
+- (void)updateLeftBarButtonItem {
+    UIImage *btnImg = [[LeftBarButtonImage alloc] initWithTreeViewStatus:_treeViewIsHidden];
+    UINavigationController *navController = (UINavigationController*)self.parentViewController;
+    
+    UIViewController *lastrVc = [navController.viewControllers lastObject];
+    lastrVc.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:btnImg
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                        action:@selector(popupControllButtonDidPushed)];
 }
 
 - (void) closeFiles
@@ -110,9 +115,15 @@
     [_smbFile close];
 }
 
-- (void) drawBackTree {
-    NSLog(@"draw back button");
-    [self drawAnimationPopOverController];
+- (void)closeCurrentFile:(UIView*)view {
+    [_webView removeFromSuperview];
+    [[FileUtility sharedUtility] removeFileAtPath:_filePath];
+    _webView = nil;
+    _filePath = nil;
+    [self.navigationItem setRightBarButtonItems:nil animated:YES];
+    self.title = @"";
+}
+
 - (UILabel*) setupDownloadLabel {
     const float W = self.view.bounds.size.width;
     UILabel *downloadLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, W - 20, 40)];
@@ -193,14 +204,7 @@
     }
 }
 
-- (void)closeCurrentFile:(UIView*)view {
-    [_webView removeFromSuperview];
-    [[FileUtility sharedUtility] removeFileAtPath:_filePath];
-    _webView = nil;
-    _filePath = nil;
-    [self.navigationItem setRightBarButtonItems:nil animated:YES];
-    self.title = @"";
-}
+
 
 -(void) updateDownloadStatus: (id) result
 {
@@ -313,14 +317,12 @@
           withBarButtonItem:(UIBarButtonItem *)barButtonItem
        forPopoverController:(UIPopoverController *)pc
 {
-    // UIBarButtonItemのタイトルを設定し、自分のNavigationItemの左ボタンに設定する
-    [self.navigationItem setLeftBarButtonItems:nil animated:YES];
-    self.navigationItem.leftBarButtonItem = nil;
-    self.menuPopoverController = nil;
-    barButtonItem.title = @"Menu";
-    self.navigationItem.leftBarButtonItem = barButtonItem;
-    [self.navigationItem setLeftBarButtonItems:@[barButtonItem] animated:YES];
+    NSLog(@"parentViewController:%@", self.parentViewController);
+    _treeViewIsHidden = YES;
+    [self updateLeftBarButtonItem];
+    
     self.menuPopoverController = pc;
+    _barButtonItem = barButtonItem;
     
 }
 
@@ -329,21 +331,15 @@
      willShowViewController:(UIViewController *)aViewController
   invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
-    // メニューボタンを削除、drawボタンを設定
-    [self.navigationItem setLeftBarButtonItems:nil animated:YES];
-    self.navigationItem.leftBarButtonItem = nil;
-    self.menuPopoverController = nil;
-    [self setupDrawBackButton];
+    _treeViewIsHidden = NO;
+    [self updateLeftBarButtonItem];
+    _barButtonItem = barButtonItem;
+    
 }
 
 // マスタビューが出てくるときに呼ばれる
 - (void)splitViewController:(UISplitViewController *)svc popoverController:(UIPopoverController *)pc willPresentViewController:(UIViewController *)aViewController {
-    
-    // ランドスケープ時のみ
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-        [self drawAnimationPopOverController];
-    }
+    _treeViewIsHidden = NO;
     
 }
 
@@ -353,32 +349,23 @@
     }else {
         return YES;
     }
-    
 }
 
-- (void)drawAnimationPopOverController {
+- (void)popupControllButtonDidPushed {
     NSLog(@"--------button");
-//    CGFloat xOffset = 0;
-//    CGFloat statusBarHeight = 20.0f;
-//    
-//    if (self.isHidden) {
-//        xOffset  = 320.0f;
-//        self.isHidden = NO;
-//    } else {
-//        xOffset  = 0;
-//        self.isHidden = YES;
-//    }
-//    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-//        self.view.frame = CGRectMake(xOffset, self.view.frame.origin.y, self.view.frame.size.width - xOffset, self.view.frame.size.height);
-//        self.navigationController.navigationBar.frame = CGRectMake(xOffset,
-//                                                                   0,
-//                                                                   self.navigationController.navigationBar.frame.size.width - xOffset,
-//                                                                   self.navigationBarHeight + statusBarHeight);
-//    } completion:^ (BOOL finished){
-//        // 完了時のコールバック
-//        NSLog(@"finish Animation");
-//    }];
-//
+    _treeViewIsHidden = !_treeViewIsHidden;
+    [self updateLeftBarButtonItem];
+    [self setFullScreen];
+    
+    // primaryViewを閉じる
+    if ([self.delegate respondsToSelector:@selector(hideTreeView:)]) {
+        [self.delegate hideTreeView:_treeViewIsHidden];
+    }
+}
+
+- (void) setFullScreen {
+    // seconderyViewをフルスクリーン表示にする
+    
 }
 
 @end

@@ -21,4 +21,6 @@
 @property (nonatomic, weak) id delegate;
 @property (readwrite, nonatomic, strong) NSString *path;
 @property (nonatomic, strong) UINavigationController *fileViewNavigationController;
+@property (nonatomic) UIBarButtonItem *fileViewleftBarButton;
+@property (nonatomic) UISplitViewController *splitViewController;
 @end

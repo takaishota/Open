@@ -12,7 +12,7 @@
 #import "KxSMBProvider.h"
 #import "AuthViewController.h"
 
-@interface TreeViewController () <UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate>
+@interface TreeViewController () <UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate, FileViewControllerDelegate>
 @end
 
 @implementation TreeViewController {
@@ -289,9 +289,11 @@
     } else if ([item isKindOfClass:[KxSMBItemFile class]]) {
         
         FileViewController *vc = [[FileViewController alloc] init];
+        vc.delegate = self;
         vc.smbFile = (KxSMBItemFile *)item;
         // fileViewのnavigationViewにpushする
         [self.fileViewNavigationController pushViewController:vc animated:YES];
+        
     }
 }
 
@@ -321,6 +323,30 @@
     if ([self.delegate respondsToSelector:@selector(authViewCloseHandler:)]) {
         [self.delegate authViewCloseHandler:controller];
     }
+}
+#pragma mark - File View Controller Delegate
+- (void) hideTreeView:(BOOL)isHidden {
+    
+    CGFloat xOffset = 0;
+
+    if (isHidden) {
+        xOffset  = 320.0f;
+    } else {
+        xOffset  = 0;
+    }
+    isHidden = !isHidden;
+    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        self.parentViewController.view.frame = CGRectMake(-xOffset, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
+        self.navigationController.navigationBar.frame = CGRectMake(-xOffset,
+                                                                   0,
+                                                                   self.navigationController.navigationBar.frame.size.width,
+                                                                   60);
+    } completion:^ (BOOL finished){
+        // 完了時のコールバック
+        NSLog(@"finish Animation");
+    }];
+    
+    
 }
 
 #pragma mark - private

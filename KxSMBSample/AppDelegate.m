@@ -32,6 +32,7 @@
     
     // メニュー用ViewControllerの生成
     _headVC = [[TreeViewController alloc] initAsHeadViewController];
+    _headVC.splitViewController = splitViewController;
     UINavigationController *treeNavigationViewController = [[UINavigationController alloc] initWithRootViewController:_headVC];
     _headVC.delegate = self;
     
@@ -39,6 +40,7 @@
     FileViewController *fileViewController = [[FileViewController alloc] init];
     UINavigationController *fileNavigationViewController = [[UINavigationController alloc] initWithRootViewController:fileViewController];
     _headVC.fileViewNavigationController = fileNavigationViewController;
+    fileViewController.splitViewController = splitViewController;
     
     splitViewController.delegate = fileViewController;
     

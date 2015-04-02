@@ -34,25 +34,25 @@
     _headVC = [[TreeViewController alloc] initAsHeadViewController];
     _headVC.splitViewController = splitViewController;
     UINavigationController *treeNavigationViewController = [[UINavigationController alloc] initWithRootViewController:_headVC];
+    [splitViewController addChildViewController:treeNavigationViewController];
     _headVC.delegate = self;
     
     // 詳細用ViewControllerの生成
     FileViewController *fileViewController = [[FileViewController alloc] init];
     UINavigationController *fileNavigationViewController = [[UINavigationController alloc] initWithRootViewController:fileViewController];
+    [splitViewController addChildViewController:fileNavigationViewController];
     _headVC.fileViewNavigationController = fileNavigationViewController;
     fileViewController.splitViewController = splitViewController;
     
     splitViewController.delegate = fileViewController;
     
-    // split Viewに各viewControllerを追加
-    [splitViewController addChildViewController:treeNavigationViewController];
-    [splitViewController addChildViewController:fileNavigationViewController];
-    
     // windowのrootViewControllerとしてSplitViewControllerを設定
     self.window.rootViewController = splitViewController;
     
-    // SMBProviderを生成し、デリゲートを設定する
+    //キャッシュの初期化
     _cachedAuths = [NSMutableDictionary dictionary];
+    
+    // SMBProviderを生成し、デリゲートを設定する
     KxSMBProvider *provider = [KxSMBProvider sharedSmbProvider];
     provider.delegate = self;
     

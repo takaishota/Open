@@ -12,7 +12,7 @@
 #import "FileUtility.h"
 #import "KxSMBProvider.h"
 
-@interface FileViewController ()
+@interface FileViewController () <UISplitViewControllerDelegate>
 @end
 
 @implementation FileViewController {

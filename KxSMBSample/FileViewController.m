@@ -13,8 +13,6 @@
 #import "KxSMBProvider.h"
 
 @interface FileViewController ()
-@property (strong, nonatomic) UIPopoverController *menuPopoverController;
-@property (nonatomic) CGFloat navigationBarHeight;
 @end
 
 @implementation FileViewController {
@@ -63,7 +61,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
     [self.navigationItem setHidesBackButton:YES animated:NO];
     
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -317,8 +314,6 @@
     NSLog(@"parentViewController:%@", self.parentViewController);
     _treeViewIsHidden = YES;
     [self updateLeftBarButtonItem];
-    
-    self.menuPopoverController = pc;
     _barButtonItem = barButtonItem;
     
 }

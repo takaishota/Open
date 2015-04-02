@@ -63,17 +63,6 @@
     NSString *item = _items[indexPath.row];
     cell.textLabel.text = item;
     
-//    if ([item isKindOfClass:[KxSMBItemTree class]]) {
-//        
-//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//        cell.detailTextLabel.text =  @"";
-//        
-//    } else {
-//        
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld KB", item.stat.size / 1000];
-//    }
-    
     return cell;
 }
 

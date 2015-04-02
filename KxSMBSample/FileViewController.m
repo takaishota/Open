@@ -87,6 +87,18 @@
     [super viewWillDisappear:animated];    
     //[self closeFiles];
 }
+const static CGFloat masterViewWidth = 320.0f;
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    CGRect windowSize = [[UIScreen mainScreen] bounds];
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
+        LogRed(@"%f", windowSize.size.height - masterViewWidth);
+        _webView.frame = CGRectMake(0, _webView.frame.origin.y, windowSize.size.height - masterViewWidth, windowSize.size.width);
+    }else {
+        _webView.frame = CGRectMake(0, _webView.frame.origin.y, windowSize.size.width, windowSize.size.height);
+    }
+}
+
 - (void)updateLeftBarButtonItem {
     UIImage *btnImg = [[LeftBarButtonImage alloc] initWithTreeViewStatus:_treeViewIsHidden];
     UINavigationController *navController = (UINavigationController*)self.parentViewController;
@@ -266,7 +278,6 @@
                         [self.view addSubview:imageView];
                     } else {
                         UIWebView *webView = [[UIWebView alloc] init];
-                        // TODO:画面回転時の対応
                         webView.frame = CGRectMake(0,
                                                    0,
                                                    self.view.frame.size.width,

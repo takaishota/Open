@@ -22,8 +22,7 @@
     [super viewDidLoad];
     
     self.title = @"ローカル";
-    
-    _items = [self getLocalFiles];
+    _items     = [self getLocalFiles];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,9 +32,9 @@
 
 - (NSArray *)getLocalFiles {
     
-    NSString *docPath = [[FileUtility sharedUtility] documentDirectory];
+    NSString *docPath  = [[FileUtility sharedUtility] documentDirectory];
     NSArray *fileNames = [[FileUtility sharedUtility] fileNamesAtDirectoryPath:docPath extension:nil];
-    _datasource = [fileNames mutableCopy];
+    _datasource        = [fileNames mutableCopy];
     
     return _datasource;
 }
@@ -55,7 +54,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    UITableViewCell *cell           = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
                                       reuseIdentifier:cellIdentifier];
@@ -98,7 +97,7 @@
     
     // ローカルファイルの削除
     FileUtility *utility = [FileUtility sharedUtility];
-    BOOL result = [utility removeFileAtPath:[utility documentDirectoryWithFileName:_datasource[indexPath.row]]];
+    BOOL result          = [utility removeFileAtPath:[utility documentDirectoryWithFileName:_datasource[indexPath.row]]];
     if (!result) {
         // アラートを表示する
         NSLog(@"ファイルの削除に失敗しました");

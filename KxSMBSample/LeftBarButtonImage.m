@@ -55,8 +55,8 @@ enum {
 }
 
 - (UIImage*)resizeImage:(NSString*)fileName {
-    UIImage *img = [UIImage imageNamed:fileName];
-    CGFloat width = 28;
+    UIImage *img   = [UIImage imageNamed:fileName];
+    CGFloat width  = 28;
     CGFloat height = 28;
     UIGraphicsBeginImageContext(CGSizeMake(width, height));
     [img drawInRect:CGRectMake(0, 0, width, height)];

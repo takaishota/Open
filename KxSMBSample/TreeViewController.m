@@ -34,10 +34,9 @@
 {
     self = [super init];
     if (self) {
-        
-        self.title = @"";
+        self.title   = @"";
         _needNewPath = YES;
-        _isHeadVC = NO;
+        _isHeadVC    = NO;
     }
     return self;
 }
@@ -63,7 +62,7 @@
     }
     
     if(_isHeadVC) {
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+        self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
                                                                                               target:self
                                                                                               action:@selector(requestNewPath)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
@@ -146,13 +145,13 @@
 - (void) requestNewPath {
     
     if(_newPathField == nil) {
-        _newPathField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 30)];
-        _newPathField.borderStyle = UITextBorderStyleRoundedRect;
-        _newPathField.placeholder = @"smb://";
-        _newPathField.keyboardType = UIKeyboardTypeURL;
-        _newPathField.autocorrectionType = UITextAutocorrectionTypeNo;
+        _newPathField                        = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 30)];
+        _newPathField.borderStyle            = UITextBorderStyleRoundedRect;
+        _newPathField.placeholder            = @"smb://";
+        _newPathField.keyboardType           = UIKeyboardTypeURL;
+        _newPathField.autocorrectionType     = UITextAutocorrectionTypeNo;
         _newPathField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        _newPathField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
+        _newPathField.text                   = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
     }
     
     NSString *appendedPath = [NSString stringWithFormat:@"smb://%@%@",
@@ -214,13 +213,13 @@
     UIFont *font = [UIFont boldSystemFontOfSize:16];
     const float W = self.tableView.frame.size.width;
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, W, font.lineHeight)];
-    label.text = text;
-    label.font = font;
-    label.textColor = color;
-    label.textAlignment = NSTextAlignmentCenter;
-    label.opaque = NO;
-    label.backgroundColor = [UIColor clearColor];
+    UILabel *label         = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, W, font.lineHeight)];
+    label.text             = text;
+    label.font             = font;
+    label.textColor        = color;
+    label.textAlignment    = NSTextAlignmentCenter;
+    label.opaque           = NO;
+    label.backgroundColor  = [UIColor clearColor];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
     return label;

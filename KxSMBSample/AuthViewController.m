@@ -44,11 +44,11 @@
     self.view.backgroundColor = _backgroundColor;
     
     // プロパティの初期化
-    _server = [NSString string];
-    _localDir = [NSString string];
+    _server    = [NSString string];
+    _localDir  = [NSString string];
     _workgroup = [NSString string];
-    _username = [NSString string];
-    _password = [NSString string];
+    _username  = [NSString string];
+    _password  = [NSString string];
     
     // テキストフィールドへの参照保持配列の初期化
     _fieldsList = [NSMutableArray array];
@@ -57,7 +57,7 @@
     _propertyList = [@[_server, _workgroup, _localDir, _username, _password] mutableCopy];
     
     // フォームに表示する項目
-    _formLabels = @[@"サーバアドレス", @"リモートディレクトリ", @"ワークグループ", @"ユーザ名", @"パスワード"];
+    _formLabels      = @[@"サーバアドレス", @"リモートディレクトリ", @"ワークグループ", @"ユーザ名", @"パスワード"];
     _userdefaultKeys = @[@"LastServer", @"RemoteDirectory", @"Workgroup", @"Username", @"Password"];
     
     [self setupformItems];
@@ -66,8 +66,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveAction)];
+    self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                target:self
+                                                                               action:@selector(cancelAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+                                                                                target:self
+                                                                                action:@selector(saveAction)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -90,13 +94,13 @@
     }
 }
 
-const CGFloat _navHeight = 60;
-const CGFloat _offsetX = 20;
+const CGFloat _navHeight     = 60;
+const CGFloat _offsetX       = 20;
 const CGFloat _labelInterval = 80;
 
 - (UILabel*)generateAuthItemLabel:(NSString*)text AtIndex:(NSUInteger)idx{
     
-    const CGFloat lWidth = self.navigationController.view.frame.size.width - 40;
+    const CGFloat lWidth  = self.navigationController.view.frame.size.width - 40;
     const CGFloat lHeight = 20;
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(_offsetX, _labelInterval * idx + _navHeight + 70, lWidth, lHeight)];
@@ -107,7 +111,7 @@ const CGFloat _labelInterval = 80;
 
 - (UITextField*)generateAuthTextField:(NSString*)lastValue AtIndex:(NSUInteger)idx {
     
-    const CGFloat tfWidth = self.navigationController.view.frame.size.width - 40;
+    const CGFloat tfWidth  = self.navigationController.view.frame.size.width - 40;
     const CGFloat tfHeight = 20;
     
     UITextField *textField = [[AuthViewTextField alloc] initWithFrame:CGRectMake(_offsetX, _labelInterval * idx + _navHeight + 100, tfWidth, tfHeight)];
@@ -122,9 +126,9 @@ const CGFloat _labelInterval = 80;
 
 - (UILabel*)formatLabel:(UILabel*)label {
     
-    label.font = [UIFont boldSystemFontOfSize:12];
+    label.font            = [UIFont boldSystemFontOfSize:12];
     label.backgroundColor = _backgroundColor;
-    label.textColor = _labelTextColor;
+    label.textColor       = _labelTextColor;
     
     return label;
 }
@@ -132,16 +136,16 @@ const CGFloat _labelInterval = 80;
 - (UITextField*)formatTextFieldStyle:(UITextField*)textField {
     
     textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    textField.autocorrectionType = UITextAutocorrectionTypeNo;
-    textField.spellCheckingType = UITextSpellCheckingTypeNo;
-    textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    textField.clearButtonMode =  UITextFieldViewModeWhileEditing;
-    textField.textColor = _inputTextColor;
-    textField.font = [UIFont systemFontOfSize:16];
-    textField.borderStyle = UITextBorderStyleNone;
-    textField.backgroundColor = _backgroundColor;
-    textField.returnKeyType = UIReturnKeyNext;
-    
+    textField.autocorrectionType     = UITextAutocorrectionTypeNo;
+    textField.spellCheckingType      = UITextSpellCheckingTypeNo;
+    textField.autoresizingMask       = UIViewAutoresizingFlexibleWidth;
+    textField.clearButtonMode        = UITextFieldViewModeWhileEditing;
+    textField.textColor              = _inputTextColor;
+    textField.font                   = [UIFont systemFontOfSize:16];
+    textField.borderStyle            = UITextBorderStyleNone;
+    textField.backgroundColor        = _backgroundColor;
+    textField.returnKeyType          = UIReturnKeyNext;
+
     return textField;
 }
 

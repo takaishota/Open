@@ -67,12 +67,9 @@
     [self.navigationItem setHidesBackButton:YES animated:NO];
     
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    BOOL isLandscape;
     if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-        isLandscape = YES;
         _treeViewIsHidden = NO;
     } else {
-        isLandscape = NO;
         _treeViewIsHidden = YES;
     }
 }
@@ -125,14 +122,14 @@
 }
 
 - (UILabel*) setupDownloadLabel {
-    const float W = self.view.bounds.size.width;
-    UILabel *downloadLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, W - 20, 40)];
-    downloadLabel.font = [UIFont systemFontOfSize:14];;
-    downloadLabel.textColor = [UIColor darkTextColor];
-    downloadLabel.opaque = NO;
-    downloadLabel.backgroundColor = [UIColor clearColor];
+    const float W                  = self.view.bounds.size.width;
+    UILabel *downloadLabel         = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, W - 20, 40)];
+    downloadLabel.font             = [UIFont systemFontOfSize:14];;
+    downloadLabel.textColor        = [UIColor darkTextColor];
+    downloadLabel.opaque           = NO;
+    downloadLabel.backgroundColor  = [UIColor clearColor];
     downloadLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    downloadLabel.numberOfLines = 2;
+    downloadLabel.numberOfLines    = 2;
     
     return downloadLabel;
 }

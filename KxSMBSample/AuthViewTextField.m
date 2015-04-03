@@ -7,6 +7,7 @@
 //
 
 #import "AuthViewTextField.h"
+// :: Framework ::
 #import <QuartzCore/QuartzCore.h>
 
 @implementation AuthViewTextField {

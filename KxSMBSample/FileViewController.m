@@ -7,10 +7,11 @@
 
 
 #import "FileViewController.h"
-#import "TreeViewController.h"
-#import "LeftBarButtonImage.h"
+// :: Other ::
 #import "FileUtility.h"
 #import "KxSMBProvider.h"
+#import "LeftBarButtonImage.h"
+#import "TreeViewController.h"
 
 @interface FileViewController () <UISplitViewControllerDelegate>
 @end

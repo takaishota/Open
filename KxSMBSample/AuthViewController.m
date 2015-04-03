@@ -7,6 +7,15 @@
 
 #import "AuthViewController.h"
 #import "AuthViewTextField.h"
+#import "DXPopover.h"
+
+
+@interface AuthViewController () <UITextFieldDelegate,UITableViewDataSource, UITableViewDelegate>
+@property (nonatomic, strong) UIButton *btn;
+@property (nonatomic, strong) NSArray *configs;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) DXPopover *popover;
+@end
 
 @implementation AuthViewController {
     UITextField *_pathField;
@@ -20,6 +29,8 @@
     UIColor *_backgroundColor;
     UIColor *_labelTextColor;
     UIColor *_inputTextColor;
+    AuthViewTextField *_lastActiveField;
+    CGFloat _popoverWidth;
 }
 
 
@@ -82,7 +93,12 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [_pathField becomeFirstResponder];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    UITextField *tf = _fieldsList[0];
+    self.btn =[UIButton buttonWithType:UIButtonTypeCustom];
+    [self setClearButtonToSuperView:(UIView*)tf];
 }
 
 - (void) setupformItems {
@@ -93,6 +109,97 @@
         [self.view addSubview:tf];
     }
 }
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+- (void) setClearButtonToSuperView:(UIView*)superView{
+    self.btn.frame = superView.frame;
+    self.btn.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.btn];
+    [self.btn addTarget:self action:@selector(showPopover) forControlEvents:UIControlEventTouchUpInside];
+    
+    UITableView *blueView = [[UITableView alloc] init];
+    blueView.frame        = CGRectMake(0, 0, _popoverWidth, 160);
+    blueView.dataSource   = self;
+    blueView.delegate     = self;
+    self.tableView = blueView;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self resetPopover];
+    
+    self.configs = @[@"172.18.34.230", @"172.17.18.240", @"172.17.18.250"];
+}
+- (void)resetPopover
+{
+    self.popover  = [DXPopover new];
+    _popoverWidth = CGRectGetWidth(self.view.bounds);
+}
+
+- (void)showPopover
+{
+    NSLog(@"showPopOver");
+    [self updateTableViewFrame];
+    
+    CGPoint startPoint = CGPointMake(CGRectGetMidX(self.btn.frame), CGRectGetMaxY(self.btn.frame) + 5);
+    [self.popover showAtPoint:startPoint popoverPostion:DXPopoverPositionDown withContentView:self.tableView inView:self.view];
+    
+    __weak typeof(self)weakSelf = self;
+    self.popover.didDismissHandler = ^{
+        [weakSelf bounceTargetView:weakSelf.btn];
+    };
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.configs.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellId = @"cellIdentifier";
+    UITableViewCell *cell   = [tableView dequeueReusableCellWithIdentifier:cellId];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+    }
+    cell.textLabel.text = self.configs[indexPath.row];
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // テキストフィールドに値をセットする
+    NSString *serverPath = self.configs[indexPath.row];
+    UITextField *serverField = _fieldsList[0];
+    serverField.text = serverPath;
+    NSLog(@"serverPath:%@", serverPath);
+    
+    [self.popover dismiss];
+    
+}
+
+- (void)updateTableViewFrame
+{
+    CGRect tableViewFrame = self.tableView.frame;
+    tableViewFrame.size.width = _popoverWidth;
+    self.tableView.frame = tableViewFrame;
+}
+
+- (void)bounceTargetView:(UIView *)targetView
+{
+    targetView.transform = CGAffineTransformMakeScale(0.9, 0.9);
+    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.3 initialSpringVelocity:5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        targetView.transform = CGAffineTransformIdentity;
+    } completion:nil];
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 const CGFloat _navHeight     = 60;
 const CGFloat _offsetX       = 20;
@@ -147,11 +254,6 @@ const CGFloat _labelInterval = 80;
     textField.returnKeyType          = UIReturnKeyNext;
 
     return textField;
-}
-
-
-- (void) textFieldDoneEditing: (id) sender
-{
 }
 
 - (void) cancelAction

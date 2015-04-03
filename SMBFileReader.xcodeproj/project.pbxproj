@@ -16,6 +16,7 @@
 		1F3C5B5D1ABC067500DCFFED /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C5B5C1ABC067500DCFFED /* RootViewController.m */; };
 		1F570E311ACA8EA600447727 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F570E301ACA8EA600447727 /* folder.png */; };
 		1F570E331ACA8ECF00447727 /* file.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F570E321ACA8ECF00447727 /* file.png */; };
+		1F62900C1ACE1114009CF4E3 /* DXPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F62900B1ACE1114009CF4E3 /* DXPopover.m */; };
 		1FE7C0F91AC8E6D000D2B683 /* LeftBarButtonImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7C0F81AC8E6D000D2B683 /* LeftBarButtonImage.m */; };
 		87085F8D1705D46C009CD258 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F8C1705D46C009CD258 /* UIKit.framework */; };
 		87085F8F1705D46C009CD258 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F8E1705D46C009CD258 /* Foundation.framework */; };
@@ -68,6 +69,8 @@
 		1F3C5B5C1ABC067500DCFFED /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		1F570E301ACA8EA600447727 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
 		1F570E321ACA8ECF00447727 /* file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = file.png; sourceTree = "<group>"; };
+		1F62900A1ACE1114009CF4E3 /* DXPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXPopover.h; sourceTree = "<group>"; };
+		1F62900B1ACE1114009CF4E3 /* DXPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXPopover.m; sourceTree = "<group>"; };
 		1FE7C0F71AC8E6D000D2B683 /* LeftBarButtonImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftBarButtonImage.h; sourceTree = "<group>"; };
 		1FE7C0F81AC8E6D000D2B683 /* LeftBarButtonImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftBarButtonImage.m; sourceTree = "<group>"; };
 		87085F891705D46C009CD258 /* SMBFileReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SMBFileReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -150,14 +153,6 @@
 			children = (
 				1F2F50591AC3B94A00E43763 /* detail */,
 				1F2F50581AC3B93F00E43763 /* master */,
-				1F3C5B521ABBE94200DCFFED /* AuthViewController.h */,
-				1F3C5B531ABBE94200DCFFED /* AuthViewController.m */,
-				1F2F504F1AC3A46A00E43763 /* LocalFileViewController.h */,
-				1F2F50501AC3A46A00E43763 /* LocalFileViewController.m */,
-				1F3C5B5B1ABC067500DCFFED /* RootViewController.h */,
-				1F3C5B5C1ABC067500DCFFED /* RootViewController.m */,
-				87085FB91705D4AB009CD258 /* TreeViewController.h */,
-				87085FBA1705D4AB009CD258 /* TreeViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -183,6 +178,14 @@
 		1F2F50581AC3B93F00E43763 /* master */ = {
 			isa = PBXGroup;
 			children = (
+				1F3C5B521ABBE94200DCFFED /* AuthViewController.h */,
+				1F3C5B531ABBE94200DCFFED /* AuthViewController.m */,
+				1F2F504F1AC3A46A00E43763 /* LocalFileViewController.h */,
+				1F2F50501AC3A46A00E43763 /* LocalFileViewController.m */,
+				1F3C5B5B1ABC067500DCFFED /* RootViewController.h */,
+				1F3C5B5C1ABC067500DCFFED /* RootViewController.m */,
+				87085FB91705D4AB009CD258 /* TreeViewController.h */,
+				87085FBA1705D4AB009CD258 /* TreeViewController.m */,
 			);
 			name = master;
 			sourceTree = "<group>";
@@ -205,6 +208,15 @@
 				1FE7C0F81AC8E6D000D2B683 /* LeftBarButtonImage.m */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		1F6290091ACE1114009CF4E3 /* DXPopover */ = {
+			isa = PBXGroup;
+			children = (
+				1F62900A1ACE1114009CF4E3 /* DXPopover.h */,
+				1F62900B1ACE1114009CF4E3 /* DXPopover.m */,
+			);
+			path = DXPopover;
 			sourceTree = "<group>";
 		};
 		87085F801705D46B009CD258 = {
@@ -273,6 +285,7 @@
 		87085FBE1705D4BE009CD258 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				1F6290091ACE1114009CF4E3 /* DXPopover */,
 				871CC5591774491A00EDD76D /* talloc_stack.h */,
 				871CC5581774489A00EDD76D /* talloc.h */,
 				87085FC01705D4CA009CD258 /* libsmbclient.h */,
@@ -393,6 +406,7 @@
 				1F2F50551AC3B40A00E43763 /* FileUtility.m in Sources */,
 				87085F9D1705D46C009CD258 /* AppDelegate.m in Sources */,
 				87085FB41705D494009CD258 /* KxSMBProvider.m in Sources */,
+				1F62900C1ACE1114009CF4E3 /* DXPopover.m in Sources */,
 				1F3C5B571ABBE94200DCFFED /* AuthViewTextField.m in Sources */,
 				1F3C5B5D1ABC067500DCFFED /* RootViewController.m in Sources */,
 				1F2F50511AC3A46A00E43763 /* LocalFileViewController.m in Sources */,

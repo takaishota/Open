@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface AuthViewTextField : UITextField
-
+@property (nonatomic) UIColor *underLineColor;
 @end

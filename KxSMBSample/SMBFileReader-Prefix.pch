@@ -20,6 +20,8 @@
 #define VIEW_RED(view)
 #endif
 
+#define INFOCUS_UNDERLINE_COLOR [UIColor colorWithRed:0.933 green:0.933 blue:0.933 alpha:1.0]
+
 // XCode Plugin
 #define XCODE_COLORS_ESCAPE @"\033["
 #define XCODE_COLORS_RESET_FG  XCODE_COLORS_ESCAPE @"fg;" // Clear any foreground color

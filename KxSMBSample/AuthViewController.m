@@ -96,15 +96,18 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-    UITextField *tf = _fieldsList[0];
+    AuthViewTextField *firstTf = _fieldsList[0];
+    firstTf.underLineColor = self.view.tintColor;
+
     self.btn =[UIButton buttonWithType:UIButtonTypeCustom];
-    [self setClearButtonToSuperView:(UIView*)tf];
+    [self setClearButtonToSuperView:(UIView*)firstTf];
 }
 
 - (void) setupformItems {
     for (int i = 0; i < [_formLabels count]; i++) {
         [self.view addSubview:[self generateAuthItemLabel:_formLabels[i] AtIndex:i]];
-        UITextField *tf = [self generateAuthTextField:_userdefaultKeys[i] AtIndex:i];
+        AuthViewTextField *tf = [self generateAuthTextField:_userdefaultKeys[i] AtIndex:i];
+        tf.delegate = self;
         [_fieldsList addObject:tf];
         [self.view addSubview:tf];
     }
@@ -137,8 +140,8 @@
 
 - (void)showPopover
 {
-    NSLog(@"showPopOver");
     [self updateTableViewFrame];
+    [self setFocusTextFieldSelectedWithPopover];
     
     CGPoint startPoint = CGPointMake(CGRectGetMidX(self.btn.frame), CGRectGetMaxY(self.btn.frame) + 5);
     [self.popover showAtPoint:startPoint popoverPostion:DXPopoverPositionDown withContentView:self.tableView inView:self.view];
@@ -147,6 +150,17 @@
     self.popover.didDismissHandler = ^{
         [weakSelf bounceTargetView:weakSelf.btn];
     };
+}
+
+- (void)setFocusTextFieldSelectedWithPopover {
+    AuthViewTextField *tf = _fieldsList[0];
+    tf.underLineColor = self.view.tintColor;
+    
+    for (int i = 1; i < [_fieldsList count]-1; i++) {
+        AuthViewTextField *tf = _fieldsList[i];
+        tf.underLineColor = INFOCUS_UNDERLINE_COLOR;
+        [tf resignFirstResponder];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -216,13 +230,13 @@ const CGFloat _labelInterval = 80;
     return formattedLabel;
 }
 
-- (UITextField*)generateAuthTextField:(NSString*)lastValue AtIndex:(NSUInteger)idx {
+- (AuthViewTextField*)generateAuthTextField:(NSString*)lastValue AtIndex:(NSUInteger)idx {
     
     const CGFloat tfWidth  = self.navigationController.view.frame.size.width - 40;
     const CGFloat tfHeight = 20;
     
-    UITextField *textField = [[AuthViewTextField alloc] initWithFrame:CGRectMake(_offsetX, _labelInterval * idx + _navHeight + 100, tfWidth, tfHeight)];
-    UITextField *formattedTextField = [self formatTextFieldStyle:textField];
+    AuthViewTextField *textField = [[AuthViewTextField alloc] initWithFrame:CGRectMake(_offsetX, _labelInterval * idx + _navHeight + 100, tfWidth, tfHeight)];
+    AuthViewTextField *formattedTextField = (AuthViewTextField*)[self formatTextFieldStyle:textField];
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     formattedTextField.text = [ud stringForKey:lastValue];
     if ([@"Password" isEqualToString:lastValue]) {
@@ -270,6 +284,7 @@ const CGFloat _labelInterval = 80;
     for (int i = 0; i < [_propertyList count]; i++) {
         // テキストフィールドの参照をプロパティ、ユーザデフォルトにセットする
         UITextField *uf = _fieldsList[i];
+        uf.delegate = self;
         _propertyList[i] = uf.text;
         [ud setObject:uf.text forKey:_userdefaultKeys[i]];
     }
@@ -286,7 +301,12 @@ const CGFloat _labelInterval = 80;
     __strong id p = self.delegate;
     if (p && [p respondsToSelector:@selector(couldAuthViewController:done:)])
         [p couldAuthViewController:self done:YES];
-    
+}
+
+#pragma mark - Text Field Delegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    AuthViewTextField *tf = _fieldsList[0];
+    tf.underLineColor     = INFOCUS_UNDERLINE_COLOR;
 }
 
 #pragma mark - Alert view delegate

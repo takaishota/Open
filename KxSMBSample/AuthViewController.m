@@ -8,14 +8,11 @@
 #import "AuthViewController.h"
 // :: Other ::
 #import "AuthViewTextField.h"
-#import "DXPopover.h"
+#import "PopupViewController.h"
 
-
-@interface AuthViewController () <UITextFieldDelegate,UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong) UIButton *btn;
-@property (nonatomic, strong) NSArray *configs;
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) DXPopover *popover;
+@interface AuthViewController () <UITextFieldDelegate>
+@property (nonatomic) PopupViewController *popupViewController;
+@property (nonatomic) UIButton *btn;
 @end
 
 @implementation AuthViewController {
@@ -31,7 +28,6 @@
     UIColor *_labelTextColor;
     UIColor *_inputTextColor;
     AuthViewTextField *_lastActiveField;
-    CGFloat _popoverWidth;
 }
 
 
@@ -82,8 +78,8 @@
                                                                                 target:self
                                                                                action:@selector(cancelAction)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
-                                                                                target:self
-                                                                                action:@selector(saveAction)];
+                                                                               target:self
+                                                                               action:@selector(saveAction)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -99,122 +95,61 @@
 - (void) viewDidAppear:(BOOL)animated {
     AuthViewTextField *firstTf = _fieldsList[0];
     firstTf.underLineColor = self.view.tintColor;
+    [firstTf becomeFirstResponder];
+    
+    self.popupViewController = [PopupViewController new];
+    [self setUpPopoverViewController:self.popupViewController];
+    
+    [self setupPopupButton:(UIView*)firstTf];
+    
+}
 
+- (void)setupPopupButton:(UIView*)superView {
     self.btn =[UIButton buttonWithType:UIButtonTypeCustom];
-    [self setClearButtonToSuperView:(UIView*)firstTf];
+    self.btn.frame = superView.frame;
+    self.btn.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.btn];
+    
+    // PopupViewControllerをターゲットにする
+    [self.btn addTarget:self.popupViewController action:@selector(showPopover:) forControlEvents:UIControlEventTouchUpInside];
+
+}
+
+- (void)setUpPopoverViewController:(UIViewController*)viewController {
+    [self addChildViewController:viewController];
+    [self.view addSubview:viewController.view];
+    [viewController didMoveToParentViewController:self];
+}
+
+- (void)removePopupViewControllerController:(UIViewController*)viewController
+{
+    [viewController willMoveToParentViewController:nil];
+    [viewController.view removeFromSuperview];
+    [viewController removeFromParentViewController];
 }
 
 - (void) setupformItems {
     for (int i = 0; i < [_formLabels count]; i++) {
         [self.view addSubview:[self generateAuthItemLabel:_formLabels[i] AtIndex:i]];
-        AuthViewTextField *tf = [self generateAuthTextField:_userdefaultKeys[i] AtIndex:i];
+        AuthViewTextField *tf = (AuthViewTextField*)[self generateAuthTextField:_userdefaultKeys[i] AtIndex:i];
         tf.delegate = self;
+        tf.tag = i;
         [_fieldsList addObject:tf];
         [self.view addSubview:tf];
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
+//- (void)setFocusTextFieldSelectedWithPopover {
+//    AuthViewTextField *tf = _fieldsList[0];
+//    tf.underLineColor = self.view.tintColor;
+//    
+//    for (int i = 1; i < [_fieldsList count]-1; i++) {
+//        AuthViewTextField *tf = _fieldsList[i];
+//        tf.underLineColor = INFOCUS_UNDERLINE_COLOR;
+//        [tf resignFirstResponder];
+//    }
+//}
 
-- (void) setClearButtonToSuperView:(UIView*)superView{
-    self.btn.frame = superView.frame;
-    self.btn.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.btn];
-    [self.btn addTarget:self action:@selector(showPopover) forControlEvents:UIControlEventTouchUpInside];
-    
-    UITableView *blueView = [[UITableView alloc] init];
-    blueView.frame        = CGRectMake(0, 0, _popoverWidth, 160);
-    blueView.dataSource   = self;
-    blueView.delegate     = self;
-    self.tableView = blueView;
-    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self resetPopover];
-    
-    self.configs = @[@"172.18.34.230", @"172.17.18.240", @"172.17.18.250"];
-}
-- (void)resetPopover
-{
-    self.popover  = [DXPopover new];
-    _popoverWidth = CGRectGetWidth(self.view.bounds);
-}
-
-- (void)showPopover
-{
-    [self updateTableViewFrame];
-    [self setFocusTextFieldSelectedWithPopover];
-    
-    CGPoint startPoint = CGPointMake(CGRectGetMidX(self.btn.frame), CGRectGetMaxY(self.btn.frame) + 5);
-    [self.popover showAtPoint:startPoint popoverPostion:DXPopoverPositionDown withContentView:self.tableView inView:self.view];
-    
-    __weak typeof(self)weakSelf = self;
-    self.popover.didDismissHandler = ^{
-        [weakSelf bounceTargetView:weakSelf.btn];
-    };
-}
-
-- (void)setFocusTextFieldSelectedWithPopover {
-    AuthViewTextField *tf = _fieldsList[0];
-    tf.underLineColor = self.view.tintColor;
-    
-    for (int i = 1; i < [_fieldsList count]-1; i++) {
-        AuthViewTextField *tf = _fieldsList[i];
-        tf.underLineColor = INFOCUS_UNDERLINE_COLOR;
-        [tf resignFirstResponder];
-    }
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.configs.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *cellId = @"cellIdentifier";
-    UITableViewCell *cell   = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-    }
-    cell.textLabel.text = self.configs[indexPath.row];
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // テキストフィールドに値をセットする
-    NSString *serverPath = self.configs[indexPath.row];
-    UITextField *serverField = _fieldsList[0];
-    serverField.text = serverPath;
-    NSLog(@"serverPath:%@", serverPath);
-    
-    [self.popover dismiss];
-    
-}
-
-- (void)updateTableViewFrame
-{
-    CGRect tableViewFrame = self.tableView.frame;
-    tableViewFrame.size.width = _popoverWidth;
-    self.tableView.frame = tableViewFrame;
-}
-
-- (void)bounceTargetView:(UIView *)targetView
-{
-    targetView.transform = CGAffineTransformMakeScale(0.9, 0.9);
-    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.3 initialSpringVelocity:5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        targetView.transform = CGAffineTransformIdentity;
-    } completion:nil];
-}
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 
 const CGFloat _navHeight     = 60;
 const CGFloat _offsetX       = 20;
@@ -240,6 +175,8 @@ const CGFloat _labelInterval = 80;
     AuthViewTextField *formattedTextField = (AuthViewTextField*)[self formatTextFieldStyle:textField];
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     formattedTextField.text = [ud stringForKey:lastValue];
+    
+    formattedTextField.delegate = self;
     if ([@"Password" isEqualToString:lastValue]) {
         formattedTextField.secureTextEntry = YES;
     }
@@ -270,6 +207,8 @@ const CGFloat _labelInterval = 80;
 
     return textField;
 }
+
+#pragma mark - Button Event Handler
 
 - (void) cancelAction
 {
@@ -308,6 +247,23 @@ const CGFloat _labelInterval = 80;
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     AuthViewTextField *tf = _fieldsList[0];
     tf.underLineColor     = INFOCUS_UNDERLINE_COLOR;
+    
+//    UIColor *unActiveColor = [UIColor colorWithRed:0.933 green:0.933 blue:0.933 alpha:1.0];
+//    // 前のテキストフィールド・ラベルを非アクティブにする
+//    if (_lastActiveField) {
+//        int lTag = _lastActiveField.tag;
+//        [_lastActiveField removeFromSuperview];
+//        AuthViewTextField *lastField = (AuthViewTextField*)[self generateAuthTextField:_formLabels[lTag] AtIndex:lTag];
+//        lastField.underLineColor = unActiveColor;
+//        [self.view addSubview:lastField];}
+//    
+    // テキストフィールド・ラベルをアクティブにする
+    int tag = textField.tag;
+    AuthViewTextField *activeField = (AuthViewTextField*)[self generateAuthTextField:_formLabels[tag] AtIndex:tag];
+    activeField.underLineColor = self.view.tintColor;
+    [self.view addSubview:activeField];
+    
+    _lastActiveField = activeField;
 }
 
 #pragma mark - Alert view delegate

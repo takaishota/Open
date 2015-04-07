@@ -10,16 +10,12 @@
 #import "AuthViewTextField.h"
 #import "PopupViewController.h"
 
-@interface AuthViewController () <UITextFieldDelegate>
+@interface AuthViewController () <UITextFieldDelegate, PopupViewDelegate>
 @property (nonatomic) PopupViewController *popupViewController;
 @property (nonatomic) UIButton *btn;
 @end
 
 @implementation AuthViewController {
-    UITextField *_pathField;
-    UITextField *_workgroupField;
-    UITextField *_usernameField;
-    UITextField *_passwordField;
     NSArray *_formLabels;
     NSArray *_userdefaultKeys;
     NSMutableArray *_propertyList;
@@ -95,10 +91,8 @@
 - (void) viewDidAppear:(BOOL)animated {
     AuthViewTextField *firstTf = _fieldsList[0];
     firstTf.underLineColor = self.view.tintColor;
-    [firstTf becomeFirstResponder];
-    
-    self.popupViewController = [PopupViewController new];
-    [self setUpPopoverViewController:self.popupViewController];
+    firstTf.enabled = NO;
+//    [firstTf becomeFirstResponder];
     
     [self setupPopupButton:(UIView*)firstTf];
     
@@ -111,8 +105,28 @@
     [self.view addSubview:self.btn];
     
     // PopupViewControllerをターゲットにする
-    [self.btn addTarget:self.popupViewController action:@selector(showPopover:) forControlEvents:UIControlEventTouchUpInside];
+    [self.btn addTarget:self action:@selector(didPushShowPopupButton) forControlEvents:UIControlEventTouchUpInside];
+}
 
+- (void)didPushShowPopupButton {
+    [self.view endEditing:YES];
+    [self setActiveToField:_fieldsList[0]];
+    
+    self.popupViewController = [PopupViewController new];
+    self.popupViewController.delegate = self;
+    [self setUpPopoverViewController:self.popupViewController];
+    [self.popupViewController showPopupView:CGPointMake(CGRectGetMidX(self.btn.frame), CGRectGetMaxY(self.btn.frame) + 5)];
+    [self setActiveToField:_fieldsList[0]];
+}
+
+- (void) setActiveToField : (UITextField*)textField {
+    // 下線を表示する（削除、再描画？）
+//    AuthViewTextField* tf = (AuthViewTextField*)textField;
+//    tf.underLineColor = self.view.tintColor;
+}
+
+- (void) dismissPopupView {
+    [self removePopupViewControllerController:self.popupViewController];
 }
 
 - (void)setUpPopoverViewController:(UIViewController*)viewController {
@@ -139,18 +153,6 @@
     }
 }
 
-//- (void)setFocusTextFieldSelectedWithPopover {
-//    AuthViewTextField *tf = _fieldsList[0];
-//    tf.underLineColor = self.view.tintColor;
-//    
-//    for (int i = 1; i < [_fieldsList count]-1; i++) {
-//        AuthViewTextField *tf = _fieldsList[i];
-//        tf.underLineColor = INFOCUS_UNDERLINE_COLOR;
-//        [tf resignFirstResponder];
-//    }
-//}
-
-
 const CGFloat _navHeight     = 60;
 const CGFloat _offsetX       = 20;
 const CGFloat _labelInterval = 80;
@@ -175,8 +177,7 @@ const CGFloat _labelInterval = 80;
     AuthViewTextField *formattedTextField = (AuthViewTextField*)[self formatTextFieldStyle:textField];
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     formattedTextField.text = [ud stringForKey:lastValue];
-    
-    formattedTextField.delegate = self;
+
     if ([@"Password" isEqualToString:lastValue]) {
         formattedTextField.secureTextEntry = YES;
     }
@@ -193,17 +194,8 @@ const CGFloat _labelInterval = 80;
 }
 
 - (UITextField*)formatTextFieldStyle:(UITextField*)textField {
-    
-    textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    textField.autocorrectionType     = UITextAutocorrectionTypeNo;
-    textField.spellCheckingType      = UITextSpellCheckingTypeNo;
-    textField.autoresizingMask       = UIViewAutoresizingFlexibleWidth;
-    textField.clearButtonMode        = UITextFieldViewModeWhileEditing;
-    textField.textColor              = _inputTextColor;
-    textField.font                   = [UIFont systemFontOfSize:16];
-    textField.borderStyle            = UITextBorderStyleNone;
     textField.backgroundColor        = _backgroundColor;
-    textField.returnKeyType          = UIReturnKeyNext;
+    textField.textColor              = _inputTextColor;
 
     return textField;
 }
@@ -245,25 +237,10 @@ const CGFloat _labelInterval = 80;
 
 #pragma mark - Text Field Delegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    AuthViewTextField *tf = _fieldsList[0];
-    tf.underLineColor     = INFOCUS_UNDERLINE_COLOR;
-    
-//    UIColor *unActiveColor = [UIColor colorWithRed:0.933 green:0.933 blue:0.933 alpha:1.0];
-//    // 前のテキストフィールド・ラベルを非アクティブにする
-//    if (_lastActiveField) {
-//        int lTag = _lastActiveField.tag;
-//        [_lastActiveField removeFromSuperview];
-//        AuthViewTextField *lastField = (AuthViewTextField*)[self generateAuthTextField:_formLabels[lTag] AtIndex:lTag];
-//        lastField.underLineColor = unActiveColor;
-//        [self.view addSubview:lastField];}
-//    
-    // テキストフィールド・ラベルをアクティブにする
-    int tag = textField.tag;
-    AuthViewTextField *activeField = (AuthViewTextField*)[self generateAuthTextField:_formLabels[tag] AtIndex:tag];
-    activeField.underLineColor = self.view.tintColor;
-    [self.view addSubview:activeField];
-    
-    _lastActiveField = activeField;
+    AuthViewTextField *field = _fieldsList[0];
+    if (textField.tag != field.tag) {
+        field.underLineColor = INFOCUS_UNDERLINE_COLOR;
+    }
 }
 
 #pragma mark - Alert view delegate

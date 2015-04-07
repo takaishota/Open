@@ -7,8 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+@class PopupViewController;
+
+@protocol PopupViewDelegate <NSObject>
+@optional
+- (void) dismissPopupView;
+@end
 
 @interface PopupViewController : UIViewController
-- (void) showPopover : (id)sender;
+@property (nonatomic, weak) id <PopupViewDelegate>delegate;
+- (void) showPopupView : (CGPoint)point;
 - (NSString*)getSelectedServer;
 @end

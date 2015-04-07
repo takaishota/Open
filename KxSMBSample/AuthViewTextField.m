@@ -17,8 +17,21 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
+        [self setTextFieldStyle];
+        
     }
     return self;
+}
+
+- (void)setTextFieldStyle {
+   self.autocapitalizationType = UITextAutocapitalizationTypeNone;
+   self.autocorrectionType     = UITextAutocorrectionTypeNo;
+   self.spellCheckingType      = UITextSpellCheckingTypeNo;
+   self.autoresizingMask       = UIViewAutoresizingFlexibleWidth;
+   self.clearButtonMode        = UITextFieldViewModeWhileEditing;
+   self.font                   = [UIFont systemFontOfSize:16];
+   self.borderStyle            = UITextBorderStyleNone;
+   self.returnKeyType          = UIReturnKeyNext;
 }
 
  -(void)drawRect:(CGRect)rect {
@@ -40,6 +53,7 @@
 
 - (void) setUnderLineColor:(UIColor *)underLineColor {
     _underLineColor = underLineColor;
+    [self setNeedsDisplay];
     if (_underLineColor) {
         CGColorGetComponents([self.underLineColor CGColor]);
     }

@@ -7,6 +7,7 @@
 //
 
 #import "PopupViewController.h"
+#import "AuthViewController.h"
 #import "DXPopover.h"
 #import "Server.h"
 #import "ServerListCell.h"
@@ -55,16 +56,15 @@ static NSString *cellId = @"cellIdentifier";
     _popoverWidth = CGRectGetWidth(self.parentViewController.view.bounds);
 }
 
-- (void)showPopover: (id)sender {
+- (void)showPopupView: (CGPoint)point {
     [self updateTableViewFrame];
-    
-    UIButton *btn = (UIButton*)sender;
-    CGPoint point = CGPointMake(CGRectGetMidX(btn.frame), CGRectGetMaxY(btn.frame) + 5);
     [self.popover showAtPoint:point popoverPostion:DXPopoverPositionDown withContentView:self.tableView inView:self.view];
-
-    __weak typeof(self)weakSelf = self;
-    self.popover.didDismissHandler = ^{
-        [weakSelf bounceTargetView:btn];
+    
+    PopupViewController __weak *tmp = self;
+    tmp.popover.didDismissHandler = ^{
+        if ([self.delegate respondsToSelector:@selector(dismissPopupView)]) {
+            [self.delegate dismissPopupView];
+        }
     };
 }
 
@@ -109,6 +109,10 @@ static NSString *cellId = @"cellIdentifier";
     // 選択中のサーバーを保持する
     _selectedSerever = self.dataLoader[indexPath.row];
     [self.popover dismiss];
+    if ([self.delegate respondsToSelector:@selector(dismissPopupView)]) {
+        [self.delegate dismissPopupView];
+    }
+    
 }
 
 - (void)updateTableViewFrame

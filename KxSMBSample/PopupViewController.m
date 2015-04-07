@@ -103,8 +103,7 @@ static NSString *cellId = @"cellIdentifier";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // テキストフィールドに値をセットする
-    // TODO:parentViewでセットする
+    // TODO:テキストフィールドに値をセットする
     
     // 選択中のサーバーを保持する
     _selectedSerever = self.dataLoader[indexPath.row];

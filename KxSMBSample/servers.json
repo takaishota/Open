@@ -1,0 +1,24 @@
+{
+    "servers":[
+        {
+            "ip":"172.17.18.230",
+            "server-name":"TSUBAKI",
+            "network-type":"LAN"
+        },
+       {
+           "ip":"172.17.18.230",
+           "server-name":"S-TAKAI",
+           "network-type":"LAN"
+       },
+       {
+           "ip":"192.17.18.230",
+           "server-name":"TEST",
+           "network-type":"PUBLIC"
+       },
+       {
+           "ip":"192.17.18.230",
+           "server-name":"DROPBOX",
+           "network-type":"CLOUD"
+       }
+    ]
+}

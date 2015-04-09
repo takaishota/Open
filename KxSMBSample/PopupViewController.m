@@ -8,6 +8,7 @@
 
 #import "PopupViewController.h"
 #import "AuthViewController.h"
+#import "DataLoader.h"
 #import "DXPopover.h"
 #import "Server.h"
 #import "ServerListCell.h"
@@ -15,8 +16,8 @@
 @interface PopupViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic) UITableView *tableView;
 @property (nonatomic) DXPopover *popover;
-@property (nonatomic) NSArray *dataLoader;
-@property (nonatomic) NSArray *icons;
+@property (nonatomic) DataLoader *dataLoader;
+@property (nonatomic) Server *selectedServer;
 @end
 
 @implementation PopupViewController {
@@ -31,18 +32,17 @@
 }
 
 - (void) setupServerList {
-    UITableView *serverListView = [[UITableView alloc] init];
-    serverListView.frame        = CGRectMake(0, 0, _popoverWidth, 160);
-    serverListView.dataSource   = self;
-    serverListView.delegate     = self;
-    self.tableView = serverListView;
-    self.tableView.rowHeight = 50;
+    self.dataLoader = [[DataLoader alloc] initWithJSONFile:@"servers.json"];
+    
+    UITableView *serverListView    = [[UITableView alloc] init];
+    serverListView.frame           = CGRectMake(0, 0, _popoverWidth, 160);
+    serverListView.dataSource      = self;
+    serverListView.delegate        = self;
+    self.tableView                 = serverListView;
+    self.tableView.rowHeight       = 50;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableView registerClass:[ServerListCell class] forCellReuseIdentifier:cellId];
     [self resetPopover];
-    
-    self.dataLoader = @[@"172.17.18.230", @"172.17.18.240", @"172.17.18.250"];
-    self.icons = @[@"cloud.png", @"public.png", @"mac.png"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,7 +75,7 @@ static NSString *cellId = @"cellIdentifier";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataLoader.count;
+    return  self.dataLoader.serverList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -90,12 +90,21 @@ static NSString *cellId = @"cellIdentifier";
         cell.layoutMargins = UIEdgeInsetsZero;
     }
     
-    cell.textLabel.text = self.dataLoader[indexPath.row];
-    if ([_selectedSerever.ip isEqual:self.dataLoader[indexPath.row]]) {
+    Server *server = self.dataLoader.serverList[indexPath.row];
+    
+    cell.textLabel.text = server.ip;
+    if ([_selectedSerever.ip isEqualToString:server.ip]) {
         cell.textLabel.textColor = self.view.tintColor;
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
-    UIImage *img = [UIImage imageNamed:self.icons[indexPath.row]];
+    UIImage *img;
+    if ([server.networkType isEqualToString:@"LAN"]) {
+        img = [UIImage imageNamed:@"mac.png"];
+    } else if ([server.networkType isEqualToString:@"CLOUD"]) {
+        img = [UIImage imageNamed:@"cloud.png"];
+    } else if ([server.networkType isEqualToString:@"PUBLIC"]) {
+        img = [UIImage imageNamed:@"public.png"];
+    }
     cell.imageView.image = img;
     
     return cell;
@@ -106,7 +115,7 @@ static NSString *cellId = @"cellIdentifier";
     // TODO:テキストフィールドに値をセットする
     
     // 選択中のサーバーを保持する
-    _selectedSerever = self.dataLoader[indexPath.row];
+    _selectedSerever = self.dataLoader.serverList[indexPath.row];
     [self.popover dismiss];
     if ([self.delegate respondsToSelector:@selector(dismissPopupView)]) {
         [self.delegate dismissPopupView];

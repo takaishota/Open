@@ -11,6 +11,7 @@
 		1F1669231AC54EF100182F93 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F1669221AC54EF100182F93 /* right.png */; };
 		1F2F50511AC3A46A00E43763 /* LocalFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2F50501AC3A46A00E43763 /* LocalFileViewController.m */; };
 		1F2F50551AC3B40A00E43763 /* FileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2F50541AC3B40A00E43763 /* FileUtility.m */; };
+		1F3924811AD507DC00FF9564 /* servers.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F39247F1AD507DC00FF9564 /* servers.json */; };
 		1F3C5B561ABBE94200DCFFED /* AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C5B531ABBE94200DCFFED /* AuthViewController.m */; };
 		1F3C5B571ABBE94200DCFFED /* AuthViewTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C5B551ABBE94200DCFFED /* AuthViewTextField.m */; };
 		1F3C5B5D1ABC067500DCFFED /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C5B5C1ABC067500DCFFED /* RootViewController.m */; };
@@ -28,6 +29,9 @@
 		1F80BAF91AD222B900D6F669 /* Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F80BAF81AD222B900D6F669 /* Server.m */; };
 		1F80BAFC1AD223E400D6F669 /* ServerListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F80BAFB1AD223E400D6F669 /* ServerListCell.m */; };
 		1F80BB021AD24E2A00D6F669 /* PopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F80BB011AD24E2A00D6F669 /* PopupViewController.m */; };
+		1FB578F71AD6133000924C9C /* NSDictionary+SafeValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB578F61AD6133000924C9C /* NSDictionary+SafeValue.m */; };
+		1FE188AC1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE188AB1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m */; };
+		1FE363471AD3BC6F0062ECBB /* DataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE363461AD3BC6F0062ECBB /* DataLoader.m */; };
 		1FE7C0F91AC8E6D000D2B683 /* LeftBarButtonImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7C0F81AC8E6D000D2B683 /* LeftBarButtonImage.m */; };
 		87085F8D1705D46C009CD258 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F8C1705D46C009CD258 /* UIKit.framework */; };
 		87085F8F1705D46C009CD258 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F8E1705D46C009CD258 /* Foundation.framework */; };
@@ -72,6 +76,7 @@
 		1F2F50501AC3A46A00E43763 /* LocalFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFileViewController.m; sourceTree = "<group>"; };
 		1F2F50531AC3B40A00E43763 /* FileUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtility.h; sourceTree = "<group>"; };
 		1F2F50541AC3B40A00E43763 /* FileUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtility.m; sourceTree = "<group>"; };
+		1F39247F1AD507DC00FF9564 /* servers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = servers.json; sourceTree = "<group>"; };
 		1F3C5B521ABBE94200DCFFED /* AuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthViewController.h; sourceTree = "<group>"; };
 		1F3C5B531ABBE94200DCFFED /* AuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthViewController.m; sourceTree = "<group>"; };
 		1F3C5B541ABBE94200DCFFED /* AuthViewTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthViewTextField.h; sourceTree = "<group>"; };
@@ -96,6 +101,12 @@
 		1F80BAFB1AD223E400D6F669 /* ServerListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerListCell.m; sourceTree = "<group>"; };
 		1F80BB001AD24E2A00D6F669 /* PopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupViewController.h; sourceTree = "<group>"; };
 		1F80BB011AD24E2A00D6F669 /* PopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupViewController.m; sourceTree = "<group>"; };
+		1FB578F51AD6133000924C9C /* NSDictionary+SafeValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SafeValue.h"; sourceTree = "<group>"; };
+		1FB578F61AD6133000924C9C /* NSDictionary+SafeValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SafeValue.m"; sourceTree = "<group>"; };
+		1FE188AA1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSJSONSerialization+JSONFile.h"; sourceTree = "<group>"; };
+		1FE188AB1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSJSONSerialization+JSONFile.m"; sourceTree = "<group>"; };
+		1FE363451AD3BC6F0062ECBB /* DataLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataLoader.h; sourceTree = "<group>"; };
+		1FE363461AD3BC6F0062ECBB /* DataLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataLoader.m; sourceTree = "<group>"; };
 		1FE7C0F71AC8E6D000D2B683 /* LeftBarButtonImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftBarButtonImage.h; sourceTree = "<group>"; };
 		1FE7C0F81AC8E6D000D2B683 /* LeftBarButtonImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftBarButtonImage.m; sourceTree = "<group>"; };
 		87085F891705D46C009CD258 /* SMBFileReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SMBFileReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,18 +176,8 @@
 		1F16691E1AC4EC0900182F93 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				1F80BAE61AD2221E00D6F669 /* bookmark.png */,
-				1F80BAE71AD2221E00D6F669 /* check.png */,
-				1F80BAE81AD2221E00D6F669 /* cloud.png */,
-				1F80BAE91AD2221E00D6F669 /* mac.png */,
-				1F80BAEA1AD2221E00D6F669 /* public.png */,
-				1F80BAEB1AD2221E00D6F669 /* refresh.png */,
-				1F80BAEC1AD2221E00D6F669 /* settings.png */,
-				1F80BAED1AD2221E00D6F669 /* windows.png */,
-				1F570E321ACA8ECF00447727 /* file.png */,
-				1F570E301ACA8EA600447727 /* folder.png */,
-				1F16691C1AC4EC0100182F93 /* left.png */,
-				1F1669221AC54EF100182F93 /* right.png */,
+				1F39247E1AD5077F00FF9564 /* JSON */,
+				1F39247D1AD5074F00FF9564 /* images */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -247,6 +248,42 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		1F39247D1AD5074F00FF9564 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				1F80BAE61AD2221E00D6F669 /* bookmark.png */,
+				1F80BAE71AD2221E00D6F669 /* check.png */,
+				1F80BAE81AD2221E00D6F669 /* cloud.png */,
+				1F80BAE91AD2221E00D6F669 /* mac.png */,
+				1F80BAEA1AD2221E00D6F669 /* public.png */,
+				1F80BAEB1AD2221E00D6F669 /* refresh.png */,
+				1F80BAEC1AD2221E00D6F669 /* settings.png */,
+				1F80BAED1AD2221E00D6F669 /* windows.png */,
+				1F570E321ACA8ECF00447727 /* file.png */,
+				1F570E301ACA8EA600447727 /* folder.png */,
+				1F16691C1AC4EC0100182F93 /* left.png */,
+				1F1669221AC54EF100182F93 /* right.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		1F39247E1AD5077F00FF9564 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				1F39247F1AD507DC00FF9564 /* servers.json */,
+			);
+			name = JSON;
+			sourceTree = "<group>";
+		};
+		1F3924831AD5153900FF9564 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				87085F9B1705D46C009CD258 /* AppDelegate.h */,
+				87085F9C1705D46C009CD258 /* AppDelegate.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
 		1F6290091ACE1114009CF4E3 /* DXPopover */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +300,17 @@
 				1F80BAF81AD222B900D6F669 /* Server.m */,
 			);
 			name = Entity;
+			sourceTree = "<group>";
+		};
+		1FE188A91AD528560086BE57 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				1FE188AA1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.h */,
+				1FE188AB1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m */,
+				1FB578F51AD6133000924C9C /* NSDictionary+SafeValue.h */,
+				1FB578F61AD6133000924C9C /* NSDictionary+SafeValue.m */,
+			);
+			name = Helper;
 			sourceTree = "<group>";
 		};
 		87085F801705D46B009CD258 = {
@@ -302,14 +350,16 @@
 		87085F921705D46C009CD258 /* SMBFileReader */ = {
 			isa = PBXGroup;
 			children = (
+				1F3924831AD5153900FF9564 /* AppDelegate */,
 				1F80BAF61AD222A800D6F669 /* Entity */,
+				1FE188A91AD528560086BE57 /* Helper */,
 				1F16691E1AC4EC0900182F93 /* Resource */,
-				87085F9B1705D46C009CD258 /* AppDelegate.h */,
-				87085F9C1705D46C009CD258 /* AppDelegate.m */,
 				1F2F50571AC3B92200E43763 /* Utility */,
 				1F2F50521AC3A4DF00E43763 /* ViewController */,
 				1F2F505A1AC3B97900E43763 /* View */,
 				87085F931705D46C009CD258 /* Supporting Files */,
+				1FE363451AD3BC6F0062ECBB /* DataLoader.h */,
+				1FE363461AD3BC6F0062ECBB /* DataLoader.m */,
 			);
 			name = SMBFileReader;
 			path = KxSMBSample;
@@ -442,6 +492,7 @@
 				1F80BAF51AD2221E00D6F669 /* windows.png in Resources */,
 				1F570E311ACA8EA600447727 /* folder.png in Resources */,
 				1F80BAF21AD2221E00D6F669 /* public.png in Resources */,
+				1F3924811AD507DC00FF9564 /* servers.json in Resources */,
 				1F80BAEF1AD2221E00D6F669 /* check.png in Resources */,
 				87085FA11705D46C009CD258 /* Default@2x.png in Resources */,
 				1F570E331ACA8ECF00447727 /* file.png in Resources */,
@@ -459,11 +510,14 @@
 				1F80BAFC1AD223E400D6F669 /* ServerListCell.m in Sources */,
 				87085F991705D46C009CD258 /* main.m in Sources */,
 				1F80BB021AD24E2A00D6F669 /* PopupViewController.m in Sources */,
+				1FB578F71AD6133000924C9C /* NSDictionary+SafeValue.m in Sources */,
 				1F80BAF91AD222B900D6F669 /* Server.m in Sources */,
 				1F3C5B561ABBE94200DCFFED /* AuthViewController.m in Sources */,
 				1F2F50551AC3B40A00E43763 /* FileUtility.m in Sources */,
 				87085F9D1705D46C009CD258 /* AppDelegate.m in Sources */,
 				87085FB41705D494009CD258 /* KxSMBProvider.m in Sources */,
+				1FE188AC1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m in Sources */,
+				1FE363471AD3BC6F0062ECBB /* DataLoader.m in Sources */,
 				1F62900C1ACE1114009CF4E3 /* DXPopover.m in Sources */,
 				1F3C5B571ABBE94200DCFFED /* AuthViewTextField.m in Sources */,
 				1F3C5B5D1ABC067500DCFFED /* RootViewController.m in Sources */,

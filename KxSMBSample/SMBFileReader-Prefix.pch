@@ -21,6 +21,8 @@
 #endif
 
 #define INFOCUS_UNDERLINE_COLOR [UIColor colorWithRed:0.933 green:0.933 blue:0.933 alpha:1.0]
+#define TOP_BACKGROUND_COLOR [UIColor colorWithRed:0.01 green:0.66 blue:0.96 alpha:1.0]
+#define ACCENT_COLOR [UIColor colorWithRed:1.0 green:0.25 blue:0.50 alpha:1.0]
 
 // XCode Plugin
 #define XCODE_COLORS_ESCAPE @"\033["
@@ -29,3 +31,11 @@
 #define XCODE_COLORS_RESET     XCODE_COLORS_ESCAPE @";"   // Clear any foreground or background color
 #define LogBlue(frmt, ...) NSLog((XCODE_COLORS_ESCAPE @"fg0,0,255;" frmt XCODE_COLORS_RESET), ##__VA_ARGS__)
 #define LogRed(frmt, ...) NSLog((XCODE_COLORS_ESCAPE @"fg255,0,0;" frmt XCODE_COLORS_RESET), ##__VA_ARGS__)
+
+// From here to end of file added by Injection Plugin //
+
+#ifdef DEBUG
+#define INJECTION_ENABLED
+#endif
+
+#import "/Users/s-takai/Library/Application Support/Developer/Shared/Xcode/Plug-ins/InjectionPlugin.xcplugin/Contents/Resources/BundleInterface.h"

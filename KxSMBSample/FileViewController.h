@@ -19,4 +19,5 @@
 @property (readwrite, nonatomic, strong) KxSMBItemFile* smbFile;
 @property (nonatomic) UIBarButtonItem *treeViewToggleButton;
 @property (nonatomic) UISplitViewController *splitViewController;
+@property (nonatomic) BOOL isLogin;
 @end

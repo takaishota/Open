@@ -38,6 +38,8 @@
 
 #define BACKGROUND_COLOR [UIColor WhiteColor]
 
+#pragma mark - Lifecycle
+
 - (void)loadView {
     _backgroundColor = [UIColor whiteColor];
     
@@ -98,35 +100,31 @@
     
 }
 
+#pragma mark - Private
+
 - (void)setupPopupButton:(UIView*)superView {
     self.btn =[UIButton buttonWithType:UIButtonTypeCustom];
     self.btn.frame = superView.frame;
     self.btn.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.btn];
     
-    // PopupViewControllerをターゲットにする
     [self.btn addTarget:self action:@selector(didPushShowPopupButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
 - (void)didPushShowPopupButton {
     [self.view endEditing:YES];
-    [self setActiveToField:_fieldsList[0]];
     
     self.popupViewController = [PopupViewController new];
     self.popupViewController.delegate = self;
     [self setUpPopoverViewController:self.popupViewController];
     [self.popupViewController showPopupView:CGPointMake(CGRectGetMidX(self.btn.frame), CGRectGetMaxY(self.btn.frame) + 5)];
-    [self setActiveToField:_fieldsList[0]];
-}
-
-- (void) setActiveToField : (UITextField*)textField {
-    // 下線を表示する（削除、再描画？）
-//    AuthViewTextField* tf = (AuthViewTextField*)textField;
-//    tf.underLineColor = self.view.tintColor;
 }
 
 - (void) dismissPopupView {
-    [self removePopupViewControllerController:self.popupViewController];
+    [self removePopupViewController:self.popupViewController];
 }
 
 - (void)setUpPopoverViewController:(UIViewController*)viewController {
@@ -135,12 +133,15 @@
     [viewController didMoveToParentViewController:self];
 }
 
-- (void)removePopupViewControllerController:(UIViewController*)viewController
+- (void)removePopupViewController:(UIViewController*)viewController
 {
     [viewController willMoveToParentViewController:nil];
     [viewController.view removeFromSuperview];
     [viewController removeFromParentViewController];
 }
+
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
 
 - (void) setupformItems {
     for (int i = 0; i < [_formLabels count]; i++) {
@@ -198,6 +199,11 @@ const CGFloat _labelInterval = 80;
     textField.textColor              = _inputTextColor;
 
     return textField;
+}
+
+#pragma mark - Environment Changes
+- (void) willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super willTransitionToTraitCollection:newCollection withTransitionCoordinator:coordinator];
 }
 
 #pragma mark - Button Event Handler

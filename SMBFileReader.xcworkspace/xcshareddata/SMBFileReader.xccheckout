@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>FBAA6031-8431-4CC0-B73B-052DE7B28E07</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SMBFileReader</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>147CDB18C6FC4B4028712A9A70B3BA22B27C111B</key>
+		<string>http://172.18.12.20/gitbucket/git/s-takai/SMBFIleReader.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SMBFileReader.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>147CDB18C6FC4B4028712A9A70B3BA22B27C111B</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>http://172.18.12.20/gitbucket/git/s-takai/SMBFIleReader.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>147CDB18C6FC4B4028712A9A70B3BA22B27C111B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>147CDB18C6FC4B4028712A9A70B3BA22B27C111B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SMBFileReader</string>
+		</dict>
+	</array>
+</dict>
+</plist>

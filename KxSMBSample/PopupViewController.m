@@ -56,10 +56,9 @@ static NSString *cellId = @"cellIdentifier";
     _popoverWidth = CGRectGetWidth(self.parentViewController.view.bounds);
 }
 
-- (void)showPopupView: (CGPoint)point {
+- (void)showPopupView:(CGPoint)point {
     [self updateTableViewFrame];
     [self.popover showAtPoint:point popoverPostion:DXPopoverPositionDown withContentView:self.tableView inView:self.view];
-    
     PopupViewController __weak *tmp = self;
     tmp.popover.didDismissHandler = ^{
         if ([self.delegate respondsToSelector:@selector(dismissPopupView)]) {

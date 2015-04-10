@@ -15,6 +15,7 @@
 		1F3C5B561ABBE94200DCFFED /* AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C5B531ABBE94200DCFFED /* AuthViewController.m */; };
 		1F3C5B571ABBE94200DCFFED /* AuthViewTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C5B551ABBE94200DCFFED /* AuthViewTextField.m */; };
 		1F3C5B5D1ABC067500DCFFED /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F3C5B5C1ABC067500DCFFED /* RootViewController.m */; };
+		1F5264AF1AD770CE0067BE81 /* MLPSpotlight.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F5264AE1AD770CE0067BE81 /* MLPSpotlight.m */; };
 		1F570E311ACA8EA600447727 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F570E301ACA8EA600447727 /* folder.png */; };
 		1F570E331ACA8ECF00447727 /* file.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F570E321ACA8ECF00447727 /* file.png */; };
 		1F62900C1ACE1114009CF4E3 /* DXPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F62900B1ACE1114009CF4E3 /* DXPopover.m */; };
@@ -30,6 +31,7 @@
 		1F80BAFC1AD223E400D6F669 /* ServerListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F80BAFB1AD223E400D6F669 /* ServerListCell.m */; };
 		1F80BB021AD24E2A00D6F669 /* PopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F80BB011AD24E2A00D6F669 /* PopupViewController.m */; };
 		1FB578F71AD6133000924C9C /* NSDictionary+SafeValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB578F61AD6133000924C9C /* NSDictionary+SafeValue.m */; };
+		1FB578FE1AD6603C00924C9C /* TopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB578FD1AD6603C00924C9C /* TopViewController.m */; };
 		1FE188AC1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE188AB1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m */; };
 		1FE363471AD3BC6F0062ECBB /* DataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE363461AD3BC6F0062ECBB /* DataLoader.m */; };
 		1FE7C0F91AC8E6D000D2B683 /* LeftBarButtonImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7C0F81AC8E6D000D2B683 /* LeftBarButtonImage.m */; };
@@ -83,6 +85,8 @@
 		1F3C5B551ABBE94200DCFFED /* AuthViewTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthViewTextField.m; sourceTree = "<group>"; };
 		1F3C5B5B1ABC067500DCFFED /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		1F3C5B5C1ABC067500DCFFED /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		1F5264AD1AD770CE0067BE81 /* MLPSpotlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPSpotlight.h; sourceTree = "<group>"; };
+		1F5264AE1AD770CE0067BE81 /* MLPSpotlight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPSpotlight.m; sourceTree = "<group>"; };
 		1F570E301ACA8EA600447727 /* folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = folder.png; sourceTree = "<group>"; };
 		1F570E321ACA8ECF00447727 /* file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = file.png; sourceTree = "<group>"; };
 		1F62900A1ACE1114009CF4E3 /* DXPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXPopover.h; sourceTree = "<group>"; };
@@ -103,6 +107,8 @@
 		1F80BB011AD24E2A00D6F669 /* PopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupViewController.m; sourceTree = "<group>"; };
 		1FB578F51AD6133000924C9C /* NSDictionary+SafeValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SafeValue.h"; sourceTree = "<group>"; };
 		1FB578F61AD6133000924C9C /* NSDictionary+SafeValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SafeValue.m"; sourceTree = "<group>"; };
+		1FB578FC1AD6603C00924C9C /* TopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopViewController.h; sourceTree = "<group>"; };
+		1FB578FD1AD6603C00924C9C /* TopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopViewController.m; sourceTree = "<group>"; };
 		1FE188AA1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSJSONSerialization+JSONFile.h"; sourceTree = "<group>"; };
 		1FE188AB1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSJSONSerialization+JSONFile.m"; sourceTree = "<group>"; };
 		1FE363451AD3BC6F0062ECBB /* DataLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataLoader.h; sourceTree = "<group>"; };
@@ -187,6 +193,8 @@
 			children = (
 				1F2F50591AC3B94A00E43763 /* detail */,
 				1F2F50581AC3B93F00E43763 /* master */,
+				1FB578FC1AD6603C00924C9C /* TopViewController.h */,
+				1FB578FD1AD6603C00924C9C /* TopViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -282,6 +290,15 @@
 				87085F9C1705D46C009CD258 /* AppDelegate.m */,
 			);
 			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		1F5264AC1AD770CE0067BE81 /* MLPSpotlight */ = {
+			isa = PBXGroup;
+			children = (
+				1F5264AD1AD770CE0067BE81 /* MLPSpotlight.h */,
+				1F5264AE1AD770CE0067BE81 /* MLPSpotlight.m */,
+			);
+			path = MLPSpotlight;
 			sourceTree = "<group>";
 		};
 		1F6290091ACE1114009CF4E3 /* DXPopover */ = {
@@ -382,6 +399,7 @@
 		87085FBE1705D4BE009CD258 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				1F5264AC1AD770CE0067BE81 /* MLPSpotlight */,
 				1F6290091ACE1114009CF4E3 /* DXPopover */,
 				871CC5591774491A00EDD76D /* talloc_stack.h */,
 				871CC5581774489A00EDD76D /* talloc.h */,
@@ -515,9 +533,11 @@
 				1F3C5B561ABBE94200DCFFED /* AuthViewController.m in Sources */,
 				1F2F50551AC3B40A00E43763 /* FileUtility.m in Sources */,
 				87085F9D1705D46C009CD258 /* AppDelegate.m in Sources */,
+				1F5264AF1AD770CE0067BE81 /* MLPSpotlight.m in Sources */,
 				87085FB41705D494009CD258 /* KxSMBProvider.m in Sources */,
 				1FE188AC1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m in Sources */,
 				1FE363471AD3BC6F0062ECBB /* DataLoader.m in Sources */,
+				1FB578FE1AD6603C00924C9C /* TopViewController.m in Sources */,
 				1F62900C1ACE1114009CF4E3 /* DXPopover.m in Sources */,
 				1F3C5B571ABBE94200DCFFED /* AuthViewTextField.m in Sources */,
 				1F3C5B5D1ABC067500DCFFED /* RootViewController.m in Sources */,
@@ -612,6 +632,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KxSMBSample/SMBFileReader-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libs\"";
@@ -632,6 +653,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KxSMBSample/SMBFileReader-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libs\"";

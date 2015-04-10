@@ -11,9 +11,11 @@
 #import "FileUtility.h"
 #import "KxSMBProvider.h"
 #import "LeftBarButtonImage.h"
+#import "TopViewController.h"
 #import "TreeViewController.h"
 
-@interface FileViewController () <UISplitViewControllerDelegate>
+@interface FileViewController () <UISplitViewControllerDelegate, TopViewControllerDelegate>
+@property (nonatomic) TopViewController *topViewController;
 @end
 
 @implementation FileViewController {
@@ -33,6 +35,7 @@
 {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
+        _isLogin = NO;
     }
     return self;
 }
@@ -41,6 +44,8 @@
 {
     [self closeFiles];
 }
+
+#pragma mark - Lifecycle
 
 - (void) loadView
 {
@@ -85,20 +90,30 @@
 }
 - (void) viewWillDisappear:(BOOL)animated
 {
-    [super viewWillDisappear:animated];    
-    //[self closeFiles];
+    [super viewWillDisappear:animated];
 }
+
+- (void) viewDidAppear:(BOOL)animated {
+    if (self.isLogin) {
+        self.topViewController = [TopViewController new];
+        self.topViewController.delegate = self;
+        self.topViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:self.topViewController animated:YES completion:nil];
+    }
+}
+
 const static CGFloat masterViewWidth = 320.0f;
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     CGRect windowSize = [[UIScreen mainScreen] bounds];
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-        LogRed(@"%f", windowSize.size.height - masterViewWidth);
         _webView.frame = CGRectMake(0, _webView.frame.origin.y, windowSize.size.height - masterViewWidth, windowSize.size.width);
     }else {
         _webView.frame = CGRectMake(0, _webView.frame.origin.y, windowSize.size.width, windowSize.size.height);
     }
 }
+
+#pragma mark - Private
 
 - (void)updateLeftBarButtonItem {
     UIImage *btnImg = [[LeftBarButtonImage alloc] initWithTreeViewStatus:_treeViewIsHidden];
@@ -316,6 +331,11 @@ const static CGFloat masterViewWidth = 320.0f;
     }];
 }
 
+#pragma mark - TopViewControllerDelegate
+- (void) dismissTopViewController {
+    self.isLogin = YES;
+}
+
 #pragma mark - split view delegate
 // 縦向きになるときに呼ばれる
 - (void)splitViewController:(UISplitViewController *)svc
@@ -323,7 +343,6 @@ const static CGFloat masterViewWidth = 320.0f;
           withBarButtonItem:(UIBarButtonItem *)barButtonItem
        forPopoverController:(UIPopoverController *)pc
 {
-    NSLog(@"parentViewController:%@", self.parentViewController);
     _treeViewIsHidden = YES;
     [self updateLeftBarButtonItem];
     _barButtonItem = barButtonItem;
@@ -348,11 +367,11 @@ const static CGFloat masterViewWidth = 320.0f;
 }
 
 - (BOOL) splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation {
-    if (UIInterfaceOrientationIsLandscape(orientation)) {
+//    if (UIInterfaceOrientationIsLandscape(orientation)) {
         return NO;
-    }else {
-        return YES;
-    }
+//    }else {
+//        return YES;
+//    }
 }
 
 - (void)popupControllButtonDidPushed {

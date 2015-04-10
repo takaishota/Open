@@ -1,0 +1,2 @@
+/Users/s-takai/Library/Developer/Xcode/DerivedData/SMBFileReader-gcnyviiiwdailfebhwntjmtutzkx/Build/Products/Debug-iphonesimulator/SMBFileReader.app
+

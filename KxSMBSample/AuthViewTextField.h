@@ -9,4 +9,6 @@
 
 @interface AuthViewTextField : UITextField
 @property (nonatomic) UIColor *underLineColor;
+@property (nonatomic) CGFloat lineWidth;
+- (void)setTextFieldStyle;
 @end

@@ -41,7 +41,7 @@
      const CGFloat *colorComponents;
      if (self.underLineColor) {
          colorComponents = CGColorGetComponents([self.underLineColor CGColor]);
-     } else {
+     } else {   
          colorComponents = CGColorGetComponents([INFOCUS_UNDERLINE_COLOR CGColor]);
      }
      CGContextSetRGBStrokeColor(ctx, colorComponents[0], colorComponents[1], colorComponents[2], 1.0);
@@ -57,6 +57,11 @@
     if (_underLineColor) {
         CGColorGetComponents([self.underLineColor CGColor]);
     }
+    [self setNeedsDisplay];
+}
+
+- (void) setLineWidth:(CGFloat)lineWidth {
+    _lineWidth = lineWidth;
     [self setNeedsDisplay];
 }
 

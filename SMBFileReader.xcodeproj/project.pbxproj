@@ -35,6 +35,8 @@
 		1FE188AC1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE188AB1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m */; };
 		1FE363471AD3BC6F0062ECBB /* DataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE363461AD3BC6F0062ECBB /* DataLoader.m */; };
 		1FE7C0F91AC8E6D000D2B683 /* LeftBarButtonImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7C0F81AC8E6D000D2B683 /* LeftBarButtonImage.m */; };
+		3D4F15DA1ADA8C6A00083E9F /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4F15D91ADA8C6A00083E9F /* LoginViewController.m */; };
+		3D4F15DD1ADA9A5600083E9F /* LoginStatusManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4F15DC1ADA9A5600083E9F /* LoginStatusManager.m */; };
 		87085F8D1705D46C009CD258 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F8C1705D46C009CD258 /* UIKit.framework */; };
 		87085F8F1705D46C009CD258 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F8E1705D46C009CD258 /* Foundation.framework */; };
 		87085F911705D46C009CD258 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F901705D46C009CD258 /* CoreGraphics.framework */; };
@@ -115,6 +117,10 @@
 		1FE363461AD3BC6F0062ECBB /* DataLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataLoader.m; sourceTree = "<group>"; };
 		1FE7C0F71AC8E6D000D2B683 /* LeftBarButtonImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftBarButtonImage.h; sourceTree = "<group>"; };
 		1FE7C0F81AC8E6D000D2B683 /* LeftBarButtonImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftBarButtonImage.m; sourceTree = "<group>"; };
+		3D4F15D81ADA8C6A00083E9F /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		3D4F15D91ADA8C6A00083E9F /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		3D4F15DB1ADA9A5600083E9F /* LoginStatusManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginStatusManager.h; sourceTree = "<group>"; };
+		3D4F15DC1ADA9A5600083E9F /* LoginStatusManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginStatusManager.m; sourceTree = "<group>"; };
 		87085F891705D46C009CD258 /* SMBFileReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SMBFileReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87085F8C1705D46C009CD258 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		87085F8E1705D46C009CD258 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -191,10 +197,9 @@
 		1F2F50521AC3A4DF00E43763 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				3D4F15D71ADA8BAA00083E9F /* Top */,
 				1F2F50591AC3B94A00E43763 /* detail */,
 				1F2F50581AC3B93F00E43763 /* master */,
-				1FB578FC1AD6603C00924C9C /* TopViewController.h */,
-				1FB578FD1AD6603C00924C9C /* TopViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -330,6 +335,35 @@
 			name = Helper;
 			sourceTree = "<group>";
 		};
+		3D4F15D71ADA8BAA00083E9F /* Top */ = {
+			isa = PBXGroup;
+			children = (
+				1FB578FC1AD6603C00924C9C /* TopViewController.h */,
+				1FB578FD1AD6603C00924C9C /* TopViewController.m */,
+				3D4F15D81ADA8C6A00083E9F /* LoginViewController.h */,
+				3D4F15D91ADA8C6A00083E9F /* LoginViewController.m */,
+			);
+			name = Top;
+			sourceTree = "<group>";
+		};
+		3D4F15DE1ADAA22300083E9F /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				3D4F15DB1ADA9A5600083E9F /* LoginStatusManager.h */,
+				3D4F15DC1ADA9A5600083E9F /* LoginStatusManager.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		3D4F15DF1ADAA28200083E9F /* DataLoader */ = {
+			isa = PBXGroup;
+			children = (
+				1FE363451AD3BC6F0062ECBB /* DataLoader.h */,
+				1FE363461AD3BC6F0062ECBB /* DataLoader.m */,
+			);
+			name = DataLoader;
+			sourceTree = "<group>";
+		};
 		87085F801705D46B009CD258 = {
 			isa = PBXGroup;
 			children = (
@@ -368,15 +402,15 @@
 			isa = PBXGroup;
 			children = (
 				1F3924831AD5153900FF9564 /* AppDelegate */,
+				3D4F15DF1ADAA28200083E9F /* DataLoader */,
 				1F80BAF61AD222A800D6F669 /* Entity */,
 				1FE188A91AD528560086BE57 /* Helper */,
+				3D4F15DE1ADAA22300083E9F /* Login */,
 				1F16691E1AC4EC0900182F93 /* Resource */,
 				1F2F50571AC3B92200E43763 /* Utility */,
 				1F2F50521AC3A4DF00E43763 /* ViewController */,
 				1F2F505A1AC3B97900E43763 /* View */,
 				87085F931705D46C009CD258 /* Supporting Files */,
-				1FE363451AD3BC6F0062ECBB /* DataLoader.h */,
-				1FE363461AD3BC6F0062ECBB /* DataLoader.m */,
 			);
 			name = SMBFileReader;
 			path = KxSMBSample;
@@ -534,6 +568,7 @@
 				1F2F50551AC3B40A00E43763 /* FileUtility.m in Sources */,
 				87085F9D1705D46C009CD258 /* AppDelegate.m in Sources */,
 				1F5264AF1AD770CE0067BE81 /* MLPSpotlight.m in Sources */,
+				3D4F15DD1ADA9A5600083E9F /* LoginStatusManager.m in Sources */,
 				87085FB41705D494009CD258 /* KxSMBProvider.m in Sources */,
 				1FE188AC1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m in Sources */,
 				1FE363471AD3BC6F0062ECBB /* DataLoader.m in Sources */,
@@ -543,6 +578,7 @@
 				1F3C5B5D1ABC067500DCFFED /* RootViewController.m in Sources */,
 				1F2F50511AC3A46A00E43763 /* LocalFileViewController.m in Sources */,
 				87085FBB1705D4AB009CD258 /* FileViewController.m in Sources */,
+				3D4F15DA1ADA8C6A00083E9F /* LoginViewController.m in Sources */,
 				87085FBD1705D4AB009CD258 /* TreeViewController.m in Sources */,
 				1FE7C0F91AC8E6D000D2B683 /* LeftBarButtonImage.m in Sources */,
 			);

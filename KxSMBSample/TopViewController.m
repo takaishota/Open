@@ -7,13 +7,16 @@
 
 #import "TopViewController.h"
 #import "AuthViewTextField.h"
+#import "LoginViewController.h"
+#import "LoginStatusManager.h"
 #import "MLPSpotlight.h"
 #import "PopupViewController.h"
 
 @interface TopViewController () <UITextFieldDelegate, PopupViewDelegate>
 @property (nonatomic) PopupViewController *popupViewController;
 @property (nonatomic) UIButton *btn;
-@property (nonatomic) UILabel *spotlightLabel;
+@property (nonatomic) UILabel *appNameLabel;
+@property (nonatomic) UILabel *descriptionLabel;
 @end
 
 @implementation TopViewController
@@ -40,104 +43,96 @@
                          [self.view setAlpha:1.0];
                      }completion:nil];
     
-    const CGFloat labelWidth = 400;
+    const CGFloat labelWidth = 144;
     const CGFloat labelHeight = 100;
+    const CGFloat labelX = [[UIScreen mainScreen] bounds].size.width/2- labelWidth/2;
+    const CGFloat labelY = [[UIScreen mainScreen] bounds].size.height/2 - labelHeight/2 - 160;
     
-    self.spotlightLabel = [[UILabel alloc]initWithFrame:CGRectMake([[UIScreen mainScreen] bounds].size.width/2- labelWidth/2,
-                                                                  [[UIScreen mainScreen] bounds].size.height/2 - 300,
-                                                                  labelWidth,
-                                                                  labelHeight)];
-    self.spotlightLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
+    self.appNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(labelX,
+                                                                   labelY,
+                                                                   labelWidth,
+                                                                   labelHeight)];
+    self.appNameLabel.text = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
     [self setFormatTitleLabel];
-    [self.view addSubview:self.spotlightLabel];
-    // TODO:サーバー選択フォームの表示
-    // TODO:下からすっと出てくる
-    const CGFloat W = 200;
-    const CGFloat H = 40;
+    [self.view addSubview:self.appNameLabel];
     
-    const CGFloat X = [[UIScreen mainScreen] bounds].size.width/2 - W/2;
-    const CGFloat Y = [[UIScreen mainScreen] bounds].size.height/2 - H/2;
+    const CGFloat descriptionWidth = 196;
+    const CGFloat descriptionHeight = 100;
+    const CGFloat descriptionX = [[UIScreen mainScreen] bounds].size.width/2- descriptionWidth/2;
+    const CGFloat descriptionY = [[UIScreen mainScreen] bounds].size.height/2 - descriptionWidth/2 - 70;
     
-    AuthViewTextField *textField = [AuthViewTextField new];
-    textField.underLineColor = INFOCUS_UNDERLINE_COLOR;
-    textField.enabled = NO;
+    self.descriptionLabel = [[UILabel alloc]initWithFrame:CGRectMake(descriptionX,
+                                                       descriptionY,
+                                                       descriptionWidth,
+                                                       descriptionHeight)];
+    self.descriptionLabel.text = @"ファイル共有を素早く、快適に";
+    [self setFormatDescriptionLabel];
+    [self.view addSubview:self.descriptionLabel];
     
-    textField.backgroundColor = [UIColor clearColor];;
-    textField.frame = CGRectMake(X, Y, W, H);
-    [textField setTextFieldStyle];
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    textField.text = [ud stringForKey:@"LastServer"];
-    [textField setTextAlignment:NSTextAlignmentCenter];
+    UIButton *loginBtn = [self generateLoginButton];
+    const CGFloat diffY = 3;
     
-    textField.delegate = self;
-    [self.view addSubview:textField];
-    
-    [self setupPopupButton:(UIView*)textField];
-    
-    UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    loginBtn.frame = CGRectMake(X, Y+H, W, H);
-    loginBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    [loginBtn setTitle:@"接続" forState:UIControlStateNormal];
-    [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [loginBtn addTarget:self action:@selector(didPushConnectButton) forControlEvents:UIControlEventTouchUpInside];
+    [loginBtn setAlpha:0];
     [self.view addSubview:loginBtn];
+    [UIView animateWithDuration:0.2
+                          delay:0.4
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         [loginBtn setAlpha:1.0];
+                         loginBtn.frame = CGRectMake(loginBtn.frame.origin.x,
+                                                     loginBtn.frame.origin.y - diffY,
+                                                     loginBtn.frame.size.width,
+                                                     loginBtn.frame.size.height);
+                     }completion:nil];
     
-    [MLPSpotlight addSpotlightInView:self.view atPoint:self.spotlightLabel.center];
+    
+    [MLPSpotlight addSpotlightInView:self.view atPoint:self.appNameLabel.center];
             
 }
 
 #pragma mark - Private
 
-- (void)setupPopupButton:(UIView*)superView {
-    self.btn =[UIButton buttonWithType:UIButtonTypeCustom];
-    self.btn.frame = superView.frame;
-    self.btn.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.btn];
+- (UIButton*)generateLoginButton {
+    const CGFloat W = 190;
+    const CGFloat H = 44;
+    const CGFloat X = [[UIScreen mainScreen] bounds].size.width/2 - W/2;
+    const CGFloat Y = [[UIScreen mainScreen] bounds].size.height/2 - H/2;
     
-    // PopupViewControllerをターゲットにする
-    [self.btn addTarget:self action:@selector(didPushShowPopupButton) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    loginBtn.frame = CGRectMake(X, Y+H, W, H);
+    loginBtn.backgroundColor = [UIColor whiteColor];
+    [loginBtn.layer setCornerRadius:4.0];
+    loginBtn.titleLabel.font = [UIFont fontWithName:@"HiraKakuProN-W6" size:16];
+    [loginBtn setTitle:@"接続" forState:UIControlStateNormal];
+    [loginBtn setTitleColor:TOP_BACKGROUND_COLOR forState:UIControlStateNormal];
+    [loginBtn addTarget:self action:@selector(showLoginViewController) forControlEvents:UIControlEventTouchUpInside];
+    
+    return loginBtn;
 }
 
 - (void)setFormatTitleLabel {
-    self.spotlightLabel.font = [UIFont fontWithName:@"AppleSDGothicNeo-SemiBold" size:48];
-    self.spotlightLabel.backgroundColor = [UIColor clearColor];
-    self.spotlightLabel.textColor       = [UIColor whiteColor];
+    self.appNameLabel.font = [UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:60];
+    self.appNameLabel.backgroundColor = [UIColor clearColor];
+    self.appNameLabel.textColor       = [UIColor whiteColor];
 }
 
-- (void)didPushConnectButton {
+- (void)setFormatDescriptionLabel {
+    self.descriptionLabel.font = [UIFont fontWithName:@"HiraKakuProN-W3" size:14];
+    self.descriptionLabel.backgroundColor = [UIColor clearColor];
+    self.descriptionLabel.textColor       = [UIColor whiteColor];
+}
+
+- (void)showLoginViewController {
+    
+    // 認証画面を表示する
+//    LoginViewController *loginViewController = [LoginViewController new];
+//    loginViewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
+//    loginViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//    [self presentViewController:loginViewController
+//                       animated:YES
+//                     completion:nil];
+    [LoginStatusManager sharedManager].isLogin = YES;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-
-- (void)didPushShowPopupButton {
-    [self.view endEditing:YES];
-    
-    self.popupViewController = [PopupViewController new];
-    self.popupViewController.delegate = self;
-    [self setUpPopoverViewController:self.popupViewController];
-    [self.popupViewController showPopupView:CGPointMake(CGRectGetMidX(self.btn.frame), CGRectGetMaxY(self.btn.frame) + 5)];
-}
-
-- (void) dismissPopupView {
-    [self removePopupViewController:self.popupViewController];
-}
-
-- (void)setUpPopoverViewController:(UIViewController*)viewController {
-    [self addChildViewController:viewController];
-    [self.view addSubview:viewController.view];
-    [viewController didMoveToParentViewController:self];
-}
-
-- (void)removePopupViewController:(UIViewController*)viewController
-{
-    [viewController willMoveToParentViewController:nil];
-    [viewController.view removeFromSuperview];
-    [viewController removeFromParentViewController];
-}
-
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
 
 @end

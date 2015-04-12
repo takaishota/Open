@@ -11,10 +11,11 @@
 #import "FileUtility.h"
 #import "KxSMBProvider.h"
 #import "LeftBarButtonImage.h"
+#import "LoginStatusManager.h"
 #import "TopViewController.h"
 #import "TreeViewController.h"
 
-@interface FileViewController () <UISplitViewControllerDelegate, TopViewControllerDelegate>
+@interface FileViewController () <UISplitViewControllerDelegate>
 @property (nonatomic) TopViewController *topViewController;
 @end
 
@@ -35,7 +36,7 @@
 {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
-        _isLogin = NO;
+//        _isLogin = NO;
     }
     return self;
 }
@@ -94,9 +95,8 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-    if (self.isLogin) {
+    if (![LoginStatusManager sharedManager].isLogin) {
         self.topViewController = [TopViewController new];
-        self.topViewController.delegate = self;
         self.topViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:self.topViewController animated:YES completion:nil];
     }
@@ -329,11 +329,6 @@ const static CGFloat masterViewWidth = 320.0f;
             [p updateDownloadStatus:result];
         }
     }];
-}
-
-#pragma mark - TopViewControllerDelegate
-- (void) dismissTopViewController {
-    self.isLogin = YES;
 }
 
 #pragma mark - split view delegate

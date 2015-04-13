@@ -245,6 +245,11 @@ const CGFloat _labelInterval = 80;
     }
 }
 
+- (void)setSelectedServer:(NSString *)serverIp {
+    AuthViewTextField *field = _fieldsList[0];
+    field.text = serverIp;
+}
+
 #pragma mark - Popup View Delegate
 - (void) dismissPopupView {
     [self removePopupViewController:self.popupViewController];

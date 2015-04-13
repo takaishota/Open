@@ -11,7 +11,8 @@
 
 @protocol PopupViewDelegate <NSObject>
 @optional
-- (void) dismissPopupView;
+- (void)dismissPopupView;
+- (void)setSelectedServer:(NSString*)serverIp;
 @end
 
 @interface PopupViewController : UIViewController

@@ -111,13 +111,12 @@ static NSString *cellId = @"cellIdentifier";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO:テキストフィールドに値をセットする
-    
     // 選択中のサーバーを保持する
     _selectedSerever = self.dataLoader.serverList[indexPath.row];
     [self.popover dismiss];
-    if ([self.delegate respondsToSelector:@selector(dismissPopupView)]) {
+    if ([self.delegate respondsToSelector:@selector(dismissPopupView)] && [self.delegate respondsToSelector:@selector(setSelectedServer:)]) {
         [self.delegate dismissPopupView];
+        [self.delegate setSelectedServer:_selectedSerever.ip];
     }
     
 }

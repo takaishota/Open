@@ -362,11 +362,11 @@ const static CGFloat masterViewWidth = 320.0f;
 }
 
 - (BOOL) splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation {
-//    if (UIInterfaceOrientationIsLandscape(orientation)) {
+    if (UIInterfaceOrientationIsLandscape(orientation)) {
         return NO;
-//    }else {
-//        return YES;
-//    }
+    }else {
+        return YES;
+    }
 }
 
 - (void)popupControllButtonDidPushed {

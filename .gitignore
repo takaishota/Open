@@ -26,4 +26,7 @@ libs/*
 samba/*
 plan
 
-
+## this project only
+*.json
+*.ipa
+*.dSYM.zip

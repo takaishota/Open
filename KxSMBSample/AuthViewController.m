@@ -123,10 +123,6 @@
     [self.popupViewController showPopupView:CGPointMake(CGRectGetMidX(self.btn.frame), CGRectGetMaxY(self.btn.frame) + 5)];
 }
 
-- (void) dismissPopupView {
-    [self removePopupViewController:self.popupViewController];
-}
-
 - (void)setUpPopoverViewController:(UIViewController*)viewController {
     [self addChildViewController:viewController];
     [self.view addSubview:viewController.view];
@@ -247,6 +243,11 @@ const CGFloat _labelInterval = 80;
     if (textField.tag != field.tag) {
         field.underLineColor = INFOCUS_UNDERLINE_COLOR;
     }
+}
+
+#pragma mark - Popup View Delegate
+- (void) dismissPopupView {
+    [self removePopupViewController:self.popupViewController];
 }
 
 #pragma mark - Alert view delegate

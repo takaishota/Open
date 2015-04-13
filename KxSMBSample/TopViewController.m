@@ -124,15 +124,77 @@
 
 - (void)showLoginViewController {
     
-    // 認証画面を表示する
-//    LoginViewController *loginViewController = [LoginViewController new];
-//    loginViewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
-//    loginViewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-//    [self presentViewController:loginViewController
-//                       animated:YES
-//                     completion:nil];
+    // 認証ダイアログを表示する
+    Class class = NSClassFromString(@"UIAlertController");
+    if(class){
+        // iOS 8の時の処理
+        UIAlertController *alertController = [self generateAlertController];
+        alertController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:alertController animated:YES completion:nil];
+    }else{
+        // iOS 7以前の処理
+        UIAlertView *alert = [self generateAlertView];
+        [alert show];
+    }
+}
+
+- (UIAlertController *)generateAlertController {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"ログイン"
+                                                                             message:@"ログイン情報を入力してください"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+        textField.placeholder = @"サーバアドレス";
+        [self formatTextField:textField];
+    }];
+    
+    // TODO:設定画面でON/OFFできるようにする
+    BOOL isAvailableLastLoginSetting = NO;
+    if (!isAvailableLastLoginSetting) {
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+            textField.placeholder = @"ユーザネーム";
+            [self formatTextField:textField];
+        }];
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+            textField.placeholder = @"パスワード";
+            textField.secureTextEntry = true;
+            [self formatTextField:textField];
+        }];
+    }
+    
+    alertController.popoverPresentationController.sourceView = self.view;
+    alertController.popoverPresentationController.sourceRect = self.view.bounds;
+    alertController.popoverPresentationController.permittedArrowDirections = 0;
+    [alertController addAction:[UIAlertAction actionWithTitle:@"ログイン" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // ログインボタンが押された時の処理
+        [self loginButtonDidPushed];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"キャンセル" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // キャンセルボタンが押された時の処理
+        [self cancelButtonDidPushed];
+    }]];
+    return alertController;
+}
+
+- (UIAlertView *)generateAlertView {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"ログイン"
+                               message:@"ログイン情報を入力してください"
+                              delegate:self
+                     cancelButtonTitle:@"キャンセル"
+                     otherButtonTitles:@"ログイン", nil];
+    
+    // TODO:iOS7以下の処理
+    
+    return alertView;
+}
+- (void)formatTextField:(UITextField *)textField {
+    
+}
+
+- (void)loginButtonDidPushed {
     [LoginStatusManager sharedManager].isLogin = YES;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+- (void)cancelButtonDidPushed {}
+
 
 @end

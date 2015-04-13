@@ -70,6 +70,7 @@
     [super viewDidLoad];
     [self.navigationItem setHidesBackButton:YES animated:NO];
     
+    self.view.backgroundColor = FILE_BACKGROUND_COLOR;
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
         _treeViewIsHidden = NO;

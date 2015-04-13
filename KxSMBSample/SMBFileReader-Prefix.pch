@@ -20,9 +20,11 @@
 #define VIEW_RED(view)
 #endif
 
+// TODO:カテゴリで実装する
 #define INFOCUS_UNDERLINE_COLOR [UIColor colorWithRed:0.933 green:0.933 blue:0.933 alpha:1.0]
 #define TOP_BACKGROUND_COLOR [UIColor colorWithRed:0.01 green:0.66 blue:0.96 alpha:1.0]
 #define ACCENT_COLOR [UIColor colorWithRed:1.0 green:0.25 blue:0.50 alpha:1.0]
+#define FILE_BACKGROUND_COLOR INFOCUS_UNDERLINE_COLOR
 
 // XCode Plugin
 #define XCODE_COLORS_ESCAPE @"\033["

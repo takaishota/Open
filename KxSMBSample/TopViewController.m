@@ -43,7 +43,7 @@
                          [self.view setAlpha:1.0];
                      }completion:nil];
     
-    const CGFloat labelWidth = 144;
+    const CGFloat labelWidth = 160;
     const CGFloat labelHeight = 100;
     const CGFloat labelX = [[UIScreen mainScreen] bounds].size.width/2- labelWidth/2;
     const CGFloat labelY = [[UIScreen mainScreen] bounds].size.height/2 - labelHeight/2 - 160;

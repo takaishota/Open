@@ -3,9 +3,9 @@
 //  SMBFileReader
 //
 //  Created by Shota Takai on 2015/03/30.
-//  Copyright (c) 2015年 Konstantin Bukreev. All rights reserved.
 //
 
+// TODO:リファクタリング_UIImageのカテゴリにする
 #import "LeftBarButtonImage.h"
 
 @interface LeftBarButtonImage () {
@@ -41,6 +41,15 @@ enum {
         
         self = (LeftBarButtonImage*)[self resizeImage:image];
     }
+    return self;
+}
+
+- (id) initWithUIImage:(NSString *)imageFileName {
+    self = [super init];
+    if (self) {
+        self = (LeftBarButtonImage*)[self resizeImage:imageFileName];
+    }
+    
     return self;
 }
 

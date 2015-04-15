@@ -11,7 +11,9 @@
 #import "AuthViewController.h"
 #import "FileViewController.h"
 #import "KxSMBProvider.h"
+#import "LeftBarButtonImage.h"
 #import "LocalFileViewController.h"
+#import "SettingsViewController.h"
 
 @interface TreeViewController () <UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate, FileViewControllerDelegate>
 @end
@@ -75,8 +77,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIBarButtonItem *localFileListButton = [[UIBarButtonItem alloc] initWithTitle:@"ローカル" style:UIBarButtonItemStylePlain target:self action:@selector(appearLocalFileList)];
-    self.toolbarItems = @[localFileListButton];
+    [self setupToolBar];
 }
 
 - (void)didReceiveMemoryWarning
@@ -349,7 +350,32 @@
     
 }
 
-#pragma mark - private
+#pragma mark - Private
+- (void) setupToolBar {
+    UIBarButtonItem *localFileListButton = [[UIBarButtonItem alloc] initWithTitle:@"ローカル" style:UIBarButtonItemStylePlain target:self action:@selector(appearLocalFileList)];
+    UIImage *btnImg = [[LeftBarButtonImage alloc] initWithUIImage:@"settings.png"];
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:btnImg
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(showSettingViewController)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    self.toolbarItems = @[localFileListButton, flexibleSpace, settingsButton];
+}
+
+- (UIBarButtonItem*)generateCustomLeftBarButtonItem:(NSString*)fileName {
+    UIImage *btnImg = [[LeftBarButtonImage alloc] initWithUIImage:fileName];
+    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:btnImg
+                                                                                style:UIBarButtonItemStylePlain
+                                                                               target:self
+                                                                               action:@selector(requestNewPath)];
+    return leftBarButtonItem;
+}
+
+- (void) showSettingViewController {
+    SettingsViewController *vc = [SettingsViewController new];
+    vc.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:vc animated:YES completion:nil];
+}
 - (NSArray*)excludeHiddenFile:(NSArray*)array {
     // 隠しファイルを除外する
     NSMutableArray *filteredResult = [NSMutableArray array];

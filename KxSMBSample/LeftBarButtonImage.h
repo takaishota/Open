@@ -12,4 +12,5 @@
 
 @interface LeftBarButtonImage : UIImage
 - (id) initWithTreeViewStatus:(BOOL)isHidden;
+- (id) initWithUIImage:(NSString*)imageFileName;
 @end

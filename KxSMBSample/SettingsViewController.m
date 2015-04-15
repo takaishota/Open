@@ -3,7 +3,6 @@
 //  SMBFileReader
 //
 //  Created by Shota Takai on 2015/04/15.
-//  Copyright (c) 2015年 Konstantin Bukreev. All rights reserved.
 //
 
 #import "SettingsViewController.h"
@@ -17,12 +16,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = INFOCUS_UNDERLINE_COLOR;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(10, 20, 60, 10)];
+    
+    [btn setTitle:@"閉じる" forState:UIControlStateNormal];
+    [btn setTitleColor:self.view.tintColor forState:UIControlStateNormal];
+    [self.view addSubview:btn];
+    
+    [btn addTarget:self action:@selector(dismissSettingsView) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dismissSettingsView {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*

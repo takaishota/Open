@@ -65,9 +65,7 @@
     }
     
     if(_isHeadVC) {
-        self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
-                                                                                              target:self
-                                                                                              action:@selector(requestNewPath)];
+        self.navigationItem.leftBarButtonItem  = [self generateCustomLeftBarButtonItem:@"refresh.png"];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                               target:self
                                                                                               action:@selector(addAuthView)];

@@ -285,7 +285,7 @@ const static CGFloat masterViewWidth = 320.0f;
                 if(_downloadedBytes == _smbFile.stat.size) {
                     [self closeFiles];
                     // ファイルクローズボタンを生成する
-                    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(closeCurrentFile:)];
+                    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(closeCurrentFile:)];
                     
                     // 画像ファイルの場合、ImageViewに表示する
                     if([@[@"png",@"jpg",@"gif"] containsObject:[[_smbFile.path pathExtension] lowercaseString]]) {

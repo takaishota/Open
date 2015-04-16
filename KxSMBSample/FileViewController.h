@@ -18,5 +18,4 @@
 @property (nonatomic) id <FileViewControllerDelegate> delegate;
 @property (readwrite, nonatomic, strong) KxSMBItemFile* smbFile;
 @property (nonatomic) UIBarButtonItem *treeViewToggleButton;
-@property (nonatomic) UISplitViewController *splitViewController;
 @end

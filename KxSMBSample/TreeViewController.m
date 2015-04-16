@@ -15,11 +15,10 @@
 #import "LocalFileViewController.h"
 #import "SettingsViewController.h"
 
-@interface TreeViewController () <UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate, FileViewControllerDelegate>
+@interface TreeViewController () <UITableViewDataSource, UITableViewDelegate, FileViewControllerDelegate>
 @end
 
 @implementation TreeViewController {
-    
     BOOL        _isHeadVC;
     NSArray     *_items;
     BOOL        _loading;
@@ -27,12 +26,7 @@
     UITextField *_newPathField;
 }
 
-- (void) setPath:(NSString *)path
-{
-    _path = path;
-    [self reloadPath];
-}
-
+#pragma mark - LifeCycle
 - (id)init
 {
     self = [super init];
@@ -101,6 +95,14 @@
     }
 }
 
+#pragma mark - Custom Accessors
+- (void) setPath:(NSString *)path
+{
+    _path = path;
+    [self reloadPath];
+}
+
+#pragma mark - Private
 - (void) reloadPath
 {
     NSString *path;
@@ -166,7 +168,6 @@
 - (void) addAuthView {
     AuthViewController *vc = [[AuthViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
-    vc.delegate = self;
 }
 
 - (void) updateStatus: (id) status
@@ -281,18 +282,25 @@
     KxSMBItem *item = _items[indexPath.row];
     if ([item isKindOfClass:[KxSMBItemTree class]]) {
         
+        NSLog(@"------fileViewNavigationController: %@", self.fileViewNavigationController);
         TreeViewController *vc = [[TreeViewController alloc] init];
         vc.path = item.path;
         [self.navigationController pushViewController:vc animated:YES];
+        NSLog(@"------fileViewNavigationController: %@", self.fileViewNavigationController);
         
     } else if ([item isKindOfClass:[KxSMBItemFile class]]) {
         
+        // TODO:ディレクトリ配下のファイルオープン時にここには来てるが、表示されていない
+        // TODO:ディレクトリ配下でオープンした場合にnilになっている、、、
+        NSLog(@"fileViewNavigationController: %@", self.fileViewNavigationController);
         FileViewController *vc = [[FileViewController alloc] init];
         vc.delegate = self;
         vc.smbFile = (KxSMBItemFile *)item;
+        if ([self.delegate respondsToSelector:@selector(pushDetailViewController:)]) {
+            [self.delegate pushDetailViewController:vc];
+        }
         // fileViewのnavigationViewにpushする
         [self.fileViewNavigationController pushViewController:vc animated:YES];
-        
     }
 }
 
@@ -316,13 +324,6 @@
     }
 }
 
-#pragma mark - Auth View Controller Delegate
-- (void) couldAuthViewController:(AuthViewController *)controller done:(BOOL)done
-{
-    if ([self.delegate respondsToSelector:@selector(authViewCloseHandler:)]) {
-        [self.delegate authViewCloseHandler:controller];
-    }
-}
 #pragma mark - File View Controller Delegate
 - (void) hideTreeView:(BOOL)isHidden {
     
@@ -371,6 +372,7 @@
 
 - (void) showSettingViewController {
     SettingsViewController *vc = [SettingsViewController new];
+    // TODO:iOS8から背景が透過しない
     vc.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentViewController:vc animated:YES completion:nil];
 }

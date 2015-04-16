@@ -11,8 +11,7 @@
 
 @protocol AuthViewControllerDelegate <NSObject>
 @optional
-- (void) couldAuthViewController: (AuthViewController *) controller
-                            done: (BOOL) done;
+- (void) couldAuthViewController: (AuthViewController *) controller;
 @end
 
 @interface AuthViewController : UIViewController

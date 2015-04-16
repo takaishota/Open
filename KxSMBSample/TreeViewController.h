@@ -12,6 +12,7 @@
 @protocol TreeViewControllerDelegate <NSObject>
 @optional
 - (void)authViewCloseHandler:(AuthViewController*)controller;
+- (void)pushDetailViewController:(UIViewController*)viewController;
 @end
 
 @interface TreeViewController : UITableViewController
@@ -22,5 +23,4 @@
 @property (readwrite, nonatomic, strong) NSString *path;
 @property (nonatomic, strong) UINavigationController *fileViewNavigationController;
 @property (nonatomic) UIBarButtonItem *fileViewleftBarButton;
-@property (nonatomic) UISplitViewController *splitViewController;
 @end

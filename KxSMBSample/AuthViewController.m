@@ -233,8 +233,8 @@ const CGFloat _labelInterval = 80;
     [self.navigationController popViewControllerAnimated:YES];
     
     __strong id p = self.delegate;
-    if (p && [p respondsToSelector:@selector(couldAuthViewController:done:)])
-        [p couldAuthViewController:self done:YES];
+    if (p && [p respondsToSelector:@selector(couldAuthViewController:)])
+        [p couldAuthViewController:self];
 }
 
 #pragma mark - Text Field Delegate

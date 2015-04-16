@@ -47,6 +47,7 @@
 }
 
 #pragma mark - Lifecycle
+// TODO:SplitViewControllerのdelegateを取得する
 
 - (void) loadView
 {

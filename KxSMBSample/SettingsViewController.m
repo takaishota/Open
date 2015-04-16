@@ -34,25 +34,29 @@
 }
 
 #pragma mark - Private
-- (UITableViewCell*)setupCellContents:(UITableViewCell*)cell LabelText:(NSString*)text {
-    cell.textLabel.text = text;
+static NSString *const COMMON_SETTING_KEY = @"SettingsKey";
+- (UITableViewCell*)setupCellContents:(UITableViewCell*)cell AtRow:(NSInteger)row {
+    cell.textLabel.text = self.settingsItems[row];
     cell.textLabel.font = [UIFont fontWithName:@"HiraKakuProN-W3" size:12];
     UISwitch *sw        = [[UISwitch alloc] initWithFrame:CGRectZero];
     sw.onTintColor      = TOP_BACKGROUND_COLOR;
+    sw.tag              = row;
+    sw.on = [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@-%d",COMMON_SETTING_KEY, row]] boolValue];
     [sw addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
     cell.accessoryView  = sw;
     return cell;
 }
 
-- (void)switchValueChanged:(id)sender {
-    NSLog(@"valueChanged");
+- (void)switchValueChanged:(UISwitch*)sender {
+    NSUserDefaults *uf = [NSUserDefaults standardUserDefaults];
+    NSString *key = [NSString stringWithFormat:@"%@-%d",COMMON_SETTING_KEY, sender.tag];
+    [uf setBool:sender.on forKey:key];
 }
 
 - (void)dismissSettingsView {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-// TODO:昨日作った分の実装
 - (UITableView*)generateTableView {
     UITableView *tableView    = [[UITableView alloc] initWithFrame:CGRectMake(0,
                                                                            0,
@@ -92,7 +96,7 @@ static const CGFloat headerHeight = 60;
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
                                       reuseIdentifier:cellIdentifier];
     }
-    cell = [self setupCellContents:cell LabelText:self.settingsItems[indexPath.row]];
+    cell = [self setupCellContents:cell AtRow:indexPath.row];
     return cell;
 }
 

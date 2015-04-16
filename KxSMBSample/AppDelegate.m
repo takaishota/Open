@@ -28,7 +28,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     // split Viewの生成
-    UISplitViewController *splitViewController = [[UISplitViewController alloc] init];
+    UISplitViewController *splitViewController = [UISplitViewController new];
     
     // メニュー用ViewControllerの生成
     _headVC = [[TreeViewController alloc] initAsHeadViewController];
@@ -38,7 +38,7 @@
     _headVC.delegate = self;
     
     // 詳細用ViewControllerの生成
-    FileViewController *fileViewController = [[FileViewController alloc] init];
+    FileViewController *fileViewController = [FileViewController new];
     UINavigationController *fileNavigationViewController = [[UINavigationController alloc] initWithRootViewController:fileViewController];
     [splitViewController addChildViewController:fileNavigationViewController];
     _headVC.fileViewNavigationController = fileNavigationViewController;

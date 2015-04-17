@@ -9,13 +9,13 @@
 #import "TreeViewController.h"
 // :: Other ::
 #import "AuthViewController.h"
-#import "FileViewController.h"
 #import "KxSMBProvider.h"
 #import "LeftBarButtonImage.h"
 #import "LocalFileViewController.h"
 #import "SettingsViewController.h"
 
-@interface TreeViewController () <UITableViewDataSource, UITableViewDelegate, FileViewControllerDelegate>
+
+@interface TreeViewController () <UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate>
 @end
 
 @implementation TreeViewController {
@@ -168,6 +168,7 @@
 - (void) addAuthView {
     AuthViewController *vc = [[AuthViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
+    vc.delegate = self;
 }
 
 - (void) updateStatus: (id) status
@@ -281,26 +282,13 @@
     
     KxSMBItem *item = _items[indexPath.row];
     if ([item isKindOfClass:[KxSMBItemTree class]]) {
-        
-        NSLog(@"------fileViewNavigationController: %@", self.fileViewNavigationController);
-        TreeViewController *vc = [[TreeViewController alloc] init];
-        vc.path = item.path;
-        [self.navigationController pushViewController:vc animated:YES];
-        NSLog(@"------fileViewNavigationController: %@", self.fileViewNavigationController);
-        
-    } else if ([item isKindOfClass:[KxSMBItemFile class]]) {
-        
-        // TODO:ディレクトリ配下のファイルオープン時にここには来てるが、表示されていない
-        // TODO:ディレクトリ配下でオープンした場合にnilになっている、、、
-        NSLog(@"fileViewNavigationController: %@", self.fileViewNavigationController);
-        FileViewController *vc = [[FileViewController alloc] init];
-        vc.delegate = self;
-        vc.smbFile = (KxSMBItemFile *)item;
-        if ([self.delegate respondsToSelector:@selector(pushDetailViewController:)]) {
-            [self.delegate pushDetailViewController:vc];
+        if ([self.delegate respondsToSelector:@selector(pushMasterViewController:)]) {
+                [self.delegate pushMasterViewController:item];
         }
-        // fileViewのnavigationViewにpushする
-        [self.fileViewNavigationController pushViewController:vc animated:YES];
+    } else if ([item isKindOfClass:[KxSMBItemFile class]]) {
+        if ([self.delegate respondsToSelector:@selector(pushDetailViewController:)]) {
+            [self.delegate pushDetailViewController:item];
+        }
     }
 }
 

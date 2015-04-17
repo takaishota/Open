@@ -89,8 +89,17 @@
     [self couldAuthViewController:controller];
 }
 
-- (void) pushDetailViewController:(UIViewController*)viewController {
-    [self.navigationControllerForDetail pushViewController:viewController animated:YES];
+- (void) pushMasterViewController:(KxSMBItem*)item {
+    TreeViewController *vc = [[TreeViewController alloc] init];
+    vc.path = item.path;
+    vc.delegate = self;
+    [self.navigationControllerForMaster pushViewController:vc animated:YES];
+}
+
+- (void) pushDetailViewController:(KxSMBItem*)item {
+    FileViewController *vc = [[FileViewController alloc] init];
+    vc.smbFile = (KxSMBItemFile *)item;
+    [self.navigationControllerForDetail pushViewController:vc animated:YES];
 }
 
 #pragma mark - AuthViewControllerDelegate

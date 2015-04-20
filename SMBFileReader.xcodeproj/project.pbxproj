@@ -32,6 +32,7 @@
 		1F80BAFC1AD223E400D6F669 /* ServerListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F80BAFB1AD223E400D6F669 /* ServerListCell.m */; };
 		1F80BB021AD24E2A00D6F669 /* PopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F80BB011AD24E2A00D6F669 /* PopupViewController.m */; };
 		1FB240351AE4840800719C20 /* ServerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB240341AE4840800719C20 /* ServerListViewController.m */; };
+		1FB240381AE4D53C00719C20 /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB240371AE4D53C00719C20 /* UIColor+CustomColors.m */; };
 		1FB302631ADE21A800EE17DC /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB302621ADE21A800EE17DC /* SettingsViewController.m */; };
 		1FB578F71AD6133000924C9C /* NSDictionary+SafeValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB578F61AD6133000924C9C /* NSDictionary+SafeValue.m */; };
 		1FB578FE1AD6603C00924C9C /* TopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB578FD1AD6603C00924C9C /* TopViewController.m */; };
@@ -116,6 +117,8 @@
 		1F80BB011AD24E2A00D6F669 /* PopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupViewController.m; sourceTree = "<group>"; };
 		1FB240331AE4840800719C20 /* ServerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerListViewController.h; sourceTree = "<group>"; };
 		1FB240341AE4840800719C20 /* ServerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerListViewController.m; sourceTree = "<group>"; };
+		1FB240361AE4D53C00719C20 /* UIColor+CustomColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+CustomColors.h"; sourceTree = "<group>"; };
+		1FB240371AE4D53C00719C20 /* UIColor+CustomColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CustomColors.m"; sourceTree = "<group>"; };
 		1FB302611ADE21A800EE17DC /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		1FB302621ADE21A800EE17DC /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		1FB578F51AD6133000924C9C /* NSDictionary+SafeValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SafeValue.h"; sourceTree = "<group>"; };
@@ -372,6 +375,8 @@
 				1FE188AB1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m */,
 				1FB578F51AD6133000924C9C /* NSDictionary+SafeValue.h */,
 				1FB578F61AD6133000924C9C /* NSDictionary+SafeValue.m */,
+				1FB240361AE4D53C00719C20 /* UIColor+CustomColors.h */,
+				1FB240371AE4D53C00719C20 /* UIColor+CustomColors.m */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -650,6 +655,7 @@
 				87085F9D1705D46C009CD258 /* AppDelegate.m in Sources */,
 				1F5264AF1AD770CE0067BE81 /* MLPSpotlight.m in Sources */,
 				3D4F15DD1ADA9A5600083E9F /* LoginStatusManager.m in Sources */,
+				1FB240381AE4D53C00719C20 /* UIColor+CustomColors.m in Sources */,
 				87085FB41705D494009CD258 /* KxSMBProvider.m in Sources */,
 				1FB302631ADE21A800EE17DC /* SettingsViewController.m in Sources */,
 				1FE188AC1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m in Sources */,

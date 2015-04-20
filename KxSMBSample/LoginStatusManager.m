@@ -23,7 +23,8 @@
 {
     self = [super init];
     if (self) {
-        _isLogin = NO;
+        _isLogin     = NO;
+        _isLaunchedApp = YES;
     }
     return self;
 }

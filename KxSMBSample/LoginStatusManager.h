@@ -10,5 +10,6 @@
 
 @interface LoginStatusManager : NSObject
 @property (nonatomic) BOOL isLogin;
+@property (nonatomic) BOOL isLaunchedApp;
 + (LoginStatusManager*)sharedManager;
 @end

@@ -1,17 +1,17 @@
 //
-//  RootViewController.m
+//  ServerListViewController.m
 //  SMBFileReader
 //
-//  Created by Shota Takai on 2015/03/20.
+//  Created by Shota Takai on 2015/04/20.
 //
 
-#import "RootViewController.h"
+#import "ServerListViewController.h"
 
-@interface RootViewController ()
+@interface ServerListViewController ()
 
 @end
 
-@implementation RootViewController
+@implementation ServerListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,18 +31,19 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 0;
+    return 1;
 }
 
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
     
     // Configure the cell...
     

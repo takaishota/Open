@@ -7,7 +7,6 @@
 
 #import "TopViewController.h"
 #import "AuthViewTextField.h"
-#import "LoginViewController.h"
 #import "LoginStatusManager.h"
 #import "MLPSpotlight.h"
 #import "PopupViewController.h"
@@ -17,6 +16,7 @@
 @property (nonatomic) UIButton *btn;
 @property (nonatomic) UILabel *appNameLabel;
 @property (nonatomic) UILabel *descriptionLabel;
+@property (nonatomic) UITextField *serverTextField;
 @end
 
 @implementation TopViewController
@@ -131,7 +131,7 @@
         UIAlertController *alertController = [self generateAlertController];
         alertController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         [self presentViewController:alertController animated:YES completion:nil];
-    }else{
+    }else {
         // iOS 7以前の処理
         UIAlertView *alert = [self generateAlertView];
         [alert show];
@@ -143,8 +143,10 @@
                                                                              message:@"ログイン情報を入力してください"
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-        textField.placeholder = @"サーバアドレス";
+        self.serverTextField = textField;
         [self formatTextField:textField];
+        textField.placeholder = @"サーバアドレス";
+        textField.delegate    = self;
     }];
     
     // TODO:設定画面でON/OFFできるようにする
@@ -153,6 +155,7 @@
         [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
             textField.placeholder = @"ユーザネーム";
             [self formatTextField:textField];
+            textField.delegate    = self;
         }];
         [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
             textField.placeholder = @"パスワード";
@@ -164,13 +167,13 @@
     alertController.popoverPresentationController.sourceView = self.view;
     alertController.popoverPresentationController.sourceRect = self.view.bounds;
     alertController.popoverPresentationController.permittedArrowDirections = 0;
-    [alertController addAction:[UIAlertAction actionWithTitle:@"ログイン" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // ログインボタンが押された時の処理
-        [self loginButtonDidPushed];
-    }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"キャンセル" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         // キャンセルボタンが押された時の処理
         [self cancelButtonDidPushed];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"ログイン" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // ログインボタンが押された時の処理
+        [self loginButtonDidPushed];
     }]];
     return alertController;
 }

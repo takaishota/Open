@@ -41,7 +41,7 @@ static NSString *const COMMON_SETTING_KEY = @"SettingsKey";
     UISwitch *sw        = [[UISwitch alloc] initWithFrame:CGRectZero];
     sw.onTintColor      = TOP_BACKGROUND_COLOR;
     sw.tag              = row;
-    sw.on = [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@-%d",COMMON_SETTING_KEY, row]] boolValue];
+    sw.on = [[[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"%@-%ld",COMMON_SETTING_KEY, (long)row]] boolValue];
     [sw addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
     cell.accessoryView  = sw;
     return cell;
@@ -49,7 +49,7 @@ static NSString *const COMMON_SETTING_KEY = @"SettingsKey";
 
 - (void)switchValueChanged:(UISwitch*)sender {
     NSUserDefaults *uf = [NSUserDefaults standardUserDefaults];
-    NSString *key = [NSString stringWithFormat:@"%@-%d",COMMON_SETTING_KEY, sender.tag];
+    NSString *key = [NSString stringWithFormat:@"%@-%ld",COMMON_SETTING_KEY, (long)sender.tag];
     [uf setBool:sender.on forKey:key];
 }
 

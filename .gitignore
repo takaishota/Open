@@ -30,3 +30,7 @@ plan
 *.json
 *.ipa
 *.dSYM.zip
+iOSInjectionProject/*
+
+#CocoaPod
+Pods/*

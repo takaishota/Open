@@ -102,6 +102,8 @@
         self.topViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:self.topViewController animated:YES completion:nil];
     }
+    self.navigationController.hidesBarsOnSwipe = YES;
+    self.navigationController.hidesBarsOnTap = YES;
 }
 
 const static CGFloat masterViewWidth = 320.0f;
@@ -305,6 +307,7 @@ const static CGFloat masterViewWidth = 320.0f;
 
 - (UIWebView*) generateWebView {
     UIWebView *webView = [UIWebView new];
+    webView.scalesPageToFit = YES;
     webView.frame = CGRectMake(0,
                                0,
                                self.view.frame.size.width,

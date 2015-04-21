@@ -92,6 +92,10 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+#pragma mark - NSObject
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"ServerListViewController description:\n%@ delegate: %@\nserverPath: %@\n",[super description], self.delegate, self.serverPath];
 }
 */
 

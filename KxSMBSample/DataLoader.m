@@ -68,4 +68,10 @@ NSString *const NETWORKTYPE_PUBLIC = @"PUBLIC";
     self.serverList = tmpArray;
 }
 
+#pragma mark - NSObject
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"DataLoader description:\n%@ serverList: %@\n",[super description], self.serverList];
+}
+
 @end

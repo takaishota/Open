@@ -388,4 +388,10 @@ const static CGFloat masterViewWidth = 320.0f;
     
 }
 
+#pragma mark - NSObject
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"FileViewController description:\n%@ delegate: %@\nsmbFile: %@\ntreeViewToggleButton: %@\n",[super description], self.delegate, self.smbFile, self.treeViewToggleButton];
+}
+
 @end

@@ -18,4 +18,10 @@
     return self;
 }
 
+#pragma mark - NSObject
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Server description:\n%@ ip: %@\nnetworkType: %@\n",[super description], self.ip, self.networkType];
+}
+
 @end

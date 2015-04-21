@@ -29,4 +29,10 @@
     return self;
 }
 
+#pragma mark - NSObject
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"LoginStatusManager description:\n%@ isLogin: %i\nisLaunchedApp: %i\n",[super description], self.isLogin, self.isLaunchedApp];
+}
+
 @end

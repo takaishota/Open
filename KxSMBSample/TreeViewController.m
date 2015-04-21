@@ -378,6 +378,12 @@
     return filteredResult;
 }
 
+#pragma mark - NSObject
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"TreeViewController description:\n%@ delegate: %@\npath: %@\nfileViewNavigationController: %@\nfileViewleftBarButton: %@\n",[super description], self.delegate, self.path, self.fileViewNavigationController, self.fileViewleftBarButton];
+}
+
 
 
 @end

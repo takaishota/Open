@@ -258,5 +258,10 @@ const CGFloat _labelInterval = 80;
 #pragma mark - Alert view delegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 }
+#pragma mark - NSObject
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"AuthViewController description:\n%@ delegate: %@\nserver: %@\nlocalDir: %@\nworkgroup: %@\nusername: %@\npassword: %@\n",[super description], self.delegate, self.server, self.localDir, self.workgroup, self.username, self.password];
+}
 
 @end

@@ -75,4 +75,10 @@
     return [super resignFirstResponder];
 }
 
+#pragma mark - NSObject
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"AuthViewTextField description:\n%@ underLineColor: %@\nlineWidth: %f\n",[super description], self.underLineColor, self.lineWidth];
+}
+
 @end

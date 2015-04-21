@@ -278,49 +278,51 @@ const static CGFloat masterViewWidth = 320.0f;
                                    value, unit,
                                    _downloadProgress.progress * 100.f,
                                    value / time, unit];
-            
             if (_fileHandle) {
                 
                 [_fileHandle writeData:data];
                 
                 if(_downloadedBytes == _smbFile.stat.size) {
                     [self closeFiles];
-                    // ファイルクローズボタンを生成する
+                    
                     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(closeCurrentFile:)];
                     
-                    // 画像ファイルの場合、ImageViewに表示する
-                    if([@[@"png",@"jpg",@"gif"] containsObject:[[_smbFile.path pathExtension] lowercaseString]]) {
-                        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:_filePath]];
-                        imageView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-                        imageView.contentMode = UIViewContentModeScaleAspectFit;
-                        [self.view addSubview:imageView];
-                    } else {
-                        UIWebView *webView = [[UIWebView alloc] init];
-                        webView.frame = CGRectMake(0,
-                                                   0,
-                                                   self.view.frame.size.width,
-                                                   self.view.frame.size.height);
-                        webView.contentMode = UIViewContentModeScaleAspectFit;
-                        NSURL *path = [NSURL fileURLWithPath:_filePath];
-                        NSURLRequest *urlrequest = [NSURLRequest requestWithURL:path];
-                        [webView loadRequest:urlrequest];
-                        [self.view addSubview:webView];
-                        _webView = webView;
-                        [_downloadLabel removeFromSuperview];
-                    }
+                    // webViewを生成する
+                    UIWebView *view = [self generateWebView];
+                    [self.view addSubview:view];
+                    _webView = view;
+                    [_downloadLabel removeFromSuperview];
+                    
                 } else {
                     [self download];
                 }
             }
         }
     } else {
-        
-        NSAssert(false, @"bugcheck");        
+        NSAssert(false, @"bugcheck");
     }
 }
 
+- (UIWebView*) generateWebView {
+    UIWebView *webView = [UIWebView new];
+    webView.frame = CGRectMake(0,
+                               0,
+                               self.view.frame.size.width,
+                               self.view.frame.size.height);
+    webView.contentMode = UIViewContentModeScaleAspectFit;
+    if ([@[@"txt"] containsObject:[[_smbFile.path pathExtension] lowercaseString]]) {
+        NSString *str = [[NSString alloc] initWithContentsOfFile:_filePath encoding:NSUTF8StringEncoding error:nil];
+        [webView loadHTMLString:str baseURL:nil];
+    } else {
+        NSURLRequest *urlrequest = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:_filePath]];
+        [webView loadRequest:urlrequest];
+        
+    }
+    return webView;
+}
+
 - (void) download
-{    
+{
     __weak __typeof(self) weakSelf = self;
     [_smbFile readDataOfLength:32768
                          block:^(id result)

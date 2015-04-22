@@ -10,7 +10,7 @@
 // :: Other ::
 #import "AuthViewController.h"
 #import "KxSMBProvider.h"
-#import "LeftBarButtonImage.h"
+#import "UIImage+Utility.h"
 #import "LocalFileViewController.h"
 #import "SettingsViewController.h"
 
@@ -141,6 +141,46 @@
             [self.tableView reloadData];
         }
     }];
+}
+- (void) setupToolBar {
+    UIBarButtonItem *localFileListButton = [[UIBarButtonItem alloc] initWithTitle:@"ローカル" style:UIBarButtonItemStylePlain target:self action:@selector(appearLocalFileList)];
+    UIImage *btnImg = [[UIImage alloc] initWithUIImage:@"settings.png"];
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:btnImg
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(showSettingViewController)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    self.toolbarItems = @[localFileListButton, flexibleSpace, settingsButton];
+}
+
+- (UIBarButtonItem*)generateResizingBarButtonItemWithImage:(NSString*)fileName {
+    UIImage *btnImg = [[UIImage alloc] initWithUIImage:fileName];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithImage:btnImg
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(requestNewPath)];
+    return barButtonItem;
+}
+
+- (void) showSettingViewController {
+    SettingsViewController *vc = [SettingsViewController new];
+    // TODO:iOS8から背景が透過しない
+    vc.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (NSArray*)excludeHiddenFile:(NSArray*)array {
+    // 隠しファイルを除外する
+    NSMutableArray *filteredResult = [NSMutableArray array];
+    for (KxSMBItem *item in array) {
+        NSString *itemPathTmp = item.path;
+        NSString *fileName = (NSString*)[[itemPathTmp componentsSeparatedByString:@"/"] lastObject];
+        
+        if(![fileName hasPrefix:@"."]) {
+            [filteredResult addObject:item];
+        }
+    }
+    return filteredResult;
 }
 
 # pragma mark - pushed navigationbar button
@@ -333,55 +373,12 @@
         // 完了時のコールバック
         NSLog(@"finish Animation");
     }];
-    
-    
-}
-
-#pragma mark - Private
-- (void) setupToolBar {
-    UIBarButtonItem *localFileListButton = [[UIBarButtonItem alloc] initWithTitle:@"ローカル" style:UIBarButtonItemStylePlain target:self action:@selector(appearLocalFileList)];
-    UIImage *btnImg = [[LeftBarButtonImage alloc] initWithUIImage:@"settings.png"];
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:btnImg
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(showSettingViewController)];
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    self.toolbarItems = @[localFileListButton, flexibleSpace, settingsButton];
-}
-
-- (UIBarButtonItem*)generateCustomLeftBarButtonItem:(NSString*)fileName {
-    UIImage *btnImg = [[LeftBarButtonImage alloc] initWithUIImage:fileName];
-    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:btnImg
-                                                                                style:UIBarButtonItemStylePlain
-                                                                               target:self
-                                                                               action:@selector(requestNewPath)];
-    return leftBarButtonItem;
-}
-
-- (void) showSettingViewController {
-    SettingsViewController *vc = [SettingsViewController new];
-    // TODO:iOS8から背景が透過しない
-    vc.modalPresentationStyle = UIModalPresentationFormSheet;
-    [self presentViewController:vc animated:YES completion:nil];
-}
-- (NSArray*)excludeHiddenFile:(NSArray*)array {
-    // 隠しファイルを除外する
-    NSMutableArray *filteredResult = [NSMutableArray array];
-    for (KxSMBItem *item in array) {
-        NSString *itemPathTmp = item.path;
-        NSString *fileName = (NSString*)[[itemPathTmp componentsSeparatedByString:@"/"] lastObject];
-        
-        if(![fileName hasPrefix:@"."]) {
-            [filteredResult addObject:item];
-        }
-    }
-    return filteredResult;
 }
 
 #pragma mark - NSObject
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"TreeViewController description:\n%@ delegate: %@\npath: %@\nfileViewNavigationController: %@\nfileViewleftBarButton: %@\n",[super description], self.delegate, self.path, self.fileViewNavigationController, self.fileViewleftBarButton];
+    return [NSString stringWithFormat:@"TreeViewController description:\n%@ delegate: %@\npath: %@\n",[super description], self.delegate, self.path];
 }
 
 

@@ -10,7 +10,7 @@
 // :: Other ::
 #import "FileUtility.h"
 #import "KxSMBProvider.h"
-#import "LeftBarButtonImage.h"
+#import "UIImage+Utility.h"
 #import "LoginStatusManager.h"
 #import "TopViewController.h"
 #import "TreeViewController.h"
@@ -118,7 +118,7 @@ const static CGFloat masterViewWidth = 320.0f;
 #pragma mark - Private
 
 - (void)updateLeftBarButtonItem {
-    UIImage *btnImg = [[LeftBarButtonImage alloc] initWithTreeViewStatus:_treeViewIsHidden];
+    UIImage *btnImg = [[UIImage alloc] initWithTreeViewStatus:_treeViewIsHidden];
     UINavigationController *navController = (UINavigationController*)self.parentViewController;
     
     UIViewController *lastrVc = [navController.viewControllers lastObject];

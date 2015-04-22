@@ -1,15 +1,13 @@
 //
-//  LeftBarButtonImage.h
+//  UIImage+Utility.h
 //  SMBFileReader
 //
-//  Created by Shota Takai on 2015/03/30.
+//  Created by Shota Takai on 2015/04/22.
 //
 
 #import <UIKit/UIKit.h>
 
-@class LeftBarButtonImage;
-
-@interface LeftBarButtonImage : UIImage
+@interface UIImage(Utility)
 - (id) initWithTreeViewStatus:(BOOL)isHidden;
 - (id) initWithUIImage:(NSString*)imageFileName;
 @end

@@ -1,35 +1,28 @@
 //
-//  LeftBarButtonImage.m
+//  UIImage+Utility.m
 //  SMBFileReader
 //
-//  Created by Shota Takai on 2015/03/30.
+//  Created by Shota Takai on 2015/04/22.
 //
 
-// TODO:リファクタリング_UIImageのカテゴリにする
-#import "LeftBarButtonImage.h"
-
-@interface LeftBarButtonImage () {
-    BOOL _popupIsHidden;
-}
-@end
+#import "UIImage+Utility.h"
 
 enum {
     ImageRightArrow,
     ImageLeftArrow,
 };
 
-@implementation LeftBarButtonImage
+@implementation UIImage(Utility)
 
 #pragma mark - Lifecycle
 - (id) initWithTreeViewStatus:(BOOL)isHidden{
-
+    
     self = [super init];
     // 自分のステータスを見てセットする画像を変更する
     if (self) {
         NSString *image = nil;
-        _popupIsHidden = isHidden;
         
-        switch ([self getImageType]) {
+        switch ([self getImageType:isHidden]) {
             case ImageLeftArrow:
                 image = @"left.png";
                 break;
@@ -41,7 +34,7 @@ enum {
                 break;
         }
         
-        self = (LeftBarButtonImage*)[self resizeImage:image];
+        self = [self resizeImage:image];
     }
     return self;
 }
@@ -49,16 +42,16 @@ enum {
 - (id) initWithUIImage:(NSString *)imageFileName {
     self = [super init];
     if (self) {
-        self = (LeftBarButtonImage*)[self resizeImage:imageFileName];
+        self = [self resizeImage:imageFileName];
     }
     
     return self;
 }
 
 #pragma mark - Private
-- (NSUInteger)getImageType {
+- (NSUInteger)getImageType :(BOOL)popupIsHidden{
     NSUInteger imgType = 0;
-    if (_popupIsHidden) {
+    if (popupIsHidden) {
         imgType = ImageRightArrow;
     } else {
         imgType = ImageLeftArrow;
@@ -76,5 +69,4 @@ enum {
     UIGraphicsEndImageContext();
     return resizeImg;
 }
-
 @end

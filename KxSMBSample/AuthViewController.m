@@ -82,7 +82,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -94,14 +93,11 @@
     AuthViewTextField *firstTf = _fieldsList[0];
     firstTf.underLineColor = self.view.tintColor;
     firstTf.enabled = NO;
-//    [firstTf becomeFirstResponder];
     
     [self setupPopupButton:(UIView*)firstTf];
-    
 }
 
 #pragma mark - Private
-
 - (void)setupPopupButton:(UIView*)superView {
     self.btn =[UIButton buttonWithType:UIButtonTypeCustom];
     self.btn.frame = superView.frame;

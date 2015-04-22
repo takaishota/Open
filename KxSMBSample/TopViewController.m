@@ -91,7 +91,6 @@
 }
 
 #pragma mark - Private
-
 - (UIButton*)generateLoginButton {
     const CGFloat W = 190;
     const CGFloat H = 44;

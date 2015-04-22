@@ -26,7 +26,9 @@
     AuthViewTextField *_lastActiveField;
 }
 
+#define BACKGROUND_COLOR [UIColor WhiteColor]
 
+#pragma mark - Lifecycle
 - (id)init
 {
     self = [super initWithNibName:nil bundle:nil];
@@ -35,10 +37,6 @@
     }
     return self;
 }
-
-#define BACKGROUND_COLOR [UIColor WhiteColor]
-
-#pragma mark - Lifecycle
 
 - (void)loadView {
     _backgroundColor = [UIColor whiteColor];

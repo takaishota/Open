@@ -32,6 +32,7 @@
     UIBarButtonItem *_barButtonItem;
 }
 
+#pragma mark - Lifecycle
 - (id)init
 {
     self = [super initWithNibName:nil bundle:nil];
@@ -45,9 +46,6 @@
 {
     [self closeFiles];
 }
-
-#pragma mark - Lifecycle
-// TODO:SplitViewControllerのdelegateを取得する
 
 - (void) loadView
 {

@@ -19,6 +19,8 @@ enum {
 };
 
 @implementation LeftBarButtonImage
+
+#pragma mark - Lifecycle
 - (id) initWithTreeViewStatus:(BOOL)isHidden{
 
     self = [super init];
@@ -53,6 +55,7 @@ enum {
     return self;
 }
 
+#pragma mark - Private
 - (NSUInteger)getImageType {
     NSUInteger imgType = 0;
     if (_popupIsHidden) {

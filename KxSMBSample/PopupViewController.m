@@ -24,12 +24,18 @@
     Server *_selectedSerever;
 }
 
+#pragma mark - LifeCycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupServerList];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+#pragma mark - Private
 - (void) setupServerList {
     self.dataLoader = [[DataLoader alloc] initWithJSONFile:@"servers.json"];
     
@@ -44,17 +50,29 @@
     [self resetPopover];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 static NSString *cellId = @"cellIdentifier";
 - (void)resetPopover {
     self.popover  = [DXPopover new];
     _popoverWidth = CGRectGetWidth(self.parentViewController.view.bounds);
 }
 
+- (void)updateTableViewFrame
+{
+    CGRect tableViewFrame = self.tableView.frame;
+    tableViewFrame.size.width = _popoverWidth;
+    self.tableView.frame = tableViewFrame;
+}
+
+- (void)bounceTargetView:(UIView *)targetView
+{
+    targetView.transform = CGAffineTransformMakeScale(0.9, 0.9);
+    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.3 initialSpringVelocity:5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        targetView.transform = CGAffineTransformIdentity;
+    } completion:nil];
+}
+
+
+#pragma mark - Public
 - (void)showPopupView:(CGPoint)point {
     [self updateTableViewFrame];
     [self.popover showAtPoint:point popoverPostion:DXPopoverPositionDown withContentView:self.tableView inView:self.view];
@@ -66,6 +84,11 @@ static NSString *cellId = @"cellIdentifier";
     };
 }
 
+- (NSString*)getSelectedServer {
+    return _selectedSerever.ip;
+}
+
+#pragma mark - TableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -108,6 +131,7 @@ static NSString *cellId = @"cellIdentifier";
     return cell;
 }
 
+#pragma mark - TableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // 選択中のサーバーを保持する
@@ -117,26 +141,6 @@ static NSString *cellId = @"cellIdentifier";
         [self.delegate dismissPopupView];
         [self.delegate setSelectedServer:_selectedSerever.ip];
     }
-    
-}
-
-- (void)updateTableViewFrame
-{
-    CGRect tableViewFrame = self.tableView.frame;
-    tableViewFrame.size.width = _popoverWidth;
-    self.tableView.frame = tableViewFrame;
-}
-
-- (void)bounceTargetView:(UIView *)targetView
-{
-    targetView.transform = CGAffineTransformMakeScale(0.9, 0.9);
-    [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.3 initialSpringVelocity:5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        targetView.transform = CGAffineTransformIdentity;
-    } completion:nil];
-}
-
-- (NSString*)getSelectedServer {
-    return _selectedSerever.ip;
 }
 
 @end

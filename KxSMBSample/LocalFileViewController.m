@@ -19,6 +19,7 @@
     NSMutableArray* _datasource;
 }
 
+#pragma mark - Lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     

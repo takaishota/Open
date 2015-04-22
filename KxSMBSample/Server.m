@@ -9,6 +9,7 @@
 
 @implementation Server
 
+#pragma mark - Lifecycle
 - (id) initWithIp:(NSString*)ip NetworkType:(NSString*)type {
     self = [super init];
     if (self) {

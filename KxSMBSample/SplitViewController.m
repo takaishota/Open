@@ -22,6 +22,7 @@
     AuthViewController *_authViewController;
 }
 
+#pragma mark - Lifecycle
 - (id)init {
     
     self = [super init];

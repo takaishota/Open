@@ -21,6 +21,8 @@ NSString *const NETWORKTYPE_PUBLIC = @"PUBLIC";
 @end
 
 @implementation DataLoader
+
+#pragma mark - Lifecycle
 - (instancetype)initWithJSONFile:(NSString*)fileName
 {
     self = [super init];
@@ -32,6 +34,8 @@ NSString *const NETWORKTYPE_PUBLIC = @"PUBLIC";
     return self;
 }
 
+#pragma mark - Public
+#pragma mark - Private
 - (void)generateFormsWithJSON:(id)JSON {
     NSArray *servers = [NSMutableArray array];
     NSMutableArray *tmpArray = [NSMutableArray array];

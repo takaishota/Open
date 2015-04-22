@@ -13,6 +13,7 @@
 
 @implementation ServerListViewController
 
+#pragma mark - Lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     

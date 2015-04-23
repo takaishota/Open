@@ -19,6 +19,7 @@
 		1F570E331ACA8ECF00447727 /* file.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F570E321ACA8ECF00447727 /* file.png */; };
 		1F62900C1ACE1114009CF4E3 /* DXPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F62900B1ACE1114009CF4E3 /* DXPopover.m */; };
 		1F6A52BE1AE8B34900D76CDF /* OPNDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6A52BD1AE8B34900D76CDF /* OPNDocument.m */; };
+		1F6A52C11AE8D61200D76CDF /* OPNUserEntryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6A52C01AE8D61200D76CDF /* OPNUserEntryManager.m */; };
 		1F7A32561ADF89F200663D97 /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A32551ADF89F200663D97 /* SplitViewController.m */; };
 		1F80BAEE1AD2221E00D6F669 /* bookmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F80BAE61AD2221E00D6F669 /* bookmark.png */; };
 		1F80BAEF1AD2221E00D6F669 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F80BAE71AD2221E00D6F669 /* check.png */; };
@@ -100,6 +101,8 @@
 		1F62900B1ACE1114009CF4E3 /* DXPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXPopover.m; sourceTree = "<group>"; };
 		1F6A52BC1AE8B34900D76CDF /* OPNDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNDocument.h; sourceTree = "<group>"; };
 		1F6A52BD1AE8B34900D76CDF /* OPNDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNDocument.m; sourceTree = "<group>"; };
+		1F6A52BF1AE8D61200D76CDF /* OPNUserEntryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNUserEntryManager.h; sourceTree = "<group>"; };
+		1F6A52C01AE8D61200D76CDF /* OPNUserEntryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNUserEntryManager.m; sourceTree = "<group>"; };
 		1F7A32541ADF89F200663D97 /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
 		1F7A32551ADF89F200663D97 /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
 		1F80BAE61AD2221E00D6F669 /* bookmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookmark.png; sourceTree = "<group>"; };
@@ -224,6 +227,8 @@
 		1F23EDE91AE0F65F00DF7FB8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1F6A52BF1AE8D61200D76CDF /* OPNUserEntryManager.h */,
+				1F6A52C01AE8D61200D76CDF /* OPNUserEntryManager.m */,
 				1F80BAF61AD222A800D6F669 /* Entity */,
 				3D4F15DB1ADA9A5600083E9F /* LoginStatusManager.h */,
 				3D4F15DC1ADA9A5600083E9F /* LoginStatusManager.m */,
@@ -652,6 +657,7 @@
 				87085F9D1705D46C009CD258 /* AppDelegate.m in Sources */,
 				1F5264AF1AD770CE0067BE81 /* MLPSpotlight.m in Sources */,
 				3D4F15DD1ADA9A5600083E9F /* LoginStatusManager.m in Sources */,
+				1F6A52C11AE8D61200D76CDF /* OPNUserEntryManager.m in Sources */,
 				1FB240381AE4D53C00719C20 /* UIColor+CustomColors.m in Sources */,
 				87085FB41705D494009CD258 /* KxSMBProvider.m in Sources */,
 				1FB302631ADE21A800EE17DC /* SettingsViewController.m in Sources */,

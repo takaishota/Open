@@ -23,8 +23,8 @@
 - (id)init
 {
     self = [super init];
-    if (self) {
-        self.userEntries = @[];
+    if (!self) {
+        self.userEntries = [@[] mutableCopy];
     }
     return self;
 }
@@ -42,7 +42,7 @@
     if (!entry) {
         return;
     }
-    if (index < 0 || index > [self.userEntries count]) {
+    if (index > [self.userEntries count]) {
         return;
     }
     
@@ -51,7 +51,7 @@
 }
 
 - (void)removeUserEntriy:(NSUInteger)index {
-    if (index < 0 || index > [self.userEntries count] - 1) {
+    if (index > [self.userEntries count] - 1) {
         return;
     }
     
@@ -60,10 +60,10 @@
 }
 
 - (void)moveUserEntryAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
-    if (fromIndex < 0 || fromIndex > [self.userEntries count] - 1) {
+    if (fromIndex > [self.userEntries count] - 1) {
         return;
     }
-    if (toIndex < 0 || toIndex > [self.userEntries count]) {
+    if (toIndex > [self.userEntries count]) {
         return;
     }
     
@@ -79,7 +79,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserEntries"];
 }
 
-- (void)reloadUserEntriesWithBlock:(void (^)(NSError *error))block {
+- (void)reloadUserEntries {
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserEntries"];
     if (!self.userEntries) {
         return;

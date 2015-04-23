@@ -9,6 +9,9 @@
 // :: Other ::
 #import "AuthViewTextField.h"
 #import "PopupViewController.h"
+#import "OPNUserEntry.h"
+#import "OPNUserEntryManager.h"
+#import "Server.h"
 
 @interface AuthViewController () <UITextFieldDelegate, PopupViewDelegate>
 @property (nonatomic) PopupViewController *popupViewController;
@@ -48,17 +51,17 @@
     self.view.backgroundColor = _backgroundColor;
     
     // プロパティの初期化
-    _server    = [NSString string];
-    _localDir  = [NSString string];
-    _workgroup = [NSString string];
-    _username  = [NSString string];
-    _password  = [NSString string];
+    self.server    = [NSString string];
+    self.remoteDir  = [NSString string];
+    self.workgroup = [NSString string];
+    self.username  = [NSString string];
+    self.password  = [NSString string];
     
     // テキストフィールドへの参照保持配列の初期化
     _fieldsList = [NSMutableArray array];
     
     // プロパティの参照を配列にセットする
-    _propertyList = [@[_server, _workgroup, _localDir, _username, _password] mutableCopy];
+    _propertyList = [@[@"server", @"workgroup", @"RemoteDir", @"username", @"password"] mutableCopy];
     
     // フォームに表示する項目
     _formLabels      = @[@"サーバアドレス", @"リモートディレクトリ", @"ワークグループ", @"ユーザ名", @"パスワード"];
@@ -211,11 +214,22 @@ const CGFloat _labelInterval = 80;
     
     for (int i = 0; i < [_propertyList count]; i++) {
         // テキストフィールドの参照をプロパティ、ユーザデフォルトにセットする
+//        UITextField *uf = _fieldsList[i];
+//        uf.delegate = self;
         UITextField *uf = _fieldsList[i];
-        uf.delegate = self;
-        _propertyList[i] = uf.text;
+//        _propertyList[i] = uf.text;
+        [self setValue:uf.text forKey:_propertyList[i]];
         [ud setObject:uf.text forKey:_userdefaultKeys[i]];
     }
+    
+    OPNUserEntry *entry = [OPNUserEntry new];
+    entry.userName = self.username;
+    entry.password = self.password;
+    entry.workgroup = self.workgroup;
+    Server *server = [[Server alloc] initWithIp:self.server NetworkType:@"LAN"];
+    entry.targetServer = server;
+    
+    [[OPNUserEntryManager sharedManager] addUserEntry:entry];
     
     if (![ud synchronize]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"エラー" message:@"保存ができませんでした" delegate:self cancelButtonTitle:@"閉じる" otherButtonTitles:nil, nil];
@@ -228,6 +242,9 @@ const CGFloat _labelInterval = 80;
     __strong id p = self.delegate;
     if (p && [p respondsToSelector:@selector(couldAuthViewController:)])
         [p couldAuthViewController:self];
+    if (p && [p respondsToSelector:@selector(reload)])
+        [p reload];
+    
 }
 
 #pragma mark - Text Field Delegate
@@ -254,7 +271,7 @@ const CGFloat _labelInterval = 80;
 #pragma mark - NSObject
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"AuthViewController description:\n%@ delegate: %@\nserver: %@\nlocalDir: %@\nworkgroup: %@\nusername: %@\npassword: %@\n",[super description], self.delegate, self.server, self.localDir, self.workgroup, self.username, self.password];
+    return [NSString stringWithFormat:@"AuthViewController description:\n%@ delegate: %@\nserver: %@\nlocalDir: %@\nworkgroup: %@\nusername: %@\npassword: %@\n",[super description], self.delegate, self.server, self.remoteDir, self.workgroup, self.username, self.password];
 }
 
 @end

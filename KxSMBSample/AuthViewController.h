@@ -12,12 +12,13 @@
 @protocol AuthViewControllerDelegate <NSObject>
 @optional
 - (void) couldAuthViewController: (AuthViewController *) controller;
+- (void) reload;
 @end
 
 @interface AuthViewController : UIViewController
 @property (nonatomic, weak)id <AuthViewControllerDelegate>delegate;
 @property (nonatomic, strong) NSString *server;
-@property (nonatomic, strong) NSString *localDir;
+@property (nonatomic, strong) NSString *remoteDir;
 @property (nonatomic, strong) NSString *workgroup;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *password;

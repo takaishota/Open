@@ -11,11 +11,14 @@
 #import "LoginStatusManager.h"
 #import "Server.h"
 #import "ServerListCell.h"
+#import "OPNUserEntryManager.h"
 
 static NSString * const kCellIdentifier = @"cellIdentifier";
 
 @interface ServerListViewController () <AuthViewControllerDelegate, UITextFieldDelegate>
 @property (nonatomic) DataLoader *dataLoader;
+@property (nonatomic) NSArray *userEntries;
+@property (nonatomic) NSString *selectedServerIp;
 @end
 
 @implementation ServerListViewController
@@ -24,20 +27,15 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    NSLog(@"%s :dictionaryRepresentation: %@", __FUNCTION__,[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
-    
-    // MARK: まずはひとつのエントリだけ保存、更新する
-    // MARK: 次に配列を保存して複数のエントリを保存できるようにする
-    self.serverPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
-    self.remoteDirectory = [[NSUserDefaults standardUserDefaults] objectForKey:@"RemoteDirectory"];
-    self.workgroup = [[NSUserDefaults standardUserDefaults] objectForKey:@"Workgroup"];
-    self.userName = [[NSUserDefaults standardUserDefaults] objectForKey:@"Username"];
-    self.password = [[NSUserDefaults standardUserDefaults] objectForKey:@"Password"];
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                            target:self
                                                                                            action:@selector(addAuthView)];
+    
+    NSLog(@"%s :dictionaryRepresentation: %@", __FUNCTION__,[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
+    
+    
+    
+    self.userEntries = [OPNUserEntryManager sharedManager].userEntries;
     
     [self setTableViewStyle];
     [self.tableView registerClass:[ServerListCell class] forCellReuseIdentifier:@"cellIdentifier"];
@@ -56,7 +54,7 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 1;
+    return [self.userEntries count];
 }
 
 
@@ -69,13 +67,12 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
                                       reuseIdentifier:cellIdentifier];
     }
     
+    NSMutableArray *entries= [OPNUserEntryManager sharedManager].userEntries;
+    if ([entries count] > 0) {
+        Server *server = entries[indexPath.row];
+        cell.textLabel.text = server.ip;
+    }
     
-//    Server *server = self.dataLoader.serverList[indexPath.row];
-//    cell.textLabel.text = server.ip;
-    
-    // TODO:一旦ユーザデフォルトから一つだけ読み込むようする
-//    cell.textLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
-    cell.textLabel.text = self.serverPath;
 
     UIImage *img = [UIImage imageNamed:@"mac"];
 //    UIImage *img;
@@ -111,7 +108,8 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
 }
 
 #pragma mark - Auth View Controller Delegate
-- (void) didSaveServerInfo {
+- (void) reload {
+    [[OPNUserEntryManager sharedManager] reloadUserEntries];
     [self.tableView reloadData];
 }
 
@@ -201,7 +199,7 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
     
     // splitViewのpushメソッドを呼び出す
     if ([self.delegate respondsToSelector:@selector(pushMasterViewControllerBySelectedServer:)]) {
-        [self.delegate pushMasterViewControllerBySelectedServer:self.serverPath];
+        [self.delegate pushMasterViewControllerBySelectedServer:self.selectedServerIp];
     }
 }
          
@@ -212,10 +210,9 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
     self.tableView.rowHeight       = 70.f;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
-#pragma mark - NSObject
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"ServerListViewController description:\n%@ delegate: %@\nserverPath: %@\n",[super description], self.delegate, self.serverPath];
+    return [NSString stringWithFormat:@"ServerListViewController description:\n%@ delegate: %@\n",[super description], self.delegate];
 }
 
 @end

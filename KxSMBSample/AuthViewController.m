@@ -216,9 +216,8 @@ const CGFloat _labelInterval = 80;
         _propertyList[i] = uf.text;
         [ud setObject:uf.text forKey:_userdefaultKeys[i]];
     }
-    BOOL doneSynchronized = [ud synchronize];
     
-    if (!doneSynchronized) {
+    if (![ud synchronize]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"エラー" message:@"保存ができませんでした" delegate:self cancelButtonTitle:@"閉じる" otherButtonTitles:nil, nil];
         [alert show];
     }

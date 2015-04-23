@@ -16,7 +16,6 @@
 @property (nonatomic) UIButton *btn;
 @property (nonatomic) UILabel *appNameLabel;
 @property (nonatomic) UILabel *descriptionLabel;
-@property (nonatomic) UITextField *serverTextField;
 @end
 
 @implementation TopViewController
@@ -104,7 +103,7 @@
     loginBtn.titleLabel.font = [UIFont fontWithName:@"HiraKakuProN-W6" size:16];
     [loginBtn setTitle:@"接続" forState:UIControlStateNormal];
     [loginBtn setTitleColor:TOP_BACKGROUND_COLOR forState:UIControlStateNormal];
-    [loginBtn addTarget:self action:@selector(showLoginViewController) forControlEvents:UIControlEventTouchUpInside];
+    [loginBtn addTarget:self action:@selector(openAppButtonDidPushed) forControlEvents:UIControlEventTouchUpInside];
     
     return loginBtn;
 }
@@ -121,82 +120,10 @@
     self.descriptionLabel.textColor       = [UIColor whiteColor];
 }
 
-- (void)showLoginViewController {
-    
-    // 認証ダイアログを表示する
-    Class class = NSClassFromString(@"UIAlertController");
-    if(class){
-        // iOS 8の時の処理
-        UIAlertController *alertController = [self generateAlertController];
-        alertController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [self presentViewController:alertController animated:YES completion:nil];
-    }else {
-        // iOS 7以前の処理
-        UIAlertView *alert = [self generateAlertView];
-        [alert show];
-    }
-}
-
-- (UIAlertController *)generateAlertController {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"ログイン"
-                                                                             message:@"ログイン情報を入力してください"
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-        self.serverTextField = textField;
-        [self formatTextField:textField];
-        textField.placeholder = @"サーバアドレス";
-        textField.delegate    = self;
-    }];
-    
-    // TODO:設定画面でON/OFFできるようにする
-    BOOL isAvailableLastLoginSetting = NO;
-    if (!isAvailableLastLoginSetting) {
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-            textField.placeholder = @"ユーザネーム";
-            [self formatTextField:textField];
-            textField.delegate    = self;
-        }];
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-            textField.placeholder = @"パスワード";
-            textField.secureTextEntry = true;
-            [self formatTextField:textField];
-        }];
-    }
-    
-    alertController.popoverPresentationController.sourceView = self.view;
-    alertController.popoverPresentationController.sourceRect = self.view.bounds;
-    alertController.popoverPresentationController.permittedArrowDirections = 0;
-    [alertController addAction:[UIAlertAction actionWithTitle:@"キャンセル" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // キャンセルボタンが押された時の処理
-        [self cancelButtonDidPushed];
-    }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"ログイン" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // ログインボタンが押された時の処理
-        [self loginButtonDidPushed];
-    }]];
-    return alertController;
-}
-
-- (UIAlertView *)generateAlertView {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"ログイン"
-                               message:@"ログイン情報を入力してください"
-                              delegate:self
-                     cancelButtonTitle:@"キャンセル"
-                     otherButtonTitles:@"ログイン", nil];
-    
-    // TODO:iOS7以下の処理
-    
-    return alertView;
-}
-- (void)formatTextField:(UITextField *)textField {
-    
-}
-
-- (void)loginButtonDidPushed {
-    [LoginStatusManager sharedManager].isLogin = YES;
+- (void)openAppButtonDidPushed {
+    [LoginStatusManager sharedManager].isLaunchedApp = NO;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-- (void)cancelButtonDidPushed {}
 
 
 @end

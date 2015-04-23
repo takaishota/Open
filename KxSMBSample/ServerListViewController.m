@@ -6,9 +6,16 @@
 //
 
 #import "ServerListViewController.h"
+#import "AuthViewController.h"
+#import "DataLoader.h"
+#import "LoginStatusManager.h"
+#import "Server.h"
+#import "ServerListCell.h"
 
-@interface ServerListViewController ()
+static NSString * const kCellIdentifier = @"cellIdentifier";
 
+@interface ServerListViewController () <AuthViewControllerDelegate, UITextFieldDelegate>
+@property (nonatomic) DataLoader *dataLoader;
 @end
 
 @implementation ServerListViewController
@@ -18,6 +25,22 @@
     [super viewDidLoad];
     
     
+    NSLog(@"%s :dictionaryRepresentation: %@", __FUNCTION__,[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
+    
+    // MARK: まずはひとつのエントリだけ保存、更新する
+    // MARK: 次に配列を保存して複数のエントリを保存できるようにする
+    self.serverPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
+    self.remoteDirectory = [[NSUserDefaults standardUserDefaults] objectForKey:@"RemoteDirectory"];
+    self.workgroup = [[NSUserDefaults standardUserDefaults] objectForKey:@"Workgroup"];
+    self.userName = [[NSUserDefaults standardUserDefaults] objectForKey:@"Username"];
+    self.password = [[NSUserDefaults standardUserDefaults] objectForKey:@"Password"];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                           target:self
+                                                                                           action:@selector(addAuthView)];
+    
+    [self setTableViewStyle];
+    [self.tableView registerClass:[ServerListCell class] forCellReuseIdentifier:@"cellIdentifier"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,61 +59,163 @@
     return 1;
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    static NSString *cellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
     
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                      reuseIdentifier:cellIdentifier];
+    }
+    
+    
+//    Server *server = self.dataLoader.serverList[indexPath.row];
+//    cell.textLabel.text = server.ip;
+    
+    // TODO:一旦ユーザデフォルトから一つだけ読み込むようする
+//    cell.textLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
+    cell.textLabel.text = self.serverPath;
+
+    UIImage *img = [UIImage imageNamed:@"mac"];
+//    UIImage *img;
+//    if ([server.networkType isEqualToString:@"LAN"]) {
+//        img = [UIImage imageNamed:@"mac.png"];
+//    } else if ([server.networkType isEqualToString:@"CLOUD"]) {
+//        img = [UIImage imageNamed:@"cloud.png"];
+//    } else if ([server.networkType isEqualToString:@"PUBLIC"]) {
+//        img = [UIImage imageNamed:@"public.png"];
+//    }
+    cell.imageView.image = img;
     
     return cell;
+    
 }
-*/
 
-/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+#pragma mark - Table View Delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (!self.delegate) {
+        return;
+    }
+    [self showLoginViewController];
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleInsert;
 }
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
+#pragma mark - Auth View Controller Delegate
+- (void) didSaveServerInfo {
+    [self.tableView reloadData];
 }
-*/
 
-/*
-#pragma mark - Navigation
+#pragma mark - Bar Button Item Event Handler
+- (void) addAuthView {
+    AuthViewController *vc = [[AuthViewController alloc] init];
+    
+    // split view controller にdelegateする
+    [self.navigationController pushViewController:vc animated:YES];
+    vc.delegate = self;
+}
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - Private
+- (void)showLoginViewController {
+    
+    // 認証ダイアログを表示する
+    Class class = NSClassFromString(@"UIAlertController");
+    if(class){
+        // iOS 8の時の処理
+        UIAlertController *alertController = [self generateAlertController];
+        alertController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        [self presentViewController:alertController animated:YES completion:nil];
+    }else {
+        // iOS 7以前の処理
+        UIAlertView *alert = [self generateAlertView];
+        [alert show];
+    }
+}
+
+- (UIAlertController *)generateAlertController {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"ログイン"
+                                                                             message:@"ログイン情報を入力してください"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    // TODO:設定画面で前回の値を使うかON/OFFできるようにする
+    BOOL isAvailableLastLoginSetting = NO;
+    if (!isAvailableLastLoginSetting) {
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+            textField.placeholder = @"ユーザネーム";
+            [self formatTextField:textField];
+            textField.delegate    = self;
+        }];
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+            textField.placeholder = @"パスワード";
+            textField.secureTextEntry = true;
+            [self formatTextField:textField];
+        }];
+    }
+    
+    alertController.popoverPresentationController.sourceView = self.view;
+    alertController.popoverPresentationController.sourceRect = self.view.bounds;
+    alertController.popoverPresentationController.permittedArrowDirections = 0;
+    [alertController addAction:[UIAlertAction actionWithTitle:@"キャンセル" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // キャンセルボタンが押された時の処理
+        [self cancelButtonDidPushed];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"ログイン" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // ログインボタンが押された時の処理
+        [self loginButtonDidPushed];
+    }]];
+    return alertController;
+}
+
+- (UIAlertView *)generateAlertView {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"ログイン"
+                                                        message:@"ログイン情報を入力してください"
+                                                       delegate:self
+                                              cancelButtonTitle:@"キャンセル"
+                                              otherButtonTitles:@"ログイン", nil];
+    // TODO:iOS7以下の処理
+    
+    return alertView;
+}
+- (void)formatTextField:(UITextField *)textField {
+    
+}
+
+- (void)loginButtonDidPushed {
+    // 接続処理を行う
+    [LoginStatusManager sharedManager].isLaunchedApp = NO;
+    
+    NSError *error= nil;
+    if (error) {
+        // エラーメッセージを表示する
+        return;
+    }
+    
+    // splitViewのpushメソッドを呼び出す
+    if ([self.delegate respondsToSelector:@selector(pushMasterViewControllerBySelectedServer:)]) {
+        [self.delegate pushMasterViewControllerBySelectedServer:self.serverPath];
+    }
+}
+         
+- (void)cancelButtonDidPushed {}
+
+- (void)setTableViewStyle {
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.rowHeight       = 70.f;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+}
 #pragma mark - NSObject
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"ServerListViewController description:\n%@ delegate: %@\nserverPath: %@\n",[super description], self.delegate, self.serverPath];
 }
-*/
 
 @end

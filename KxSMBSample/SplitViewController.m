@@ -10,9 +10,10 @@
 #import "KxSMBProvider.h"
 #import "FileViewController.h"
 #import "TreeViewController.h"
+#import "ServerListViewController.h"
 
-@interface SplitViewController () <AuthViewControllerDelegate, KxSMBProviderDelegate, TreeViewControllerDelegate>
-@property (nonatomic) TreeViewController *rootTreeViewController;
+@interface SplitViewController () <AuthViewControllerDelegate, KxSMBProviderDelegate, TreeViewControllerDelegate, ServerListViewControllerDelegate>
+@property (nonatomic) ServerListViewController *rootTreeViewController;
 @property (nonatomic) UINavigationController *navigationControllerForMaster;
 @property (nonatomic) UINavigationController *navigationControllerForDetail;
 @end
@@ -27,8 +28,8 @@
     
     self = [super init];
     if (self) {
-        // masterViewControllerの生成
-        self.rootTreeViewController = [[TreeViewController alloc] initAsHeadViewController];
+        
+        self.rootTreeViewController = [ServerListViewController new];
         self.rootTreeViewController.delegate = self;
         self.navigationControllerForMaster = [[UINavigationController alloc] initWithRootViewController:self.rootTreeViewController];
 
@@ -82,14 +83,6 @@
 }
 
 #pragma mark - TreeViewControllerDelegate
-- (void) authViewCloseHandler:(AuthViewController*)controller {
-    
-    // キャッシュを初期化する
-    _cachedAuths = [NSMutableDictionary dictionary];
-    
-    [self couldAuthViewController:controller];
-}
-
 - (void) pushMasterViewController:(KxSMBItem*)item {
     TreeViewController *vc = [[TreeViewController alloc] init];
     vc.path = item.path;
@@ -103,6 +96,18 @@
     [self.navigationControllerForDetail pushViewController:vc animated:YES];
 }
 
+#pragma mark - ServerListViewContollerDelegate
+- (void)    :(NSString *)server {
+    TreeViewController *vc = [[TreeViewController alloc] init];
+    vc.path = server;
+    vc.delegate = self;
+    [self.navigationControllerForMaster pushViewController:vc animated:YES];
+    
+    _cachedAuths = [NSMutableDictionary dictionary];
+    
+    [vc reloadPath];
+}
+
 #pragma mark - AuthViewControllerDelegate
 - (void) couldAuthViewController: (AuthViewController *) controller {
     // ユーザデフォルトから認証情報を取得してセットする
@@ -110,7 +115,9 @@
                                          username:[[NSUserDefaults standardUserDefaults] stringForKey:@"Username"]
                                          password:[[NSUserDefaults standardUserDefaults] stringForKey:@"Password"]];
     
-    _cachedAuths[controller.server.uppercaseString] = auth;
+    if (controller) {
+        _cachedAuths[controller.server.uppercaseString] = auth;
+    }
     
     NSLog(@"store auth for %@ -> %@/%@:%@",
           controller.server, auth.workgroup, auth.username, auth.password);
@@ -118,7 +125,7 @@
     UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     [nav dismissViewControllerAnimated:YES completion:nil];
     
-    [self.navigationControllerForMaster.viewControllers[0] reloadPath];
+//    [self.navigationControllerForMaster.viewControllers[0] reloadPath];
 }
 
 #pragma mark - KxSMBProviderDelegate

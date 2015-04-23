@@ -19,7 +19,6 @@
 @end
 
 @implementation TreeViewController {
-    BOOL        _isHeadVC;
     NSArray     *_items;
     BOOL        _loading;
     BOOL        _needNewPath;
@@ -33,21 +32,12 @@
     if (self) {
         self.title   = @"";
         _needNewPath = YES;
-        _isHeadVC    = NO;
-    }
-    return self;
-}
-
-- (id)initAsHeadViewController {
-    if((self = [self init])) {
-        _isHeadVC = YES;
     }
     return self;
 }
 
 - (void)loadView
 {
-
     [super loadView];
     
     self.navigationController.toolbarHidden = NO;
@@ -57,19 +47,12 @@
         [refreshControl addTarget:self action:@selector(reloadPath) forControlEvents:UIControlEventValueChanged];
         self.refreshControl = refreshControl;
     }
-    
-    if(_isHeadVC) {
-        self.navigationItem.leftBarButtonItem  = [self generateCustomLeftBarButtonItem:@"refresh.png"];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                                              target:self
-                                                                                              action:@selector(addAuthView)];
-    }
+    self.navigationItem.rightBarButtonItem  = [self generateResizingBarButtonItemWithImage:@"refresh.png"];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setupToolBar];
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,7 +60,7 @@
     [super didReceiveMemoryWarning];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (BOOL)shouldAInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
@@ -85,7 +68,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self setupToolBar];
+    [self setTableViewStyle];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -103,6 +87,12 @@
 }
 
 #pragma mark - Private
+- (void)setTableViewStyle {
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.rowHeight = 70.f;
+}
+
 - (void) reloadPath
 {
     NSString *path;
@@ -204,11 +194,6 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     [_newPathField becomeFirstResponder];
-}
-- (void) addAuthView {
-    AuthViewController *vc = [[AuthViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
-    vc.delegate = self;
 }
 
 - (void) updateStatus: (id) status

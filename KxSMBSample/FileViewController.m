@@ -95,7 +95,7 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-    if (![LoginStatusManager sharedManager].isLogin) {
+    if ([LoginStatusManager sharedManager].isLaunchedApp) {
         self.topViewController = [TopViewController new];
         self.topViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:self.topViewController animated:YES completion:nil];

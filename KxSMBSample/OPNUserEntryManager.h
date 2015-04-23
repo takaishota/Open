@@ -18,7 +18,6 @@
 - (void)insertUserEntry:(OPNUserEntry *)entry inUserEntriesAtIndex:(NSUInteger)index;
 - (void)removeUserEntriy:(NSUInteger)index;
 - (void)moveUserEntryAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
-- (void)save;
-- (void)reloadBookmarksWithBlock:(void (^)(NSError *error))block;
+- (void)reloadUserEntriesksWithBlock:(void (^)(NSError *error))block;
 
 @end

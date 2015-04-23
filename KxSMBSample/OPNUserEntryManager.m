@@ -7,6 +7,7 @@
 //
 
 #import "OPNUserEntryManager.h"
+#import "OPNUserEntry.h"
 
 @implementation OPNUserEntryManager
 + (OPNUserEntryManager*)sharedManager
@@ -28,22 +29,62 @@
     return self;
 }
 
-- (void)addUserEntry:(OPNUserEntry*)userEntry {
+- (void)addUserEntry:(OPNUserEntry*)entry {
+    if (!entry) {
+        return;
+    }
+    
+    [self.userEntries addObject:entry];
+    [self save];
 }
 
 - (void)insertUserEntry:(OPNUserEntry *)entry inUserEntriesAtIndex:(NSUInteger)index {
+    if (!entry) {
+        return;
+    }
+    if (index < 0 || index > [self.userEntries count]) {
+        return;
+    }
+    
+    [self.userEntries insertObject:entry atIndex:index];
+    [self save];
 }
 
 - (void)removeUserEntriy:(NSUInteger)index {
+    if (index < 0 || index > [self.userEntries count] - 1) {
+        return;
+    }
+    
+    [self.userEntries removeObjectAtIndex:index];
+    [self save];
 }
 
 - (void)moveUserEntryAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
+    if (fromIndex < 0 || fromIndex > [self.userEntries count] - 1) {
+        return;
+    }
+    if (toIndex < 0 || toIndex > [self.userEntries count]) {
+        return;
+    }
+    
+    OPNUserEntry *userEntry;
+    userEntry = [self.userEntries objectAtIndex:fromIndex];
+    [self.userEntries removeObject:userEntry];
+    [self.userEntries insertObject:userEntry atIndex:toIndex];
+    [self save];
 }
 
 - (void)save {
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.userEntries];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserEntries"];
 }
 
-- (void)reloadBookmarksWithBlock:(void (^)(NSError *error))block {
+- (void)reloadUserEntriesWithBlock:(void (^)(NSError *error))block {
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserEntries"];
+    if (!self.userEntries) {
+        return;
+    }
+    self.userEntries = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 }
 
 @end

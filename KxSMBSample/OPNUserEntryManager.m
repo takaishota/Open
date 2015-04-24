@@ -25,7 +25,14 @@
 {
     self = [super init];
     if (self) {
-        self.userEntries = [@[] mutableCopy];
+        NSData *entriesData = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserEntries"];
+        NSMutableArray *entries = [NSKeyedUnarchiver unarchiveObjectWithData:entriesData];
+        
+        if ([entries count] > 0) {
+            self.userEntries = entries;
+        } else {
+            self.userEntries = [@[] mutableCopy];
+        }
     }
     return self;
 }
@@ -51,12 +58,21 @@
     [self save];
 }
 
-- (void)removeUserEntriy:(NSUInteger)index {
+- (void)removeUserEntry:(NSUInteger)index {
     if (index > [self.userEntries count] - 1) {
         return;
     }
     
     [self.userEntries removeObjectAtIndex:index];
+    [self save];
+}
+
+- (void)removeAllUserEntries {
+    if (!self.userEntries) {
+        return;
+    }
+    
+    [self.userEntries removeAllObjects];
     [self save];
 }
 

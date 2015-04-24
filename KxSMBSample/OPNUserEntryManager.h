@@ -16,7 +16,8 @@
 + (OPNUserEntryManager*)sharedManager;
 - (void)addUserEntry:(OPNUserEntry*)userEntry;
 - (void)insertUserEntry:(OPNUserEntry *)entry inUserEntriesAtIndex:(NSUInteger)index;
-- (void)removeUserEntriy:(NSUInteger)index;
+- (void)removeUserEntry:(NSUInteger)index;
+- (void)removeAllUserEntries;
 - (void)moveUserEntryAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 - (NSString*)getServerIpAtIndex:(NSUInteger)index;
 

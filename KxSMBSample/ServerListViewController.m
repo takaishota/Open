@@ -30,11 +30,14 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                            target:self
                                                                                            action:@selector(addAuthView)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:
+UIBarButtonSystemItemTrash
+                                                                                          target:self
+                                                                                          action:@selector(removeAllEntries)];
     
     NSLog(@"%s :dictionaryRepresentation: %@", __FUNCTION__,[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
     
-    
-    
+    self.navigationItem.title = @"サーバ一覧";
     self.userEntries = [OPNUserEntryManager sharedManager].userEntries;
     
     [self setTableViewStyle];
@@ -47,7 +50,6 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
     // Return the number of sections.
     return 1;
 }
@@ -107,6 +109,11 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
     // split view controller にdelegateする
     [self.navigationController pushViewController:vc animated:YES];
     vc.delegate = self;
+}
+
+- (void) removeAllEntries {
+    [[OPNUserEntryManager sharedManager] removeAllUserEntries];
+    [self reload];
 }
 
 #pragma mark - Private

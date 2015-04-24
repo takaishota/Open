@@ -97,7 +97,7 @@
 }
 
 #pragma mark - ServerListViewContollerDelegate
-- (void)    :(NSString *)server {
+- (void)pushMasterViewControllerBySelectedServer:(NSString *)server {
     TreeViewController *vc = [[TreeViewController alloc] init];
     vc.path = server;
     vc.delegate = self;

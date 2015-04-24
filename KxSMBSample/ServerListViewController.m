@@ -85,6 +85,7 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
     if (!self.delegate) {
         return;
     }
+    self.selectedServerIp = [[OPNUserEntryManager sharedManager] getServerIpAtIndex:indexPath.row];
     [self showLoginViewController];
 }
 

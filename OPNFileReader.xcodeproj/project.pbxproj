@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F04ADF21AEA2E6A006935CF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F04ADF11AEA2E6A006935CF /* Images.xcassets */; };
 		1F16691D1AC4EC0100182F93 /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F16691C1AC4EC0100182F93 /* left.png */; };
 		1F1669231AC54EF100182F93 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F1669221AC54EF100182F93 /* right.png */; };
 		1F2F50511AC3A46A00E43763 /* LocalFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2F50501AC3A46A00E43763 /* LocalFileViewController.m */; };
@@ -41,6 +42,15 @@
 		1FE188AC1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE188AB1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m */; };
 		1FE363471AD3BC6F0062ECBB /* DataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE363461AD3BC6F0062ECBB /* DataLoader.m */; };
 		1FE4B7181AE79B2300FC83D5 /* UIImage+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE4B7171AE79B2300FC83D5 /* UIImage+Utility.m */; };
+		1FF03A671AEA36A20049F641 /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FF03A631AEA36A20049F641 /* Icon-76.png */; };
+		1FF03A681AEA36A20049F641 /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FF03A641AEA36A20049F641 /* Icon-76@2x.png */; };
+		1FF03A691AEA36A20049F641 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FF03A651AEA36A20049F641 /* Icon-Small.png */; };
+		1FF03A6A1AEA36A20049F641 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FF03A661AEA36A20049F641 /* Icon-Small@2x.png */; };
+		1FF03A6F1AEA36B20049F641 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FF03A6B1AEA36B20049F641 /* Icon-40@2x.png */; };
+		1FF03A701AEA36B20049F641 /* Icon-40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FF03A6C1AEA36B20049F641 /* Icon-40@3x.png */; };
+		1FF03A711AEA36B20049F641 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FF03A6D1AEA36B20049F641 /* Icon-60@2x.png */; };
+		1FF03A721AEA36B20049F641 /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FF03A6E1AEA36B20049F641 /* Icon-60@3x.png */; };
+		1FF03A741AEA39280049F641 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FF03A731AEA39280049F641 /* Icon-40.png */; };
 		3D4F15DD1ADA9A5600083E9F /* LoginStatusManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4F15DC1ADA9A5600083E9F /* LoginStatusManager.m */; };
 		87085F8D1705D46C009CD258 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F8C1705D46C009CD258 /* UIKit.framework */; };
 		87085F8F1705D46C009CD258 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F8E1705D46C009CD258 /* Foundation.framework */; };
@@ -81,6 +91,7 @@
 
 /* Begin PBXFileReference section */
 		18A91746D289963B8F991D10 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		1F04ADF11AEA2E6A006935CF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = OPNFileReader/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		1F16691C1AC4EC0100182F93 /* left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left.png; sourceTree = "<group>"; };
 		1F1669221AC54EF100182F93 /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right.png; sourceTree = "<group>"; };
 		1F23EDE11AE0F13700DF7FB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -137,6 +148,15 @@
 		1FE363461AD3BC6F0062ECBB /* DataLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataLoader.m; sourceTree = "<group>"; };
 		1FE4B7161AE79B2300FC83D5 /* UIImage+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Utility.h"; sourceTree = "<group>"; };
 		1FE4B7171AE79B2300FC83D5 /* UIImage+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Utility.m"; sourceTree = "<group>"; };
+		1FF03A631AEA36A20049F641 /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76.png"; sourceTree = "<group>"; };
+		1FF03A641AEA36A20049F641 /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
+		1FF03A651AEA36A20049F641 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		1FF03A661AEA36A20049F641 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		1FF03A6B1AEA36B20049F641 /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@2x.png"; sourceTree = "<group>"; };
+		1FF03A6C1AEA36B20049F641 /* Icon-40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@3x.png"; sourceTree = "<group>"; };
+		1FF03A6D1AEA36B20049F641 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
+		1FF03A6E1AEA36B20049F641 /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
+		1FF03A731AEA39280049F641 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
 		3D4F15DB1ADA9A5600083E9F /* LoginStatusManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginStatusManager.h; sourceTree = "<group>"; };
 		3D4F15DC1ADA9A5600083E9F /* LoginStatusManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginStatusManager.m; sourceTree = "<group>"; };
 		6560FA5E2DECD63CEA3442F4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -308,6 +328,15 @@
 		1F39247D1AD5074F00FF9564 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1FF03A731AEA39280049F641 /* Icon-40.png */,
+				1FF03A6B1AEA36B20049F641 /* Icon-40@2x.png */,
+				1FF03A6C1AEA36B20049F641 /* Icon-40@3x.png */,
+				1FF03A6D1AEA36B20049F641 /* Icon-60@2x.png */,
+				1FF03A6E1AEA36B20049F641 /* Icon-60@3x.png */,
+				1FF03A631AEA36A20049F641 /* Icon-76.png */,
+				1FF03A641AEA36A20049F641 /* Icon-76@2x.png */,
+				1FF03A651AEA36A20049F641 /* Icon-Small.png */,
+				1FF03A661AEA36A20049F641 /* Icon-Small@2x.png */,
 				1F80BAE61AD2221E00D6F669 /* bookmark.png */,
 				1F80BAE71AD2221E00D6F669 /* check.png */,
 				1F80BAE81AD2221E00D6F669 /* cloud.png */,
@@ -461,6 +490,7 @@
 			children = (
 				1FE4B71A1AE7A78600FC83D5 /* Classes */,
 				1F16691E1AC4EC0900182F93 /* Resources */,
+				1F04ADF11AEA2E6A006935CF /* Images.xcassets */,
 				87085F931705D46C009CD258 /* Supporting Files */,
 			);
 			name = OPNFileReader;
@@ -589,20 +619,30 @@
 				1F1669231AC54EF100182F93 /* right.png in Resources */,
 				1F16691D1AC4EC0100182F93 /* left.png in Resources */,
 				87085F971705D46C009CD258 /* InfoPlist.strings in Resources */,
+				1FF03A6F1AEA36B20049F641 /* Icon-40@2x.png in Resources */,
 				1F80BAF31AD2221E00D6F669 /* refresh.png in Resources */,
 				1F80BAF11AD2221E00D6F669 /* mac.png in Resources */,
+				1FF03A711AEA36B20049F641 /* Icon-60@2x.png in Resources */,
 				1F80BAEE1AD2221E00D6F669 /* bookmark.png in Resources */,
 				1F80BAF41AD2221E00D6F669 /* settings.png in Resources */,
 				87085F9F1705D46C009CD258 /* Default.png in Resources */,
+				1FF03A691AEA36A20049F641 /* Icon-Small.png in Resources */,
 				1F80BAF01AD2221E00D6F669 /* cloud.png in Resources */,
 				1F80BAF51AD2221E00D6F669 /* windows.png in Resources */,
 				1F570E311ACA8EA600447727 /* folder.png in Resources */,
 				1F80BAF21AD2221E00D6F669 /* public.png in Resources */,
 				1F3924811AD507DC00FF9564 /* servers.json in Resources */,
+				1F04ADF21AEA2E6A006935CF /* Images.xcassets in Resources */,
 				1F80BAEF1AD2221E00D6F669 /* check.png in Resources */,
 				87085FA11705D46C009CD258 /* Default@2x.png in Resources */,
+				1FF03A671AEA36A20049F641 /* Icon-76.png in Resources */,
 				1F570E331ACA8ECF00447727 /* file.png in Resources */,
+				1FF03A681AEA36A20049F641 /* Icon-76@2x.png in Resources */,
+				1FF03A721AEA36B20049F641 /* Icon-60@3x.png in Resources */,
 				87085FA31705D46C009CD258 /* Default-568h@2x.png in Resources */,
+				1FF03A701AEA36B20049F641 /* Icon-40@3x.png in Resources */,
+				1FF03A6A1AEA36A20049F641 /* Icon-Small@2x.png in Resources */,
+				1FF03A741AEA39280049F641 /* Icon-40.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -760,13 +800,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CB48E9D8A5C96CD5658C99FC /* Pods.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KxSMBSample/OPNFileReader-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libs\"";
 				INFOPLIST_FILE = "KxSMBSample/OPNFileReader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/libs\"",
@@ -782,13 +823,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 18A91746D289963B8F991D10 /* Pods.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)\"";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KxSMBSample/OPNFileReader-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/libs\"";
 				INFOPLIST_FILE = "KxSMBSample/OPNFileReader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/libs\"",

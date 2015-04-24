@@ -79,12 +79,4 @@
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserEntries"];
 }
 
-- (void)reloadUserEntries {
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserEntries"];
-    if (!self.userEntries) {
-        return;
-    }
-    self.userEntries = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-}
-
 @end

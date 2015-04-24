@@ -109,7 +109,6 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
 
 #pragma mark - Auth View Controller Delegate
 - (void) reload {
-    [[OPNUserEntryManager sharedManager] reloadUserEntries];
     [self.tableView reloadData];
 }
 

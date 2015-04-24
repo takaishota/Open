@@ -115,7 +115,7 @@ static const CGFloat headerHeight = 60;
     UILabel *label        = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, headerHeight)];
     label.text            = @"環境設定";
     label.font = [UIFont fontWithName:@"HiraKakuProN-W6" size:16];
-    label.textAlignment   = UITextAlignmentCenter;
+    label.textAlignment   = NSTextAlignmentCenter;
     label.backgroundColor = INFOCUS_UNDERLINE_COLOR;
     return label;
 }

@@ -66,23 +66,9 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
                                       reuseIdentifier:cellIdentifier];
     }
-    
-    NSMutableArray *entries= [OPNUserEntryManager sharedManager].userEntries;
-    if ([entries count] > 0) {
-        Server *server = entries[indexPath.row];
-        cell.textLabel.text = server.ip;
-    }
-    
 
+    cell.textLabel.text = [[OPNUserEntryManager sharedManager] getServerIpAtIndex:indexPath.row];
     UIImage *img = [UIImage imageNamed:@"mac"];
-//    UIImage *img;
-//    if ([server.networkType isEqualToString:@"LAN"]) {
-//        img = [UIImage imageNamed:@"mac.png"];
-//    } else if ([server.networkType isEqualToString:@"CLOUD"]) {
-//        img = [UIImage imageNamed:@"cloud.png"];
-//    } else if ([server.networkType isEqualToString:@"PUBLIC"]) {
-//        img = [UIImage imageNamed:@"public.png"];
-//    }
     cell.imageView.image = img;
     
     return cell;
@@ -109,6 +95,7 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
 
 #pragma mark - Auth View Controller Delegate
 - (void) reload {
+    self.userEntries = [OPNUserEntryManager sharedManager].userEntries;
     [self.tableView reloadData];
 }
 

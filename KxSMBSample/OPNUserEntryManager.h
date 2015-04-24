@@ -18,5 +18,6 @@
 - (void)insertUserEntry:(OPNUserEntry *)entry inUserEntriesAtIndex:(NSUInteger)index;
 - (void)removeUserEntriy:(NSUInteger)index;
 - (void)moveUserEntryAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
+- (NSString*)getServerIpAtIndex:(NSUInteger)index;
 
 @end

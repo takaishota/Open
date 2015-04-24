@@ -8,6 +8,7 @@
 
 #import "OPNUserEntryManager.h"
 #import "OPNUserEntry.h"
+#import "OPNUserEntry.h"
 
 @implementation OPNUserEntryManager
 + (OPNUserEntryManager*)sharedManager
@@ -23,7 +24,7 @@
 - (id)init
 {
     self = [super init];
-    if (!self) {
+    if (self) {
         self.userEntries = [@[] mutableCopy];
     }
     return self;
@@ -77,6 +78,15 @@
 - (void)save {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.userEntries];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserEntries"];
+}
+
+- (NSString*)getServerIpAtIndex:(NSUInteger)index {
+    NSMutableArray *entries= self.userEntries;
+    if (![entries count] < 0) {
+        return nil;
+    }
+    OPNUserEntry *entry = entries[index];
+    return entry.targetServer.ip;
 }
 
 @end

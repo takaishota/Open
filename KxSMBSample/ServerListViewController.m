@@ -12,13 +12,14 @@
 #import "Server.h"
 #import "ServerListCell.h"
 #import "OPNUserEntryManager.h"
+#import "OPNUserEntry.h"
 
 static NSString * const kCellIdentifier = @"cellIdentifier";
 
 @interface ServerListViewController () <AuthViewControllerDelegate, UITextFieldDelegate>
 @property (nonatomic) DataLoader *dataLoader;
 @property (nonatomic) NSArray *userEntries;
-@property (nonatomic) NSString *selectedServerIp;
+@property (nonatomic) OPNUserEntry *selectedUserEntry;
 @end
 
 @implementation ServerListViewController
@@ -87,8 +88,12 @@ UIBarButtonSystemItemTrash
     if (!self.delegate) {
         return;
     }
-    self.selectedServerIp = [[OPNUserEntryManager sharedManager] getServerIpAtIndex:indexPath.row];
-    [self showLoginViewController];
+    self.selectedUserEntry = [OPNUserEntryManager sharedManager].userEntries[indexPath.row];
+    if (!self.selectedUserEntry) {
+        return;
+    }
+    
+    [self showLoginViewController:self.selectedUserEntry];
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -117,7 +122,7 @@ UIBarButtonSystemItemTrash
 }
 
 #pragma mark - Private
-- (void)showLoginViewController {
+- (void)showLoginViewController:(OPNUserEntry*)entry {
     
     // 認証ダイアログを表示する
     Class class = NSClassFromString(@"UIAlertController");
@@ -183,18 +188,20 @@ UIBarButtonSystemItemTrash
 
 - (void)loginButtonDidPushed {
     // 接続処理を行う
-    [LoginStatusManager sharedManager].isLaunchedApp = NO;
-    
-    NSError *error= nil;
-    if (error) {
-        // エラーメッセージを表示する
-        return;
-    }
+    [self connect:self.selectedUserEntry];
     
     // splitViewのpushメソッドを呼び出す
-    if ([self.delegate respondsToSelector:@selector(pushMasterViewControllerBySelectedServer:)]) {
-        [self.delegate pushMasterViewControllerBySelectedServer:self.selectedServerIp];
+    if ([self.delegate respondsToSelector:@selector(pushMasterViewControllerBySelectedEntries:)]) {
+        [self.delegate pushMasterViewControllerBySelectedEntries:self.selectedUserEntry];
     }
+}
+
+- (void)connect:(OPNUserEntry*)entry {
+    NSError *error = nil;
+    if (&error) {
+        // エラーメッセージ
+    }
+    [LoginStatusManager sharedManager].isLaunchedApp = NO;
 }
          
 - (void)cancelButtonDidPushed {}

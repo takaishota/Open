@@ -7,10 +7,11 @@
 
 #import <UIKit/UIKit.h>
 @class ServerListViewControllerDelegate;
+@class OPNUserEntry;
 
 @protocol ServerListViewControllerDelegate <NSObject>
 @optional
-- (void)pushMasterViewControllerBySelectedServer:(NSString*)server;
+- (void)pushMasterViewControllerBySelectedEntries:(OPNUserEntry *)entry;
 @end
 
 @interface ServerListViewController : UITableViewController

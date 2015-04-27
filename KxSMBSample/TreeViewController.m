@@ -73,7 +73,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    if (self.navigationController.childViewControllers.count == 1 && _needNewPath) {
+    if (self.navigationController.childViewControllers.count > 1 && _needNewPath) {
         _needNewPath = NO;
         [self requestNewPath];
     }
@@ -100,9 +100,8 @@
         path = _path;
         self.title = path.lastPathComponent;
     } else {
-        
         path = @"smb://";
-        self.title = @"smb://";
+        self.title = @"エラー";
     }
     
     _items = nil;
@@ -110,7 +109,7 @@
     [self updateStatus:[NSString stringWithFormat: @"Fetching %@..", path]];
     
     KxSMBProvider *provider = [KxSMBProvider sharedSmbProvider];
-    [provider fetchAtPath:path
+    [provider fetchAtPath:[@"smb://" stringByAppendingString:path]
                     block:^(id result)
     {
         if ([result isKindOfClass:[NSError class]]) {
@@ -176,24 +175,11 @@
 # pragma mark - pushed navigationbar button
 - (void) requestNewPath {
     
-    if(_newPathField == nil) {
-        _newPathField                        = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 30)];
-        _newPathField.borderStyle            = UITextBorderStyleRoundedRect;
-        _newPathField.placeholder            = @"smb://";
-        _newPathField.keyboardType           = UIKeyboardTypeURL;
-        _newPathField.autocorrectionType     = UITextAutocorrectionTypeNo;
-        _newPathField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        _newPathField.text                   = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
-    }
-    
-    NSString *appendedPath = [NSString stringWithFormat:@"smb://%@%@",
-                              _newPathField.text,
-                              [[NSUserDefaults standardUserDefaults] objectForKey:@"RemoteDirectory"]];
+    NSString *lastConnectedServerPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
+    NSString *appendedPath = [lastConnectedServerPath stringByAppendingString:[[NSUserDefaults standardUserDefaults] objectForKey:@"RemoteDirectory"]];
     self.path = appendedPath;
-    [[NSUserDefaults standardUserDefaults] setObject:_newPathField.text forKey:@"LastServer"];
+    [[NSUserDefaults standardUserDefaults] setObject:lastConnectedServerPath forKey:@"LastServer"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [_newPathField becomeFirstResponder];
 }
 
 - (void) updateStatus: (id) status

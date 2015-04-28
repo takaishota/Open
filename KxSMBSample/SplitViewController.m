@@ -6,11 +6,13 @@
 //
 
 #import "SplitViewController.h"
+// :: Other ::
 #import "AuthViewController.h"
-#import "KxSMBProvider.h"
 #import "FileViewController.h"
-#import "TreeViewController.h"
+#import "KxSMBProvider.h"
+#import "OPNUserEntry.h"
 #import "ServerListViewController.h"
+#import "TreeViewController.h"
 
 @interface SplitViewController () <AuthViewControllerDelegate, KxSMBProviderDelegate, TreeViewControllerDelegate, ServerListViewControllerDelegate>
 @property (nonatomic) ServerListViewController *rootTreeViewController;

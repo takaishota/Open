@@ -10,9 +10,9 @@
 // :: Other ::
 #import "AuthViewController.h"
 #import "KxSMBProvider.h"
-#import "UIImage+Utility.h"
 #import "LocalFileViewController.h"
 #import "SettingsViewController.h"
+#import "UIImage+Utility.h"
 
 
 @interface TreeViewController () <UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate>

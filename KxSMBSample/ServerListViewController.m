@@ -6,12 +6,14 @@
 //
 
 #import "ServerListViewController.h"
+// :: Other ::
 #import "AuthViewController.h"
 #import "DataLoader.h"
 #import "LoginStatusManager.h"
+#import "OPNUserEntry.h"
+#import "OPNUserEntryManager.h"
 #import "Server.h"
 #import "ServerListCell.h"
-#import "OPNUserEntryManager.h"
 
 static NSString * const kCellIdentifier = @"cellIdentifier";
 
@@ -34,8 +36,6 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
 UIBarButtonSystemItemTrash
                                                                                           target:self
                                                                                           action:@selector(removeAllEntries)];
-    
-    NSLog(@"%s :dictionaryRepresentation: %@", __FUNCTION__,[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
     
     self.navigationItem.title = @"サーバ一覧";
     self.userEntries = [OPNUserEntryManager sharedManager].userEntries;

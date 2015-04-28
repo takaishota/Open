@@ -61,7 +61,7 @@
     _fieldsList = [NSMutableArray array];
     
     // プロパティの参照を配列にセットする
-    _propertyList = [@[@"server", @"RemoteDir", @"workgroup", @"username", @"password"] mutableCopy];
+    _propertyList = [@[@"server", @"workgroup", @"RemoteDir", @"username", @"password"] mutableCopy];
     
     // フォームに表示する項目
     _formLabels      = @[@"サーバアドレス", @"リモートディレクトリ", @"ワークグループ", @"ユーザ名", @"パスワード"];
@@ -222,13 +222,12 @@ const CGFloat _labelInterval = 80;
         [ud setObject:uf.text forKey:_userdefaultKeys[i]];
     }
     
-    OPNUserEntry *entry   = [OPNUserEntry new];
-    entry.userName        = self.username;
-    entry.password        = self.password;
-    entry.remoteDirectory = self.remoteDir;
-    entry.workgroup       = self.workgroup;
-    Server *server        = [[Server alloc] initWithIp:self.server NetworkType:@"LAN"];
-    entry.targetServer    = server;
+    OPNUserEntry *entry = [OPNUserEntry new];
+    entry.userName = self.username;
+    entry.password = self.password;
+    entry.workgroup = self.workgroup;
+    Server *server = [[Server alloc] initWithIp:self.server NetworkType:@"LAN"];
+    entry.targetServer = server;
     
     [[OPNUserEntryManager sharedManager] addUserEntry:entry];
     

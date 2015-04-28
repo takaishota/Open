@@ -9,7 +9,6 @@
 #import "AuthViewController.h"
 #import "KxSMBProvider.h"
 #import "FileViewController.h"
-#import "OPNUserEntry.h"
 #import "TreeViewController.h"
 #import "ServerListViewController.h"
 
@@ -98,14 +97,9 @@
 }
 
 #pragma mark - ServerListViewContollerDelegate
-- (void)pushMasterViewControllerBySelectedEntries:(OPNUserEntry *)entry {
+- (void)pushMasterViewControllerBySelectedServer:(NSString *)server {
     TreeViewController *vc = [[TreeViewController alloc] init];
-    
-    NSString *entryPath = entry.targetServer.ip;
-    if (entry.remoteDirectory) {
-        entryPath = [entryPath stringByAppendingString:entry.remoteDirectory];
-    }
-    vc.path = entryPath;
+    vc.path = server;
     vc.delegate = self;
     [self.navigationControllerForMaster pushViewController:vc animated:YES];
     

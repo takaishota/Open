@@ -214,10 +214,7 @@ const CGFloat _labelInterval = 80;
     
     for (int i = 0; i < [_propertyList count]; i++) {
         // テキストフィールドの参照をプロパティ、ユーザデフォルトにセットする
-//        UITextField *uf = _fieldsList[i];
-//        uf.delegate = self;
         UITextField *uf = _fieldsList[i];
-//        _propertyList[i] = uf.text;
         [self setValue:uf.text forKey:_propertyList[i]];
         [ud setObject:uf.text forKey:_userdefaultKeys[i]];
     }

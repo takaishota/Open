@@ -7,19 +7,26 @@
 
 #import "OPNUserEntry.h"
 
-@implementation OPNUserEntry {
-    NSString *_entry;
-}
+@implementation OPNUserEntry
 
 #pragma mark - NSCoding Protocol
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:_entry forKey:@"entry"];
+- (void)encodeWithCoder:(NSCoder *)coder {
+    
+    [coder encodeObject:_userName forKey:@"_userName"];
+    [coder encodeObject:_password forKey:@"_password"];
+    [coder encodeObject:_workgroup forKey:@"_workgroup"];
+    [coder encodeObject:_remoteDirectory forKey:@"_remoteDirectory"];
+    [coder encodeObject:_targetServer forKey:@"_targetServer"];
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (self){
-        _entry = [aDecoder decodeObjectForKey:@"entry"];
+        _userName = [decoder decodeObjectForKey:@"_userName"];
+        _password = [decoder decodeObjectForKey:@"_password"];
+        _workgroup = [decoder decodeObjectForKey:@"_workgroup"];
+        _remoteDirectory = [decoder decodeObjectForKey:@"_remoteDirectory"];
+        _targetServer = [decoder decodeObjectForKey:@"_targetServer"];
     }
     return self;
 }

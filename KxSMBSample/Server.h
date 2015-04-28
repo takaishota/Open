@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Server : NSObject
+@interface Server : NSObject <NSCoding>
 @property (nonatomic) NSString *ip;
 @property (nonatomic) NSString* networkType;
 - (id) initWithIp:(NSString*)ip NetworkType:(NSString*)type;

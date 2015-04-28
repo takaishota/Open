@@ -7,6 +7,7 @@
 //
 
 #import "OPNUserEntryManager.h"
+// :: Other ::
 #import "OPNUserEntry.h"
 #import "OPNUserEntry.h"
 
@@ -21,15 +22,17 @@
     return sharedManager;
 }
 
+#pragma mark - Lifecycle
 - (id)init
 {
     self = [super init];
     if (self) {
+        // ユーザデフォルトからエントリ一覧を取得
         NSData *entriesData = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserEntries"];
-        NSMutableArray *entries = [NSKeyedUnarchiver unarchiveObjectWithData:entriesData];
+        NSArray *entries = [NSKeyedUnarchiver unarchiveObjectWithData:entriesData];
         
         if ([entries count] > 0) {
-            self.userEntries = entries;
+            self.userEntries = [entries mutableCopy];
         } else {
             self.userEntries = [@[] mutableCopy];
         }
@@ -37,6 +40,7 @@
     return self;
 }
 
+#pragma mark - Private
 - (void)addUserEntry:(OPNUserEntry*)entry {
     if (!entry) {
         return;
@@ -92,13 +96,16 @@
 }
 
 - (void)save {
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.userEntries];
+    // ユーザデフォルトにエントリを保存
+    NSArray *userEntries = [self.userEntries copy];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userEntries];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserEntries"];
 }
 
 - (NSString*)getServerIpAtIndex:(NSUInteger)index {
-    NSMutableArray *entries= self.userEntries;
-    if (![entries count] < 0) {
+    
+    NSMutableArray *entries = self.userEntries;
+    if (![entries count]) {
         return nil;
     }
     OPNUserEntry *entry = entries[index];

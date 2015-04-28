@@ -18,6 +18,22 @@
     }
     return self;
 }
+#pragma mark - NSCoding Protocol
+- (void)encodeWithCoder:(NSCoder *)coder {
+    
+    [coder encodeObject:_ip forKey:@"_ip"];
+    [coder encodeObject:_networkType forKey:@"_networkType"];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    self = [super init];
+    if (self){
+        _ip = [decoder decodeObjectForKey:@"_ip"];
+        _networkType = [decoder decodeObjectForKey:@"_networkType"];
+    }
+    return self;
+}
+
 
 #pragma mark - NSObject
 - (NSString *)description

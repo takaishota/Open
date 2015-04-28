@@ -93,7 +93,14 @@ UIBarButtonSystemItemTrash
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return UITableViewCellEditingStyleInsert;
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [[OPNUserEntryManager sharedManager] removeUserEntry:indexPath.row];
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - Auth View Controller Delegate

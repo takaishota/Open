@@ -20,7 +20,7 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
 @interface ServerListViewController () <AuthViewControllerDelegate, UITextFieldDelegate>
 @property (nonatomic) DataLoader *dataLoader;
 @property (nonatomic) NSArray *userEntries;
-@property (nonatomic) NSString *selectedServerIp;
+@property (nonatomic) OPNUserEntry *selectedUserEntry;
 @end
 
 @implementation ServerListViewController
@@ -87,7 +87,11 @@ UIBarButtonSystemItemTrash
     if (!self.delegate) {
         return;
     }
-    self.selectedServerIp = [[OPNUserEntryManager sharedManager] getServerIpAtIndex:indexPath.row];
+    self.selectedUserEntry = [OPNUserEntryManager sharedManager].userEntries[indexPath.row];
+    if (!self.selectedUserEntry) {
+        return;
+    }
+    
     [self showLoginViewController];
 }
 
@@ -190,18 +194,19 @@ UIBarButtonSystemItemTrash
 
 - (void)loginButtonDidPushed {
     // 接続処理を行う
-    [LoginStatusManager sharedManager].isLaunchedApp = NO;
+    [self connect];
     
-    NSError *error= nil;
+    if ([self.delegate respondsToSelector:@selector(pushMasterViewControllerBySelectedEntry:)]) {
+        [self.delegate pushMasterViewControllerBySelectedEntry:self.selectedUserEntry];
+    }
+}
+
+- (void)connect {
+    NSError *error = nil;
     if (error) {
-        // エラーメッセージを表示する
-        return;
+        // エラーメッセージ
     }
-    
-    // splitViewのpushメソッドを呼び出す
-    if ([self.delegate respondsToSelector:@selector(pushMasterViewControllerBySelectedServer:)]) {
-        [self.delegate pushMasterViewControllerBySelectedServer:self.selectedServerIp];
-    }
+    [LoginStatusManager sharedManager].isLaunchedApp = NO;
 }
          
 - (void)cancelButtonDidPushed {}

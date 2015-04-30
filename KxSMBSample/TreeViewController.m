@@ -23,6 +23,7 @@
     BOOL        _loading;
     BOOL        _needNewPath;
     UITextField *_newPathField;
+    NSString    *_lastConnectedServerPath;
 }
 
 #pragma mark - LifeCycle
@@ -73,7 +74,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    if (self.navigationController.childViewControllers.count == 1 && _needNewPath) {
+    if (self.navigationController.childViewControllers.count == 2 && _needNewPath) {
         _needNewPath = NO;
         [self requestNewPath];
     }
@@ -93,24 +94,19 @@
     self.tableView.rowHeight = 70.f;
 }
 
-- (void) reloadPath
-{
-    NSString *path;
-    if (_path.length) {
-        path = _path;
-        self.title = path.lastPathComponent;
-    } else {
-        
-        path = @"smb://";
-        self.title = @"smb://";
-    }
+- (void) reloadPath {
+    NSString *path = _path;
     
-    _items = nil;
-    [self.tableView reloadData];
+    [self setupTitle:path];
     [self updateStatus:[NSString stringWithFormat: @"Fetching %@..", path]];
     
+    _items = nil;
+    
+    // TODO:KxSMBProviderと関わるクラスをひとつにまとめたい
     KxSMBProvider *provider = [KxSMBProvider sharedSmbProvider];
-    [provider fetchAtPath:path
+    
+    NSString *appendedPath = [@"smb://" stringByAppendingString:path];
+    [provider fetchAtPath:appendedPath
                     block:^(id result)
     {
         if ([result isKindOfClass:[NSError class]]) {
@@ -132,6 +128,15 @@
         }
     }];
 }
+
+- (void)setupTitle:(NSString*)path{
+    if (path.length) {
+        self.title = path.lastPathComponent;
+    } else {
+        self.title = @"エラー";
+    }
+}
+
 - (void) setupToolBar {
     UIBarButtonItem *localFileListButton = [[UIBarButtonItem alloc] initWithTitle:@"ローカル" style:UIBarButtonItemStylePlain target:self action:@selector(appearLocalFileList)];
     UIImage *btnImg = [[UIImage alloc] initWithUIImage:@"settings.png"];
@@ -176,24 +181,12 @@
 # pragma mark - pushed navigationbar button
 - (void) requestNewPath {
     
-    if(_newPathField == nil) {
-        _newPathField                        = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 30)];
-        _newPathField.borderStyle            = UITextBorderStyleRoundedRect;
-        _newPathField.placeholder            = @"smb://";
-        _newPathField.keyboardType           = UIKeyboardTypeURL;
-        _newPathField.autocorrectionType     = UITextAutocorrectionTypeNo;
-        _newPathField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        _newPathField.text                   = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
+    if (!_lastConnectedServerPath) {
+        _lastConnectedServerPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
     }
+    NSString *entryPath = [_lastConnectedServerPath stringByAppendingString:[[NSUserDefaults standardUserDefaults] objectForKey:@"RemoteDirectory"]];
     
-    NSString *appendedPath = [NSString stringWithFormat:@"smb://%@%@",
-                              _newPathField.text,
-                              [[NSUserDefaults standardUserDefaults] objectForKey:@"RemoteDirectory"]];
-    self.path = appendedPath;
-    [[NSUserDefaults standardUserDefaults] setObject:_newPathField.text forKey:@"LastServer"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [_newPathField becomeFirstResponder];
+    self.path = entryPath;
 }
 
 - (void) updateStatus: (id) status
@@ -329,9 +322,8 @@
         KxSMBItem *item = _items[indexPath.row];
         [[KxSMBProvider sharedSmbProvider] removeAtPath:item.path block:^(id result) {
             
-            NSLog(@"completed:%@", result);
             if (![result isKindOfClass:[NSError class]]) {
-                [self reloadPath];
+                [self.tableView reloadData];
             }
         }];        
     }

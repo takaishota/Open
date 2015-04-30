@@ -99,15 +99,18 @@
 }
 
 #pragma mark - ServerListViewContollerDelegate
-- (void)pushMasterViewControllerBySelectedServer:(NSString *)server {
+- (void)pushMasterViewControllerBySelectedEntry:(OPNUserEntry *)entry {
     TreeViewController *vc = [[TreeViewController alloc] init];
-    vc.path = server;
+    
+    NSString *entryPath = entry.targetServer.ip;
+    if (entry.remoteDirectory) {
+        entryPath = [entryPath stringByAppendingString:entry.remoteDirectory];
+    }
+    vc.path = entryPath;
     vc.delegate = self;
     [self.navigationControllerForMaster pushViewController:vc animated:YES];
     
     _cachedAuths = [NSMutableDictionary dictionary];
-    
-    [vc reloadPath];
 }
 
 #pragma mark - AuthViewControllerDelegate
@@ -127,7 +130,6 @@
     UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     [nav dismissViewControllerAnimated:YES completion:nil];
     
-//    [self.navigationControllerForMaster.viewControllers[0] reloadPath];
 }
 
 #pragma mark - KxSMBProviderDelegate

@@ -16,7 +16,6 @@
 @end
 
 @interface TreeViewController : UITableViewController
-- (void) reloadPath;
 
 @property (nonatomic, weak) id <TreeViewControllerDelegate> delegate;
 @property (readwrite, nonatomic, strong) NSString *path;

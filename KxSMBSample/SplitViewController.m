@@ -14,7 +14,7 @@
 #import "ServerListViewController.h"
 #import "TreeViewController.h"
 
-@interface SplitViewController () <AuthViewControllerDelegate, KxSMBProviderDelegate, TreeViewControllerDelegate, ServerListViewControllerDelegate>
+@interface SplitViewController () <AuthViewControllerDelegate, KxSMBProviderDelegate, TreeViewControllerDelegate, ServerListViewControllerDelegate, FileViewControllerDelegate>
 @property (nonatomic) ServerListViewController *rootTreeViewController;
 @property (nonatomic) UINavigationController *navigationControllerForMaster;
 @property (nonatomic) UINavigationController *navigationControllerForDetail;
@@ -37,6 +37,7 @@
 
         // detailViewControllerの生成
         FileViewController *fileViewController = [FileViewController new];
+        fileViewController.delegate = self;
         self.navigationControllerForDetail = [[UINavigationController alloc] initWithRootViewController:fileViewController];
         
         self.viewControllers = @[self.navigationControllerForMaster, self.navigationControllerForDetail];
@@ -95,6 +96,8 @@
 - (void) pushDetailViewController:(KxSMBItem*)item {
     FileViewController *vc = [[FileViewController alloc] init];
     vc.smbFile = (KxSMBItemFile *)item;
+    vc.delegate = self;
+
     [self.navigationControllerForDetail pushViewController:vc animated:YES];
 }
 
@@ -130,6 +133,27 @@
     UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     [nav dismissViewControllerAnimated:YES completion:nil];
     
+}
+
+#pragma mark - File View Controller Delegate
+- (void) hideTreeView:(BOOL)isHidden {
+    
+    CGFloat xOffset = 0;
+    
+    if (isHidden) {
+        xOffset  = 320.0f;
+    } else {
+        xOffset  = 0;
+    }
+    isHidden = !isHidden;
+    
+    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        self.view.frame = CGRectMake(-xOffset, 0, self.view.frame.size.width + xOffset, self.view.frame.size.height);
+        
+    } completion:^ (BOOL finished){
+        // 完了時のコールバック
+        NSLog(@"finish Animation");
+    }];
 }
 
 #pragma mark - KxSMBProviderDelegate

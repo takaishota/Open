@@ -375,20 +375,13 @@ const static CGFloat masterViewWidth = 320.0f;
 }
 
 - (void)popupControllButtonDidPushed {
-    NSLog(@"--------button");
     _treeViewIsHidden = !_treeViewIsHidden;
     [self updateLeftBarButtonItem];
-    [self setFullScreen];
     
     // primaryViewを閉じる
     if ([self.delegate respondsToSelector:@selector(hideTreeView:)]) {
         [self.delegate hideTreeView:_treeViewIsHidden];
     }
-}
-
-- (void) setFullScreen {
-    // seconderyViewをフルスクリーン表示にする
-    
 }
 
 #pragma mark - NSObject

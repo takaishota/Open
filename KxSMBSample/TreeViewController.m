@@ -102,11 +102,12 @@
     
     _items = nil;
     
+    NSString *urlShemeAddedPath = [self addURLSheme:path];
+    
     // TODO:KxSMBProviderと関わるクラスをひとつにまとめたい
     KxSMBProvider *provider = [KxSMBProvider sharedSmbProvider];
     
-    NSString *appendedPath = [@"smb://" stringByAppendingString:path];
-    [provider fetchAtPath:appendedPath
+    [provider fetchAtPath:urlShemeAddedPath
                     block:^(id result)
     {
         if ([result isKindOfClass:[NSError class]]) {
@@ -119,8 +120,8 @@
             
             if ([result isKindOfClass:[NSArray class]]) {
                 _items = [[self excludeHiddenFile:result] copy];
-            } else if ([result isKindOfClass:[KxSMBItem class]]) {
                 
+            } else if ([result isKindOfClass:[KxSMBItem class]]) {
                 _items = @[result];
             }
             
@@ -135,6 +136,17 @@
     } else {
         self.title = @"エラー";
     }
+}
+
+- (NSString*)addURLSheme:(NSString*)path {
+    NSString *urlShemeAddedPath = path;
+    
+    NSRange range = [path rangeOfString:@"smb://"];
+    if (range.location == NSNotFound) {
+     
+        urlShemeAddedPath = [NSString stringWithFormat:@"smb://%@", path];
+    }
+    return urlShemeAddedPath;
 }
 
 - (void) setupToolBar {

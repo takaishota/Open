@@ -70,8 +70,8 @@
     [self.navigationItem setHidesBackButton:YES animated:NO];
     
     self.view.backgroundColor = FILE_BACKGROUND_COLOR;
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+    
+    if ([self isLandscape]) {
         _treeViewIsHidden = NO;
     } else {
         _treeViewIsHidden = YES;
@@ -116,6 +116,10 @@ const static CGFloat masterViewWidth = 320.0f;
 }
 
 #pragma mark - Private
+- (BOOL)isLandscape {
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+}
 
 - (void)updateLeftBarButtonItem {
     UIImage *btnImg = [[UIImage alloc] initWithTreeViewStatus:_treeViewIsHidden];
@@ -169,6 +173,7 @@ const static CGFloat masterViewWidth = 320.0f;
     
     return progressView;
 }
+
 - (void) downloadAction
 {
     if (!_fileHandle) {
@@ -227,8 +232,6 @@ const static CGFloat masterViewWidth = 320.0f;
         [self closeFiles];
     }
 }
-
-
 
 -(void) updateDownloadStatus: (id) result
 {
@@ -367,7 +370,7 @@ const static CGFloat masterViewWidth = 320.0f;
     
 }
 
-- (BOOL) splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation {
+- (BOOL)splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation {
     if (UIInterfaceOrientationIsLandscape(orientation)) {
         return NO;
     }else {
@@ -377,8 +380,9 @@ const static CGFloat masterViewWidth = 320.0f;
 
 - (void)popupControllButtonDidPushed {
     _treeViewIsHidden = !_treeViewIsHidden;
-    [self updateLeftBarButtonItem];
-    
+    if ([self isLandscape]) {
+        [self updateLeftBarButtonItem];
+    }
     // primaryViewを閉じる
     if ([self.delegate respondsToSelector:@selector(hideTreeView:)]) {
         [self.delegate hideTreeView:_treeViewIsHidden];

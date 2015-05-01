@@ -41,8 +41,6 @@
 {
     [super loadView];
     
-    self.navigationController.toolbarHidden = NO;
-    
     if(NSClassFromString(@"UIRefreshControl")) {
         UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
         [refreshControl addTarget:self action:@selector(reloadPath) forControlEvents:UIControlEventValueChanged];
@@ -69,11 +67,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self setupToolBar];
     [self setTableViewStyle];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    self.navigationController.toolbarHidden = NO;
+    [self setupToolBar];
+    
     if (self.navigationController.childViewControllers.count == 2 && _needNewPath) {
         _needNewPath = NO;
         [self requestNewPath];

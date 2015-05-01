@@ -7,7 +7,7 @@
 
 
 #import <UIKit/UIKit.h>
-@class TreeViewController, AuthViewController, SplitViewController, KxSMBItem;
+@class TreeViewController, AuthViewController, KxSMBItem;
 
 @protocol TreeViewControllerDelegate <NSObject>
 @optional

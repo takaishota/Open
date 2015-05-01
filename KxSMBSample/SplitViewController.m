@@ -31,23 +31,23 @@
     self = [super init];
     if (self) {
         
-        self.rootTreeViewController = [ServerListViewController new];
-        self.rootTreeViewController.delegate = self;
-        self.navigationControllerForMaster = [[UINavigationController alloc] initWithRootViewController:self.rootTreeViewController];
+        self.rootTreeViewController            = [ServerListViewController new];
+        self.rootTreeViewController.delegate   = self;
+        self.navigationControllerForMaster     = [[UINavigationController alloc] initWithRootViewController:self.rootTreeViewController];
 
         // detailViewControllerの生成
         FileViewController *fileViewController = [FileViewController new];
-        fileViewController.delegate = self;
-        self.navigationControllerForDetail = [[UINavigationController alloc] initWithRootViewController:fileViewController];
-        
-        self.viewControllers = @[self.navigationControllerForMaster, self.navigationControllerForDetail];
-        
+        fileViewController.delegate            = self;
+        self.navigationControllerForDetail     = [[UINavigationController alloc] initWithRootViewController:fileViewController];
+
+        self.viewControllers                   = @[self.navigationControllerForMaster, self.navigationControllerForDetail];
+
         //キャッシュの初期化
-        _cachedAuths = [NSMutableDictionary dictionary];
-        
+        _cachedAuths                           = [NSMutableDictionary dictionary];
+
         // SMBProviderを生成し、デリゲートを設定する
-        KxSMBProvider *provider = [KxSMBProvider sharedSmbProvider];
-        provider.delegate = self;
+        KxSMBProvider *provider                = [KxSMBProvider sharedSmbProvider];
+        provider.delegate                      = self;
         
     }
     return self;
@@ -67,11 +67,11 @@
 - (void) presentAuthViewControllerForServer: (NSString *) server
 {
     if (!_authViewController) {
-        _authViewController = [[AuthViewController alloc] init];
-        _authViewController.delegate = self;
-        _authViewController.username = [[NSUserDefaults standardUserDefaults] stringForKey:@"Username"];
+        _authViewController           = [[AuthViewController alloc] init];
+        _authViewController.delegate  = self;
+        _authViewController.username  = [[NSUserDefaults standardUserDefaults] stringForKey:@"Username"];
         _authViewController.remoteDir = [[NSUserDefaults standardUserDefaults] stringForKey:@"RemoteDirectory"];
-        _authViewController.password = [[NSUserDefaults standardUserDefaults] stringForKey:@"Password"];
+        _authViewController.password  = [[NSUserDefaults standardUserDefaults] stringForKey:@"Password"];
         _authViewController.workgroup = [[NSUserDefaults standardUserDefaults] stringForKey:@"Workgroup"];
     }
     
@@ -88,15 +88,15 @@
 #pragma mark - TreeViewControllerDelegate
 - (void) pushMasterViewController:(KxSMBItem*)item {
     TreeViewController *vc = [[TreeViewController alloc] init];
-    vc.path = item.path;
-    vc.delegate = self;
+    vc.path                = item.path;
+    vc.delegate            = self;
     [self.navigationControllerForMaster pushViewController:vc animated:YES];
 }
 
 - (void) pushDetailViewController:(KxSMBItem*)item {
     FileViewController *vc = [[FileViewController alloc] init];
-    vc.smbFile = (KxSMBItemFile *)item;
-    vc.delegate = self;
+    vc.smbFile             = (KxSMBItemFile *)item;
+    vc.delegate            = self;
 
     [self.navigationControllerForDetail pushViewController:vc animated:YES];
 }
@@ -104,16 +104,16 @@
 #pragma mark - ServerListViewContollerDelegate
 - (void)pushMasterViewControllerBySelectedEntry:(OPNUserEntry *)entry {
     TreeViewController *vc = [[TreeViewController alloc] init];
-    
-    NSString *entryPath = entry.targetServer.ip;
+
+    NSString *entryPath    = entry.targetServer.ip;
     if (entry.remoteDirectory) {
-        entryPath = [entryPath stringByAppendingString:entry.remoteDirectory];
+    entryPath              = [entryPath stringByAppendingString:entry.remoteDirectory];
     }
-    vc.path = entryPath;
-    vc.delegate = self;
+    vc.path                = entryPath;
+    vc.delegate            = self;
     [self.navigationControllerForMaster pushViewController:vc animated:YES];
-    
-    _cachedAuths = [NSMutableDictionary dictionary];
+
+    _cachedAuths           = [NSMutableDictionary dictionary];
 }
 
 #pragma mark - AuthViewControllerDelegate
@@ -137,37 +137,43 @@
 
 #pragma mark - File View Controller Delegate
 - (void) hideTreeView:(BOOL)isHidden {
-    
-    CGFloat xOffset = 320.0f;
-    CGFloat fileViewWidth = 579.5f;
-    
     isHidden = !isHidden;
     
-    [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        // 表示位置の変更
-        if (isHidden) {
-            self.view.frame = CGRectMake(0,
-                                         0,
-                                         [[UIScreen mainScreen] applicationFrame].size.width,
-                                         [[UIScreen mainScreen] applicationFrame].size.height);
-            self.navigationControllerForDetail.view.frame = CGRectMake(xOffset,
-                                                                       0,
-                                                                       fileViewWidth,
-                                                                       self.view.frame.size.height);
-        } else {
-            self.view.frame = CGRectMake(-xOffset,
-                                         0,
-                                         self.view.frame.size.width + xOffset,
-                                         self.view.frame.size.height);
-            self.navigationControllerForDetail.view.frame = CGRectMake(0,
-                                                                       0,
-                                                                       [[UIScreen mainScreen] applicationFrame].size.width,
-                                                                       self.view.frame.size.height);
-        }
-    } completion:^ (BOOL finished){
-        // 完了時のコールバック
-        NSLog(@"finish Animation");
-    }];
+    // FIXME:回転時にViewの位置、サイズがおかしい
+    if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait) {
+        [UIView animateWithDuration:0.2f animations:^{
+            self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
+        } completion:^(BOOL finished) {
+            self.preferredDisplayMode = UISplitViewControllerDisplayModeAutomatic;
+        }];
+    }else {
+        CGFloat xOffset       = 320.0f;
+        CGFloat fileViewWidth = 480;
+        [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            if (isHidden) {
+                self.view.frame = CGRectMake(0,
+                                             0,
+                                             [[UIScreen mainScreen] applicationFrame].size.width,
+                                             [[UIScreen mainScreen] applicationFrame].size.height);
+                self.navigationControllerForDetail.view.frame = CGRectMake(xOffset,
+                                                                           0,
+                                                                           fileViewWidth,
+                                                                           self.view.frame.size.height);
+            } else {
+                self.view.frame = CGRectMake(-xOffset,
+                                             0,
+                                             self.view.frame.size.width + xOffset,
+                                             self.view.frame.size.height);
+                self.navigationControllerForDetail.view.frame = CGRectMake(0,
+                                                                           0,
+                                                                           [[UIScreen mainScreen] applicationFrame].size.width,
+                                                                           self.view.frame.size.height);
+            }
+        } completion:^ (BOOL finished){
+            // 完了時のコールバック
+            NSLog(@"finish Animation");
+        }];
+    }
 }
 
 #pragma mark - KxSMBProviderDelegate
@@ -177,12 +183,11 @@
 {
     // キャッシュがセットされている場合はキャッシュを返す
     KxSMBAuth *auth = _cachedAuths[server.uppercaseString];
-    if (auth)
+    if (auth) {
         return auth;
-    
+    }
     // セットされていない場合は認証画面を呼び出して何もしない
     dispatch_async(dispatch_get_main_queue(), ^{
-        
         [self presentAuthViewControllerForServer:server];
     });
     

@@ -91,8 +91,7 @@ UIBarButtonSystemItemTrash
     if (!self.selectedUserEntry) {
         return;
     }
-    
-    [self showLoginViewController];
+    [self connectServer];
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -127,72 +126,7 @@ UIBarButtonSystemItemTrash
     [self reload];
 }
 
-#pragma mark - Private
-- (void)showLoginViewController {
-    
-    // 認証ダイアログを表示する
-    Class class = NSClassFromString(@"UIAlertController");
-    if(class){
-        // iOS 8の時の処理
-        UIAlertController *alertController = [self generateAlertController];
-        alertController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        [self presentViewController:alertController animated:YES completion:nil];
-    }else {
-        // iOS 7以前の処理
-        UIAlertView *alert = [self generateAlertView];
-        [alert show];
-    }
-}
-
-- (UIAlertController *)generateAlertController {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"ログイン"
-                                                                             message:@"ログイン情報を入力してください"
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    
-    // TODO:設定画面で前回の値を使うかON/OFFできるようにする
-    BOOL isAvailableLastLoginSetting = NO;
-    if (!isAvailableLastLoginSetting) {
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-            textField.placeholder = @"ユーザネーム";
-            [self formatTextField:textField];
-            textField.delegate    = self;
-        }];
-        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-            textField.placeholder = @"パスワード";
-            textField.secureTextEntry = true;
-            [self formatTextField:textField];
-        }];
-    }
-    
-    alertController.popoverPresentationController.sourceView = self.view;
-    alertController.popoverPresentationController.sourceRect = self.view.bounds;
-    alertController.popoverPresentationController.permittedArrowDirections = 0;
-    [alertController addAction:[UIAlertAction actionWithTitle:@"キャンセル" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // キャンセルボタンが押された時の処理
-        [self cancelButtonDidPushed];
-    }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"ログイン" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        // ログインボタンが押された時の処理
-        [self loginButtonDidPushed];
-    }]];
-    return alertController;
-}
-
-- (UIAlertView *)generateAlertView {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"ログイン"
-                                                        message:@"ログイン情報を入力してください"
-                                                       delegate:self
-                                              cancelButtonTitle:@"キャンセル"
-                                              otherButtonTitles:@"ログイン", nil];
-    // TODO:iOS7以下の処理
-    
-    return alertView;
-}
-- (void)formatTextField:(UITextField *)textField {
-    
-}
-
-- (void)loginButtonDidPushed {
+- (void)connectServer {
     // 接続処理を行う
     [self connect];
     

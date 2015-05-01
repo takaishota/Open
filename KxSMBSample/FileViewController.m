@@ -306,6 +306,7 @@ const static CGFloat masterViewWidth = 320.0f;
 - (UIWebView*) generateWebView {
     UIWebView *webView = [UIWebView new];
     webView.scalesPageToFit = YES;
+    webView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     webView.frame = CGRectMake(0,
                                0,
                                self.view.frame.size.width,

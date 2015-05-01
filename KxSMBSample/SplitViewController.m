@@ -138,18 +138,32 @@
 #pragma mark - File View Controller Delegate
 - (void) hideTreeView:(BOOL)isHidden {
     
-    CGFloat xOffset = 0;
+    CGFloat xOffset = 320.0f;
+    CGFloat fileViewWidth = 579.5f;
     
-    if (isHidden) {
-        xOffset  = 320.0f;
-    } else {
-        xOffset  = 0;
-    }
     isHidden = !isHidden;
     
     [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        self.view.frame = CGRectMake(-xOffset, 0, self.view.frame.size.width + xOffset, self.view.frame.size.height);
-        
+        // 表示位置の変更
+        if (isHidden) {
+            self.view.frame = CGRectMake(0,
+                                         0,
+                                         [[UIScreen mainScreen] applicationFrame].size.width,
+                                         [[UIScreen mainScreen] applicationFrame].size.height);
+            self.navigationControllerForDetail.view.frame = CGRectMake(xOffset,
+                                                                       0,
+                                                                       fileViewWidth,
+                                                                       self.view.frame.size.height);
+        } else {
+            self.view.frame = CGRectMake(-xOffset,
+                                         0,
+                                         self.view.frame.size.width + xOffset,
+                                         self.view.frame.size.height);
+            self.navigationControllerForDetail.view.frame = CGRectMake(0,
+                                                                       0,
+                                                                       [[UIScreen mainScreen] applicationFrame].size.width,
+                                                                       self.view.frame.size.height);
+        }
     } completion:^ (BOOL finished){
         // 完了時のコールバック
         NSLog(@"finish Animation");

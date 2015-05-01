@@ -33,11 +33,13 @@
 		1F80BAF91AD222B900D6F669 /* Server.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F80BAF81AD222B900D6F669 /* Server.m */; };
 		1F80BAFC1AD223E400D6F669 /* ServerListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F80BAFB1AD223E400D6F669 /* ServerListCell.m */; };
 		1F80BB021AD24E2A00D6F669 /* PopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F80BB011AD24E2A00D6F669 /* PopupViewController.m */; };
+		1FAE34AB1AF1BDF5006A9F7C /* OPNFileReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAE34AA1AF1BDF5006A9F7C /* OPNFileReaderTests.m */; };
 		1FB240351AE4840800719C20 /* ServerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB240341AE4840800719C20 /* ServerListViewController.m */; };
 		1FB240381AE4D53C00719C20 /* UIColor+CustomColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB240371AE4D53C00719C20 /* UIColor+CustomColors.m */; };
 		1FB302631ADE21A800EE17DC /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB302621ADE21A800EE17DC /* SettingsViewController.m */; };
 		1FB578F71AD6133000924C9C /* NSDictionary+SafeValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB578F61AD6133000924C9C /* NSDictionary+SafeValue.m */; };
 		1FB578FE1AD6603C00924C9C /* TopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FB578FD1AD6603C00924C9C /* TopViewController.m */; };
+		1FBAD4D81AF30D59003D5D09 /* OPNUserEntryManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FBAD4D71AF30D59003D5D09 /* OPNUserEntryManagerTests.m */; };
 		1FC48B8E1AE618940023598B /* OPNUserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC48B8D1AE618940023598B /* OPNUserEntry.m */; };
 		1FE188AC1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE188AB1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m */; };
 		1FE363471AD3BC6F0062ECBB /* DataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE363461AD3BC6F0062ECBB /* DataLoader.m */; };
@@ -76,6 +78,16 @@
 		D9D996B022BAEF36C46DB909 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6560FA5E2DECD63CEA3442F4 /* libPods.a */; };
 		EAC6EFEE179A4133005AC807 /* libtevent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EAC6EFED179A4133005AC807 /* libtevent.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1FAE34AC1AF1BDF5006A9F7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 87085F811705D46B009CD258 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87085F881705D46C009CD258;
+			remoteInfo = OPNFileReader;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		871CC5721774589C00EDD76D /* CopyFiles */ = {
@@ -130,6 +142,9 @@
 		1F80BAFB1AD223E400D6F669 /* ServerListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerListCell.m; sourceTree = "<group>"; };
 		1F80BB001AD24E2A00D6F669 /* PopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopupViewController.h; sourceTree = "<group>"; };
 		1F80BB011AD24E2A00D6F669 /* PopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopupViewController.m; sourceTree = "<group>"; };
+		1FAE34A61AF1BDF5006A9F7C /* OPNFileReaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OPNFileReaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FAE34A91AF1BDF5006A9F7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1FAE34AA1AF1BDF5006A9F7C /* OPNFileReaderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OPNFileReaderTests.m; sourceTree = "<group>"; };
 		1FB240331AE4840800719C20 /* ServerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerListViewController.h; sourceTree = "<group>"; };
 		1FB240341AE4840800719C20 /* ServerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerListViewController.m; sourceTree = "<group>"; };
 		1FB240361AE4D53C00719C20 /* UIColor+CustomColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+CustomColors.h"; sourceTree = "<group>"; };
@@ -140,6 +155,7 @@
 		1FB578F61AD6133000924C9C /* NSDictionary+SafeValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SafeValue.m"; sourceTree = "<group>"; };
 		1FB578FC1AD6603C00924C9C /* TopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopViewController.h; sourceTree = "<group>"; };
 		1FB578FD1AD6603C00924C9C /* TopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopViewController.m; sourceTree = "<group>"; };
+		1FBAD4D71AF30D59003D5D09 /* OPNUserEntryManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNUserEntryManagerTests.m; sourceTree = "<group>"; };
 		1FC48B8C1AE618940023598B /* OPNUserEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNUserEntry.h; sourceTree = "<group>"; };
 		1FC48B8D1AE618940023598B /* OPNUserEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNUserEntry.m; sourceTree = "<group>"; };
 		1FE188AA1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSJSONSerialization+JSONFile.h"; sourceTree = "<group>"; };
@@ -196,6 +212,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1FAE34A31AF1BDF5006A9F7C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		87085F861705D46C009CD258 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -401,6 +424,24 @@
 			name = Entity;
 			sourceTree = "<group>";
 		};
+		1FAE34A71AF1BDF5006A9F7C /* OPNFileReaderTests */ = {
+			isa = PBXGroup;
+			children = (
+				1FAE34AA1AF1BDF5006A9F7C /* OPNFileReaderTests.m */,
+				1FAE34A81AF1BDF5006A9F7C /* Supporting Files */,
+				1FBAD4D71AF30D59003D5D09 /* OPNUserEntryManagerTests.m */,
+			);
+			path = OPNFileReaderTests;
+			sourceTree = "<group>";
+		};
+		1FAE34A81AF1BDF5006A9F7C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1FAE34A91AF1BDF5006A9F7C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		1FE188A91AD528560086BE57 /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -455,6 +496,7 @@
 				1F2F50561AC3B8D500E43763 /* libsmbc_wrapper */,
 				87085FBE1705D4BE009CD258 /* libs */,
 				871CC5761774589C00EDD76D /* KxSMB */,
+				1FAE34A71AF1BDF5006A9F7C /* OPNFileReaderTests */,
 				87085F8B1705D46C009CD258 /* Frameworks */,
 				87085F8A1705D46C009CD258 /* Products */,
 				0528AF361DCCDCBB5D8D7232 /* Pods */,
@@ -466,6 +508,7 @@
 			children = (
 				87085F891705D46C009CD258 /* OPNFileReader.app */,
 				871CC5741774589C00EDD76D /* libKxSMB.a */,
+				1FAE34A61AF1BDF5006A9F7C /* OPNFileReaderTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -547,6 +590,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1FAE34A51AF1BDF5006A9F7C /* OPNFileReaderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1FAE34AE1AF1BDF5006A9F7C /* Build configuration list for PBXNativeTarget "OPNFileReaderTests" */;
+			buildPhases = (
+				1FAE34A21AF1BDF5006A9F7C /* Sources */,
+				1FAE34A31AF1BDF5006A9F7C /* Frameworks */,
+				1FAE34A41AF1BDF5006A9F7C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1FAE34AD1AF1BDF5006A9F7C /* PBXTargetDependency */,
+			);
+			name = OPNFileReaderTests;
+			productName = OPNFileReaderTests;
+			productReference = 1FAE34A61AF1BDF5006A9F7C /* OPNFileReaderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		87085F881705D46C009CD258 /* OPNFileReader */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 87085FAF1705D46C009CD258 /* Build configuration list for PBXNativeTarget "OPNFileReader" */;
@@ -592,6 +653,12 @@
 				CLASSPREFIX = OPN;
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "NRI Netcom";
+				TargetAttributes = {
+					1FAE34A51AF1BDF5006A9F7C = {
+						CreatedOnToolsVersion = 6.2;
+						TestTargetID = 87085F881705D46C009CD258;
+					};
+				};
 			};
 			buildConfigurationList = 87085F841705D46B009CD258 /* Build configuration list for PBXProject "OPNFileReader" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -607,11 +674,19 @@
 			targets = (
 				87085F881705D46C009CD258 /* OPNFileReader */,
 				871CC5731774589C00EDD76D /* KxSMB */,
+				1FAE34A51AF1BDF5006A9F7C /* OPNFileReaderTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1FAE34A41AF1BDF5006A9F7C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		87085F871705D46C009CD258 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -682,6 +757,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1FAE34A21AF1BDF5006A9F7C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FAE34AB1AF1BDF5006A9F7C /* OPNFileReaderTests.m in Sources */,
+				1FBAD4D81AF30D59003D5D09 /* OPNUserEntryManagerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		87085F851705D46C009CD258 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -726,6 +810,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		1FAE34AD1AF1BDF5006A9F7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87085F881705D46C009CD258 /* OPNFileReader */;
+			targetProxy = 1FAE34AC1AF1BDF5006A9F7C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		87085F951705D46C009CD258 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -738,6 +830,68 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1FAE34AF1AF1BDF5006A9F7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = OPNFileReaderTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OPNFileReader.app/OPNFileReader";
+			};
+			name = Debug;
+		};
+		1FAE34B01AF1BDF5006A9F7C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = OPNFileReaderTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OPNFileReader.app/OPNFileReader";
+			};
+			name = Release;
+		};
 		87085FAD1705D46C009CD258 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -873,6 +1027,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1FAE34AE1AF1BDF5006A9F7C /* Build configuration list for PBXNativeTarget "OPNFileReaderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1FAE34AF1AF1BDF5006A9F7C /* Debug */,
+				1FAE34B01AF1BDF5006A9F7C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		87085F841705D46B009CD258 /* Build configuration list for PBXProject "OPNFileReader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

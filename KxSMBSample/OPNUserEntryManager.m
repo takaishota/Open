@@ -12,8 +12,7 @@
 #import "OPNUserEntry.h"
 
 @implementation OPNUserEntryManager
-+ (OPNUserEntryManager*)sharedManager
-{
++ (OPNUserEntryManager*)sharedManager {
     static OPNUserEntryManager *sharedManager;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -23,8 +22,7 @@
 }
 
 #pragma mark - Lifecycle
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         // ユーザデフォルトからエントリ一覧を取得

@@ -20,9 +20,7 @@
 
 @implementation TreeViewController {
     NSArray     *_items;
-    BOOL        _loading;
     BOOL        _needNewPath;
-    UITextField *_newPathField;
     NSString    *_lastConnectedServerPath;
 }
 

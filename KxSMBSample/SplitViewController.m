@@ -16,8 +16,8 @@
 
 @interface SplitViewController () <AuthViewControllerDelegate, KxSMBProviderDelegate, TreeViewControllerDelegate, ServerListViewControllerDelegate, FileViewControllerDelegate>
 @property (nonatomic) ServerListViewController *rootTreeViewController;
-@property (nonatomic) UINavigationController *navigationControllerForMaster;
-@property (nonatomic) UINavigationController *navigationControllerForDetail;
+@property (nonatomic) UINavigationController   *navigationControllerForMaster;
+@property (nonatomic) UINavigationController   *navigationControllerForDetail;
 @end
 
 @implementation SplitViewController {
@@ -64,8 +64,7 @@
 }
 
 #pragma mark - Private
-- (void) presentAuthViewControllerForServer: (NSString *) server
-{
+- (void) presentAuthViewControllerForServer: (NSString *) server {
     if (!_authViewController) {
         _authViewController           = [[AuthViewController alloc] init];
         _authViewController.delegate  = self;
@@ -179,8 +178,7 @@
 #pragma mark - KxSMBProviderDelegate
 
 - (KxSMBAuth *) smbAuthForServer: (NSString *) server
-                       withShare: (NSString *) share
-{
+                       withShare: (NSString *) share {
     // キャッシュがセットされている場合はキャッシュを返す
     KxSMBAuth *auth = _cachedAuths[server.uppercaseString];
     if (auth) {

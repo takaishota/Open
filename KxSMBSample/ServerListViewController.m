@@ -18,8 +18,8 @@
 static NSString * const kCellIdentifier = @"cellIdentifier";
 
 @interface ServerListViewController () <AuthViewControllerDelegate, UITextFieldDelegate>
-@property (nonatomic) DataLoader *dataLoader;
-@property (nonatomic) NSArray *userEntries;
+@property (nonatomic) DataLoader   *dataLoader;
+@property (nonatomic) NSArray      *userEntries;
 @property (nonatomic) OPNUserEntry *selectedUserEntry;
 @end
 
@@ -94,8 +94,7 @@ UIBarButtonSystemItemTrash
     [self connectServer];
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleDelete;
 }
 
@@ -142,16 +141,14 @@ UIBarButtonSystemItemTrash
     }
     [LoginStatusManager sharedManager].isLaunchedApp = NO;
 }
-         
-- (void)cancelButtonDidPushed {}
 
 - (void)setTableViewStyle {
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.rowHeight       = 70.f;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
-- (NSString *)description
-{
+
+- (NSString *)description {
     return [NSString stringWithFormat:@"ServerListViewController description:\n%@ delegate: %@\n",[super description], self.delegate];
 }
 

@@ -101,7 +101,7 @@
 #pragma mark - Private
 - (void)setupPopupButton:(UIView*)superView {
     self.btn =[UIButton buttonWithType:UIButtonTypeCustom];
-    self.btn.frame = superView.frame;
+    self.btn.frame           = superView.frame;
     self.btn.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.btn];
     
@@ -114,7 +114,7 @@
 - (void)didPushShowPopupButton {
     [self.view endEditing:YES];
     
-    self.popupViewController = [PopupViewController new];
+    self.popupViewController          = [PopupViewController new];
     self.popupViewController.delegate = self;
     [self setUpPopoverViewController:self.popupViewController];
     [self.popupViewController showPopupView:CGPointMake(CGRectGetMidX(self.btn.frame), CGRectGetMaxY(self.btn.frame) + 5)];
@@ -140,8 +140,8 @@
     for (int i = 0; i < [_formLabels count]; i++) {
         [self.view addSubview:[self generateAuthItemLabel:_formLabels[i] AtIndex:i]];
         AuthViewTextField *tf = (AuthViewTextField*)[self generateAuthTextField:_userdefaultKeys[i] AtIndex:i];
-        tf.delegate = self;
-        tf.tag = i;
+        tf.delegate           = self;
+        tf.tag                = i;
         [_fieldsList addObject:tf];
         [self.view addSubview:tf];
     }

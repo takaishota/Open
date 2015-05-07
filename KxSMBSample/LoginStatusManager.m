@@ -9,8 +9,7 @@
 #import "Server.h"
 
 @implementation LoginStatusManager
-+ (LoginStatusManager*)sharedManager
-{
++ (LoginStatusManager*)sharedManager {
     static LoginStatusManager *sharedManager;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

@@ -13,7 +13,6 @@
 
 @interface TopViewController () <UITextFieldDelegate, PopupViewDelegate>
 @property (nonatomic) PopupViewController *popupViewController;
-@property (nonatomic) UIButton *btn;
 @property (nonatomic) UILabel *appNameLabel;
 @property (nonatomic) UILabel *descriptionLabel;
 @end

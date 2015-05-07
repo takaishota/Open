@@ -11,8 +11,8 @@
 #import "NSJSONSerialization+JSONFile.h"
 #import "Server.h"
 
-NSString *const NETWORKTYPE_LAN = @"LAN";
-NSString *const NETWORKTYPE_CLOUD = @"CLOUD";
+NSString *const NETWORKTYPE_LAN    = @"LAN";
+NSString *const NETWORKTYPE_CLOUD  = @"CLOUD";
 NSString *const NETWORKTYPE_PUBLIC = @"PUBLIC";
 
 @interface DataLoader ()
@@ -23,8 +23,7 @@ NSString *const NETWORKTYPE_PUBLIC = @"PUBLIC";
 @implementation DataLoader
 
 #pragma mark - Lifecycle
-- (instancetype)initWithJSONFile:(NSString*)fileName
-{
+- (instancetype)initWithJSONFile:(NSString*)fileName {
     self = [super init];
     if (!self) return nil;
     _JSON = [NSJSONSerialization JSONObjectWithContentsOfFile:fileName];
@@ -37,7 +36,7 @@ NSString *const NETWORKTYPE_PUBLIC = @"PUBLIC";
 #pragma mark - Public
 #pragma mark - Private
 - (void)generateFormsWithJSON:(id)JSON {
-    NSArray *servers = [NSMutableArray array];
+    NSArray *servers         = [NSMutableArray array];
     NSMutableArray *tmpArray = [NSMutableArray array];
     
     if ([JSON isKindOfClass:[NSArray class]]) {

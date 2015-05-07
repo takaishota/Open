@@ -22,11 +22,11 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (self){
-        _userName = [decoder decodeObjectForKey:@"_userName"];
-        _password = [decoder decodeObjectForKey:@"_password"];
-        _workgroup = [decoder decodeObjectForKey:@"_workgroup"];
+        _userName        = [decoder decodeObjectForKey:@"_userName"];
+        _password        = [decoder decodeObjectForKey:@"_password"];
+        _workgroup       = [decoder decodeObjectForKey:@"_workgroup"];
         _remoteDirectory = [decoder decodeObjectForKey:@"_remoteDirectory"];
-        _targetServer = [decoder decodeObjectForKey:@"_targetServer"];
+        _targetServer    = [decoder decodeObjectForKey:@"_targetServer"];
     }
     return self;
 }

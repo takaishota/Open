@@ -20,7 +20,6 @@
 @end
 
 @implementation FileViewController {
-    
     UIProgressView  *_downloadProgress;
     UILabel         *_downloadLabel;
     NSString        *_filePath;
@@ -29,12 +28,10 @@
     NSDate          *_timestamp;
     UIWebView       *_webView;
     BOOL            _treeViewIsHidden;
-    UIBarButtonItem *_barButtonItem;
 }
 
 #pragma mark - Lifecycle
-- (id)init
-{
+- (id)init {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
 //        _isLogin = NO;
@@ -42,13 +39,11 @@
     return self;
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
     [self closeFiles];
 }
 
-- (void) loadView
-{
+- (void) loadView {
     self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -64,8 +59,7 @@
     [self.view addSubview:_downloadProgress];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationItem setHidesBackButton:YES animated:NO];
     
@@ -78,19 +72,16 @@
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [self updateLeftBarButtonItem];
 }
-- (void) viewWillDisappear:(BOOL)animated
-{
+- (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }
 
@@ -132,8 +123,7 @@ const static CGFloat masterViewWidth = 320.0f;
                                                                         action:@selector(popupControllButtonDidPushed)];
 }
 
-- (void) closeFiles
-{
+- (void) closeFiles {
     if (_fileHandle) {
         
         [_fileHandle closeFile];
@@ -174,8 +164,7 @@ const static CGFloat masterViewWidth = 320.0f;
     return progressView;
 }
 
-- (void) downloadAction
-{
+- (void) downloadAction {
     if (!_fileHandle) {
         
         NSString *folder = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
@@ -233,8 +222,7 @@ const static CGFloat masterViewWidth = 320.0f;
     }
 }
 
--(void) updateDownloadStatus: (id) result
-{
+-(void) updateDownloadStatus: (id) result {
     if ([result isKindOfClass:[NSError class]]) {
          
         NSError *error = result;
@@ -326,8 +314,7 @@ const static CGFloat masterViewWidth = 320.0f;
     return webView;
 }
 
-- (void) download
-{
+- (void) download {
     __weak __typeof(self) weakSelf = self;
     [_smbFile readDataOfLength:32768
                          block:^(id result)
@@ -345,23 +332,17 @@ const static CGFloat masterViewWidth = 320.0f;
 - (void)splitViewController:(UISplitViewController *)svc
      willHideViewController:(UIViewController *)aViewController
           withBarButtonItem:(UIBarButtonItem *)barButtonItem
-       forPopoverController:(UIPopoverController *)pc
-{
+       forPopoverController:(UIPopoverController *)pc {
     _treeViewIsHidden = YES;
     [self updateLeftBarButtonItem];
-    _barButtonItem = barButtonItem;
-    
 }
 
 // 横向きになるときに呼ばれる
 - (void)splitViewController:(UISplitViewController *)svc
      willShowViewController:(UIViewController *)aViewController
-  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
-{
+  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
     _treeViewIsHidden = NO;
     [self updateLeftBarButtonItem];
-    _barButtonItem = barButtonItem;
-    
 }
 
 // マスタビューが出てくるときに呼ばれる
@@ -390,9 +371,8 @@ const static CGFloat masterViewWidth = 320.0f;
 }
 
 #pragma mark - NSObject
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"FileViewController description:\n%@ delegate: %@\nsmbFile: %@\ntreeViewToggleButton: %@\n",[super description], self.delegate, self.smbFile, self.treeViewToggleButton];
+- (NSString *)description {
+    return [NSString stringWithFormat:@"FileViewController description:\n%@ delegate: %@\nsmbFile: %@\n",[super description], self.delegate, self.smbFile];
 }
 
 @end

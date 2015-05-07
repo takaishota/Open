@@ -60,7 +60,7 @@
     [self setNeedsDisplay];
 }
 
-- (void) setLineWidth:(CGFloat)lineWidth {
+- (void)setLineWidth:(CGFloat)lineWidth {
     _lineWidth = lineWidth;
     [self setNeedsDisplay];
 }
@@ -76,8 +76,7 @@
 }
 
 #pragma mark - NSObject
-- (NSString *)description
-{
+- (NSString *)description {
     return [NSString stringWithFormat:@"AuthViewTextField description:\n%@ underLineColor: %@\nlineWidth: %f\n",[super description], self.underLineColor, self.lineWidth];
 }
 

@@ -14,9 +14,9 @@
 
 @interface PopupViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic) UITableView *tableView;
-@property (nonatomic) DXPopover *popover;
-@property (nonatomic) DataLoader *dataLoader;
-@property (nonatomic) Server *selectedServer;
+@property (nonatomic) DXPopover   *popover;
+@property (nonatomic) DataLoader  *dataLoader;
+@property (nonatomic) Server      *selectedServer;
 @end
 
 @implementation PopupViewController {
@@ -56,15 +56,13 @@ static NSString *cellId = @"cellIdentifier";
     _popoverWidth = CGRectGetWidth(self.parentViewController.view.bounds);
 }
 
-- (void)updateTableViewFrame
-{
+- (void)updateTableViewFrame {
     CGRect tableViewFrame = self.tableView.frame;
     tableViewFrame.size.width = _popoverWidth;
     self.tableView.frame = tableViewFrame;
 }
 
-- (void)bounceTargetView:(UIView *)targetView
-{
+- (void)bounceTargetView:(UIView *)targetView {
     targetView.transform = CGAffineTransformMakeScale(0.9, 0.9);
     [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.3 initialSpringVelocity:5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         targetView.transform = CGAffineTransformIdentity;
@@ -89,18 +87,15 @@ static NSString *cellId = @"cellIdentifier";
 }
 
 #pragma mark - TableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return  self.dataLoader.serverList.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ServerListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (!cell) {
         cell = (ServerListCell*)[[ServerListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
@@ -116,7 +111,7 @@ static NSString *cellId = @"cellIdentifier";
     cell.textLabel.text = server.ip;
     if ([_selectedSerever.ip isEqualToString:server.ip]) {
         cell.textLabel.textColor = self.view.tintColor;
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        cell.accessoryType       = UITableViewCellAccessoryCheckmark;
     }
     UIImage *img;
     if ([server.networkType isEqualToString:@"LAN"]) {
@@ -132,8 +127,7 @@ static NSString *cellId = @"cellIdentifier";
 }
 
 #pragma mark - TableViewDelegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // 選択中のサーバーを保持する
     _selectedSerever = self.dataLoader.serverList[indexPath.row];
     [self.popover dismiss];

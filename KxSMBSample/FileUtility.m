@@ -10,8 +10,7 @@
 @implementation FileUtility
 
 static FileUtility *_sharedInstance = nil;
-+ (FileUtility *)sharedUtility
-{
++ (FileUtility *)sharedUtility {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedInstance = [[FileUtility alloc] init];
@@ -19,8 +18,7 @@ static FileUtility *_sharedInstance = nil;
     return _sharedInstance;
 }
 
-- (NSString*)documentDirectory
-{
+- (NSString*)documentDirectory {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(
                                                          NSDocumentDirectory,
                                                          NSUserDomainMask,
@@ -28,13 +26,11 @@ static FileUtility *_sharedInstance = nil;
     return [paths objectAtIndex:0];
 }
 
-- (NSString*)documentDirectoryWithFileName:(NSString*)fileName
-{
+- (NSString*)documentDirectoryWithFileName:(NSString*)fileName {
     return [[self documentDirectory] stringByAppendingPathComponent:fileName];
 }
 
-- (NSArray*)fileNamesAtDirectoryPath:(NSString*)directoryPath extension:(NSString*)extension
-{
+- (NSArray*)fileNamesAtDirectoryPath:(NSString*)directoryPath extension:(NSString*)extension {
     NSFileManager *fileManager=[[NSFileManager alloc] init];
     NSError *error = nil;
     /* 全てのファイル名 */
@@ -53,14 +49,14 @@ static FileUtility *_sharedInstance = nil;
 }
 
 - (BOOL)removeFileAtPath:(NSString *)path {
-    NSFileManager *fileManager=[[NSFileManager alloc] init];
+    NSFileManager *fileManager　=　[[NSFileManager alloc] init];
     return [fileManager removeItemAtPath:path error:nil];;
 }
 
 -(BOOL)resetLocalDocumentsDirectory {
     NSFileManager *fileManager=[[NSFileManager alloc] init];
     BOOL result = [fileManager removeItemAtPath:[self documentDirectory] error:nil];
-    result = [fileManager createDirectoryAtPath:[self documentDirectory] withIntermediateDirectories:NO attributes:nil error:nil];
+    result      = [fileManager createDirectoryAtPath:[self documentDirectory] withIntermediateDirectories:NO attributes:nil error:nil];
     return result;
 }
 

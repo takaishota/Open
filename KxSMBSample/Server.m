@@ -13,7 +13,7 @@
 - (id) initWithIp:(NSString*)ip NetworkType:(NSString*)type {
     self = [super init];
     if (self) {
-        _ip = ip;
+        _ip          = ip;
         _networkType = type;
     }
     return self;
@@ -28,7 +28,7 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (self){
-        _ip = [decoder decodeObjectForKey:@"_ip"];
+        _ip          = [decoder decodeObjectForKey:@"_ip"];
         _networkType = [decoder decodeObjectForKey:@"_networkType"];
     }
     return self;

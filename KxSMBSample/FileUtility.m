@@ -49,7 +49,7 @@ static FileUtility *_sharedInstance = nil;
 }
 
 - (BOOL)removeFileAtPath:(NSString *)path {
-    NSFileManager *fileManager　=　[[NSFileManager alloc] init];
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
     return [fileManager removeItemAtPath:path error:nil];;
 }
 

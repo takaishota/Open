@@ -16,9 +16,10 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.textLabel.textColor = [UIColor customGrayColor];
-        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.textLabel.font = [UIFont fontWithName:@"Avenir-Light" size:20];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        self.accessoryView = [self generateAccessoryButton];
     }
     return self;
 }
@@ -50,6 +51,16 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
+}
+
+- (UIButton*)generateAccessoryButton {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, 40, self.bounds.size.height);
+    button.titleLabel.font = [UIFont fontWithName:@"HiraKakuProN-W6" size:16];
+    [button setTitle:@"編集" forState:UIControlStateNormal];
+    [button setTitleColor:self.tintColor forState:UIControlStateNormal];
+    
+    return button;
 }
 
 @end

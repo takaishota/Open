@@ -51,12 +51,20 @@
     self.view.backgroundColor = _backgroundColor;
     
     // プロパティの初期化
-    self.server    = [NSString string];
-    self.remoteDir  = [NSString string];
-    self.workgroup = [NSString string];
-    self.username  = [NSString string];
-    self.password  = [NSString string];
-    
+    if (!self.userEntry) {
+//        self.server    = [NSString string];
+        self.server = [[Server alloc] init];
+        self.remoteDir  = [NSString string];
+        self.workgroup = [NSString string];
+        self.username  = [NSString string];
+        self.password  = [NSString string];
+    } else {
+        self.server    = self.userEntry.targetServer;
+        self.remoteDir  = self.userEntry.remoteDirectory;
+        self.workgroup = self.userEntry.workgroup;
+        self.username  = self.userEntry.userName;
+        self.password  = self.userEntry.password;
+    }
     // テキストフィールドへの参照保持配列の初期化
     _fieldsList = [NSMutableArray array];
     
@@ -220,12 +228,35 @@ const CGFloat _labelInterval = 80;
     }
     
     OPNUserEntry *entry = [OPNUserEntry new];
-    entry.userName = self.username;
-    entry.password = self.password;
-    entry.remoteDirectory = self.remoteDir;
-    entry.workgroup = self.workgroup;
-    Server *server = [[Server alloc] initWithIp:self.server NetworkType:@"LAN"];
-    entry.targetServer = server;
+    if (self.username) {
+        entry.userName = self.username;
+    } else {
+        NSLog(@"userName is nill");
+        return;
+    }
+    if (self.password) {
+        entry.password = self.password;
+    } else {
+        NSLog(@"password is nill");
+        return;
+    }
+    if (self.remoteDir) {
+        entry.remoteDirectory = self.remoteDir;
+    }
+    if(self.workgroup) {
+        entry.workgroup = self.workgroup;
+    } else {
+        NSLog(@"workgroup is nill");
+        return;
+    }
+    if (self.server.ip) {
+        entry.targetServer = [[Server alloc] initWithIp:self.server.ip NetworkType:@"LAN"];
+    } else {
+        NSLog(@"serverIp is nill");
+        return;
+    }
+//    entry.targetServer = server;
+        
     
     [[OPNUserEntryManager sharedManager] addUserEntry:entry];
     

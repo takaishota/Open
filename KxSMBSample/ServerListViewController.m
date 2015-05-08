@@ -21,6 +21,7 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
 @property (nonatomic) DataLoader   *dataLoader;
 @property (nonatomic) NSArray      *userEntries;
 @property (nonatomic) OPNUserEntry *selectedUserEntry;
+@property (nonatomic) OPNUserEntry *editingUserEntry;
 @end
 
 @implementation ServerListViewController
@@ -31,7 +32,7 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                            target:self
-                                                                                           action:@selector(addAuthView)];
+                                                                                           action:@selector(addAuthView:)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:
 UIBarButtonSystemItemTrash
                                                                                           target:self
@@ -48,6 +49,24 @@ UIBarButtonSystemItemTrash
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark - Private
+- (NSIndexPath *)indexPathForControlEvent:(UIEvent *)event {
+    UITouch *touch = [[event allTouches] anyObject];
+    CGPoint p = [touch locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
+    return indexPath;
+}
+
+- (void)didPushEditButton:(UIButton*)sender event:(UIEvent*)event {
+    NSIndexPath *indexPath = [self indexPathForControlEvent:event];
+    NSString *messageString = [NSString stringWithFormat:@"Button at row %ld was tapped.", (long)indexPath.row];
+    NSLog(@"message: %@",messageString);
+    
+    self.editingUserEntry = [OPNUserEntryManager sharedManager].userEntries[indexPath.row];
+    
+    [self addAuthView];
+}
+
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
@@ -59,19 +78,19 @@ UIBarButtonSystemItemTrash
     return [self.userEntries count];
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+    ServerListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+        cell = (ServerListCell*)[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
                                       reuseIdentifier:cellIdentifier];
     }
 
     cell.textLabel.text = [[OPNUserEntryManager sharedManager] getServerIpAtIndex:indexPath.row];
     UIImage *img = [UIImage imageNamed:@"mac"];
     cell.imageView.image = img;
+    [(UIButton*)cell.accessoryView addTarget:self action:@selector(didPushEditButton:event:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
     
@@ -114,6 +133,7 @@ UIBarButtonSystemItemTrash
 #pragma mark - Bar Button Item Event Handler
 - (void) addAuthView {
     AuthViewController *vc = [[AuthViewController alloc] init];
+    vc.userEntry = self.editingUserEntry;
     
     // split view controller にdelegateする
     [self.navigationController pushViewController:vc animated:YES];

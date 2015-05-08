@@ -36,7 +36,7 @@
 {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
-        self.title =  NSLocalizedString(@"SMB認証情報の設定", nil);
+        self.title =  NSLocalizedString(@"エントリを作成", nil);
     }
     return self;
 }

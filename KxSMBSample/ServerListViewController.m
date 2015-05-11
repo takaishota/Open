@@ -59,11 +59,7 @@ UIBarButtonSystemItemTrash
 
 - (void)didPushEditButton:(UIButton*)sender event:(UIEvent*)event {
     NSIndexPath *indexPath = [self indexPathForControlEvent:event];
-    NSString *messageString = [NSString stringWithFormat:@"Button at row %ld was tapped.", (long)indexPath.row];
-    NSLog(@"message: %@",messageString);
-    
     self.editingUserEntry = [OPNUserEntryManager sharedManager].userEntries[indexPath.row];
-    
     [self presentUserEntryEditViewAtIndex:indexPath.row];
 }
 

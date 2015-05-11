@@ -18,11 +18,10 @@
 
 @interface AuthViewController : UIViewController
 @property (nonatomic, weak)id <AuthViewControllerDelegate>delegate;
-//@property (nonatomic, strong) NSString *server;
-@property (nonatomic, strong) NSString *remoteDir;
-@property (nonatomic, strong) NSString *workgroup;
-@property (nonatomic, strong) NSString *username;
-@property (nonatomic, strong) NSString *password;
+@property (nonatomic) NSString *remoteDir;
+@property (nonatomic) NSString *workgroup;
+@property (nonatomic) NSString *username;
+@property (nonatomic) NSString *password;
 @property (nonatomic) Server *server;
 @property (nonatomic) OPNUserEntry *userEntry;
 

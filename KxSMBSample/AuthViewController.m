@@ -87,16 +87,7 @@
                                                                                action:@selector(saveAction)];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void) viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     AuthViewTextField *firstTf = _fieldsList[0];
     firstTf.underLineColor = self.view.tintColor;
     firstTf.enabled = NO;
@@ -313,7 +304,7 @@ const CGFloat _labelInterval = 80;
 }
 
 #pragma mark - Popup View Delegate
-- (void) dismissPopupView {
+- (void)dismissPopupView {
     [self removePopupViewController:self.popupViewController];
 }
 

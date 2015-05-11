@@ -125,13 +125,13 @@ UIBarButtonSystemItemTrash
 }
 
 #pragma mark - Auth View Controller Delegate
-- (void) reload {
+- (void)reload {
     self.userEntries = [OPNUserEntryManager sharedManager].userEntries;
     [self.tableView reloadData];
 }
 
 #pragma mark - Bar Button Item Event Handler
-- (void) addAuthView {
+- (void)presentUserEntryAddView {
     AuthViewController *vc = [[AuthViewController alloc] init];
     vc.userEntry = self.editingUserEntry;
     

@@ -51,20 +51,8 @@
     self.view.backgroundColor = _backgroundColor;
     
     // プロパティの初期化
-    if (!self.userEntry) {
-//        self.server    = [NSString string];
-        self.server = [[Server alloc] init];
-        self.remoteDir  = [NSString string];
-        self.workgroup = [NSString string];
-        self.username  = [NSString string];
-        self.password  = [NSString string];
-    } else {
-        self.server    = self.userEntry.targetServer;
-        self.remoteDir  = self.userEntry.remoteDirectory;
-        self.workgroup = self.userEntry.workgroup;
-        self.username  = self.userEntry.userName;
-        self.password  = self.userEntry.password;
-    }
+    [self initiateProperties];
+    
     // テキストフィールドへの参照保持配列の初期化
     _fieldsList = [NSMutableArray array];
     
@@ -107,6 +95,23 @@
 }
 
 #pragma mark - Private
+- (void)initiateProperties {
+    if (!self.userEntry) {
+        //        self.server    = [NSString string];
+        self.server = [[Server alloc] init];
+        self.remoteDir  = [NSString string];
+        self.workgroup = [NSString string];
+        self.username  = [NSString string];
+        self.password  = [NSString string];
+    } else {
+        self.server    = self.userEntry.targetServer;
+        self.remoteDir  = self.userEntry.remoteDirectory;
+        self.workgroup = self.userEntry.workgroup;
+        self.username  = self.userEntry.userName;
+        self.password  = self.userEntry.password;
+    }
+}
+
 - (void)setupPopupButton:(UIView*)superView {
     self.btn =[UIButton buttonWithType:UIButtonTypeCustom];
     self.btn.frame           = superView.frame;

@@ -32,7 +32,7 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                            target:self
-                                                                                           action:@selector(addAuthView:)];
+                                                                                           action:@selector(presentUserEntryAddView)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:
 UIBarButtonSystemItemTrash
                                                                                           target:self
@@ -64,7 +64,7 @@ UIBarButtonSystemItemTrash
     
     self.editingUserEntry = [OPNUserEntryManager sharedManager].userEntries[indexPath.row];
     
-    [self addAuthView];
+    [self presentUserEntryEditViewAtIndex:indexPath.row];
 }
 
 #pragma mark - Table view data source
@@ -133,14 +133,25 @@ UIBarButtonSystemItemTrash
 #pragma mark - Bar Button Item Event Handler
 - (void)presentUserEntryAddView {
     AuthViewController *vc = [[AuthViewController alloc] init];
-    vc.userEntry = self.editingUserEntry;
+    vc.userEntry = nil;
     
     // split view controller にdelegateする
     [self.navigationController pushViewController:vc animated:YES];
     vc.delegate = self;
 }
 
-- (void) removeAllEntries {
+- (void)presentUserEntryEditViewAtIndex:(NSUInteger)index {
+    // 編集の場合は指定されたindexのエントリ情報をユーザデフォルトから取得してセットする
+    // ユーザデフォルトのエントリ配列を取り出して設定する
+    OPNUserEntry *userEntry = [OPNUserEntryManager sharedManager].userEntries[index];
+    AuthViewController *vc = [[AuthViewController alloc] initWithUserEntry:userEntry];
+    
+    // split view controller にdelegateする
+    [self.navigationController pushViewController:vc animated:YES];
+    vc.delegate = self;
+}
+
+- (void)removeAllEntries {
     [[OPNUserEntryManager sharedManager] removeAllUserEntries];
     [self reload];
 }

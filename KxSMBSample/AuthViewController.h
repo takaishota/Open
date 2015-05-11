@@ -26,4 +26,6 @@
 @property (nonatomic) Server *server;
 @property (nonatomic) OPNUserEntry *userEntry;
 
+- (id)initWithUserEntry:(OPNUserEntry*) userEntry;
+
 @end

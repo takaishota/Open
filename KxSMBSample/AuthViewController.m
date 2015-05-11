@@ -41,6 +41,15 @@
     return self;
 }
 
+- (id)initWithUserEntry:(OPNUserEntry*)userEntry {
+    self = [super init];
+    if (self) {
+        self.title = NSLocalizedString(@"エントリを編集", nil);
+        self.userEntry = userEntry;
+    }
+    return self;
+}
+
 - (void)loadView {
     _backgroundColor = [UIColor whiteColor];
     
@@ -57,10 +66,11 @@
     _fieldsList = [NSMutableArray array];
     
     // プロパティの参照を配列にセットする
-    _propertyList = [@[@"server", @"RemoteDir", @"workgroup", @"username", @"password"] mutableCopy];
+    _propertyList = [@[@"targetServer", @"remoteDirectory", @"workgroup", @"userName", @"password"] mutableCopy];
     
     // フォームに表示する項目
     _formLabels      = @[@"サーバアドレス", @"リモートディレクトリ", @"ワークグループ", @"ユーザ名", @"パスワード"];
+    // 対応するユーザデフォルトのキー名
     _userdefaultKeys = @[@"LastServer", @"RemoteDirectory", @"Workgroup", @"Username", @"Password"];
     
     [self setupformItems];
@@ -152,7 +162,7 @@
 - (void) setupformItems {
     for (int i = 0; i < [_formLabels count]; i++) {
         [self.view addSubview:[self generateAuthItemLabel:_formLabels[i] AtIndex:i]];
-        AuthViewTextField *tf = (AuthViewTextField*)[self generateAuthTextField:_userdefaultKeys[i] AtIndex:i];
+        AuthViewTextField *tf = (AuthViewTextField*)[self generateAuthTextField:_propertyList[i] AtIndex:i];
         tf.delegate           = self;
         tf.tag                = i;
         [_fieldsList addObject:tf];
@@ -168,26 +178,34 @@ const CGFloat _labelInterval = 80;
     
     const CGFloat lWidth  = self.navigationController.view.frame.size.width - 40;
     const CGFloat lHeight = 20;
-    
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(_offsetX, _labelInterval * idx + _navHeight + 70, lWidth, lHeight)];
+    
     UILabel *formattedLabel = [self formatLabel:label];
     formattedLabel.text = text;
+    
     return formattedLabel;
 }
 
-- (AuthViewTextField*)generateAuthTextField:(NSString*)lastValue AtIndex:(NSUInteger)idx {
+- (AuthViewTextField*)generateAuthTextField:(NSString*)itemValue AtIndex:(NSUInteger)itemIdx {
     
     const CGFloat tfWidth  = self.navigationController.view.frame.size.width - 40;
     const CGFloat tfHeight = 20;
+    AuthViewTextField *textField = [[AuthViewTextField alloc] initWithFrame:CGRectMake(_offsetX,
+                                                                                       _labelInterval * itemIdx + _navHeight + 100,
+                                                                                       tfWidth,
+                                                                                       tfHeight)];
+    if ([[self.userEntry valueForKey:itemValue] isKindOfClass:[Server class]]) {
+        Server *server = [self.userEntry valueForKey:itemValue];
+        textField.text = [server valueForKey:@"ip"];
+    } else {
+        textField.text = [self.userEntry valueForKey:itemValue];
+    }
     
-    AuthViewTextField *textField = [[AuthViewTextField alloc] initWithFrame:CGRectMake(_offsetX, _labelInterval * idx + _navHeight + 100, tfWidth, tfHeight)];
     AuthViewTextField *formattedTextField = (AuthViewTextField*)[self formatTextFieldStyle:textField];
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    formattedTextField.text = [ud stringForKey:lastValue];
-
-    if ([@"Password" isEqualToString:lastValue]) {
+    if ([@"password" isEqualToString:itemValue]) {
         formattedTextField.secureTextEntry = YES;
     }
+    
     return formattedTextField;
 }
 

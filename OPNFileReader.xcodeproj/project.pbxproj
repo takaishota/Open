@@ -53,6 +53,7 @@
 		1FF03A711AEA36B20049F641 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FF03A6D1AEA36B20049F641 /* Icon-60@2x.png */; };
 		1FF03A721AEA36B20049F641 /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FF03A6E1AEA36B20049F641 /* Icon-60@3x.png */; };
 		1FF03A741AEA39280049F641 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FF03A731AEA39280049F641 /* Icon-40.png */; };
+		1FF960E51B003AB70077C875 /* UIView+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FF960E41B003AB70077C875 /* UIView+Utility.m */; };
 		3D4F15DD1ADA9A5600083E9F /* LoginStatusManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4F15DC1ADA9A5600083E9F /* LoginStatusManager.m */; };
 		87085F8D1705D46C009CD258 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F8C1705D46C009CD258 /* UIKit.framework */; };
 		87085F8F1705D46C009CD258 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085F8E1705D46C009CD258 /* Foundation.framework */; };
@@ -173,6 +174,8 @@
 		1FF03A6D1AEA36B20049F641 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
 		1FF03A6E1AEA36B20049F641 /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
 		1FF03A731AEA39280049F641 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
+		1FF960E31B003AB70077C875 /* UIView+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utility.h"; sourceTree = "<group>"; };
+		1FF960E41B003AB70077C875 /* UIView+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utility.m"; sourceTree = "<group>"; };
 		3D4F15DB1ADA9A5600083E9F /* LoginStatusManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginStatusManager.h; sourceTree = "<group>"; };
 		3D4F15DC1ADA9A5600083E9F /* LoginStatusManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginStatusManager.m; sourceTree = "<group>"; };
 		6560FA5E2DECD63CEA3442F4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -453,6 +456,8 @@
 				1FB240371AE4D53C00719C20 /* UIColor+CustomColors.m */,
 				1FE4B7161AE79B2300FC83D5 /* UIImage+Utility.h */,
 				1FE4B7171AE79B2300FC83D5 /* UIImage+Utility.m */,
+				1FF960E31B003AB70077C875 /* UIView+Utility.h */,
+				1FF960E41B003AB70077C875 /* UIView+Utility.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -789,6 +794,7 @@
 				1FE4B7181AE79B2300FC83D5 /* UIImage+Utility.m in Sources */,
 				1FB240351AE4840800719C20 /* ServerListViewController.m in Sources */,
 				1FE363471AD3BC6F0062ECBB /* DataLoader.m in Sources */,
+				1FF960E51B003AB70077C875 /* UIView+Utility.m in Sources */,
 				1F6A52BE1AE8B34900D76CDF /* OPNDocument.m in Sources */,
 				1FB578FE1AD6603C00924C9C /* TopViewController.m in Sources */,
 				1F62900C1ACE1114009CF4E3 /* DXPopover.m in Sources */,

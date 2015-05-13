@@ -98,7 +98,6 @@
 #pragma mark - Private
 - (void)initiateProperties {
     if (!self.userEntry) {
-        //        self.server    = [NSString string];
         self.server = [[Server alloc] init];
         self.remoteDir  = [NSString string];
         self.workgroup = [NSString string];

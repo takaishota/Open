@@ -268,8 +268,6 @@ const CGFloat _labelInterval = 80;
         NSLog(@"serverIp is nill");
         return;
     }
-//    entry.targetServer = server;
-        
     
     [[OPNUserEntryManager sharedManager] addUserEntry:entry];
     

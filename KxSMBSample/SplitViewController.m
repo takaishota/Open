@@ -79,7 +79,7 @@
     if (nav.presentedViewController)
         return;
     
-    _authViewController.server = server;
+    _authViewController.server.ip = server;
     [self couldAuthViewController:_authViewController];
     
 }
@@ -123,7 +123,7 @@
                                          password:[[NSUserDefaults standardUserDefaults] stringForKey:@"Password"]];
     
     if (controller) {
-        _cachedAuths[controller.server.uppercaseString] = auth;
+        _cachedAuths[controller.server.ip.uppercaseString] = auth;
     }
     
     NSLog(@"store auth for %@ -> %@/%@:%@",

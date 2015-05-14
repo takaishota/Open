@@ -66,9 +66,11 @@
 }
 
 #pragma mark - Private
-- (void) presentAuthViewControllerForServer: (NSString *) server {
+- (void) presentAuthViewControllerForServer: (NSString *)server {
     if (!_authViewController) {
         _authViewController           = [[AuthViewController alloc] init];
+        
+        // TODO:エントリマネージャー経由で取得するようにする（ユーザデフォルトに直接アクセスしない）
         _authViewController.userName  = [[NSUserDefaults standardUserDefaults] stringForKey:@"Username"];
         _authViewController.remoteDirectory = [[NSUserDefaults standardUserDefaults] stringForKey:@"RemoteDirectory"];
         _authViewController.password  = [[NSUserDefaults standardUserDefaults] stringForKey:@"Password"];
@@ -83,6 +85,22 @@
     _authViewController.targetServer = [[Server alloc] initWithIp:server NetworkType:@"LAN"];
     [self couldAuthViewController:_authViewController];
     
+}
+
+#pragma mark - KxSMBProviderDelegate
+- (KxSMBAuth *) smbAuthForServer: (NSString *) server
+                       withShare: (NSString *) share {
+    // キャッシュがセットされている場合はキャッシュを返す
+    KxSMBAuth *auth = _cachedAuths[server.uppercaseString];
+    if (auth) {
+        return auth;
+    }
+    // セットされていない場合は認証画面を呼び出して何もしない
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentAuthViewControllerForServer:server];
+    });
+    
+    return nil;
 }
 
 #pragma mark - TreeViewControllerDelegate
@@ -175,23 +193,6 @@
             NSLog(@"finish Animation");
         }];
     }
-}
-
-#pragma mark - KxSMBProviderDelegate
-
-- (KxSMBAuth *) smbAuthForServer: (NSString *) server
-                       withShare: (NSString *) share {
-    // キャッシュがセットされている場合はキャッシュを返す
-    KxSMBAuth *auth = _cachedAuths[server.uppercaseString];
-    if (auth) {
-        return auth;
-    }
-    // セットされていない場合は認証画面を呼び出して何もしない
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self presentAuthViewControllerForServer:server];
-    });
-    
-    return nil;
 }
 
 @end

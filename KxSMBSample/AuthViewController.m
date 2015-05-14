@@ -336,7 +336,7 @@ const CGFloat _labelInterval = 80;
 #pragma mark - NSObject
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"AuthViewController description:\n%@ delegate: %@\nserver: %@\nlocalDir: %@\nworkgroup: %@\nusername: %@\npassword: %@\n",[super description], self.delegate, self.targetServer, self.remoteDirectory, self.workgroup, self.userName, self.password];
+    return [NSString stringWithFormat:@"AuthViewController description:\n%@ delegate: %@\ntargetServer: %@\nremoteDirectory: %@\nworkgroup: %@\nuserName: %@\npassword: %@\n",[super description], self.delegate, self.targetServer, self.remoteDirectory, self.workgroup, self.userName, self.password];
 }
 
 @end

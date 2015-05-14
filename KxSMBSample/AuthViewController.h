@@ -21,7 +21,6 @@
 @property (nonatomic) NSString *workgroup;
 @property (nonatomic) NSString *userName;
 @property (nonatomic) NSString *password;
-//@property (nonatomic) Server *server;
 @property (nonatomic) Server *targetServer;
 @property (nonatomic) OPNUserEntry *userEntry;
 

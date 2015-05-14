@@ -147,7 +147,7 @@
     }
     
     NSLog(@"store auth for %@ -> %@/%@:%@",
-          controller.targetServer, auth.workgroup, auth.username, auth.password);
+          controller.targetServer.ip, auth.workgroup, auth.username, auth.password);
     
     UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     [nav dismissViewControllerAnimated:YES completion:nil];

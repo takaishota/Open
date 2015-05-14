@@ -38,6 +38,12 @@
     return self;
 }
 
+#pragma mark - Custom Accessors
+- (void)setLastUserEntry:(OPNUserEntry *)lastUserEntry {
+    _lastUserEntry = lastUserEntry;
+    [self saveLastUserEntry];
+}
+
 #pragma mark - Private
 - (void)addUserEntry:(OPNUserEntry*)entry {
     if (!entry) {
@@ -91,6 +97,13 @@
     [self.userEntries removeObject:userEntry];
     [self.userEntries insertObject:userEntry atIndex:toIndex];
     [self saveEntries];
+}
+
+-(void)saveLastUserEntry {
+    // ユーザデフォルトに前回接続したエントリを保存
+    OPNUserEntry *lastUserEntry = self.lastUserEntry;
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:lastUserEntry];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"LastUserEntry"];
 }
 
 - (void)saveEntries {

@@ -11,6 +11,7 @@
 
 @interface OPNUserEntryManager : NSObject
 
+@property (nonatomic) OPNUserEntry *lastUserEntry;
 @property (nonatomic) NSMutableArray *userEntries;
 
 + (OPNUserEntryManager*)sharedManager;

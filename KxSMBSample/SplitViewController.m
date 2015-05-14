@@ -11,6 +11,8 @@
 #import "FileViewController.h"
 #import "KxSMBProvider.h"
 #import "OPNUserEntry.h"
+#import "OPNUserEntryManager.h"
+#import "Server.h"
 #import "ServerListViewController.h"
 #import "TreeViewController.h"
 
@@ -78,7 +80,7 @@
     if (nav.presentedViewController)
         return;
     
-    _authViewController.targetServer.ip = server;
+    _authViewController.targetServer = [[Server alloc] initWithIp:server NetworkType:@"LAN"];
     [self couldAuthViewController:_authViewController];
     
 }
@@ -116,13 +118,14 @@
 
 #pragma mark - AuthViewControllerDelegate
 - (void) couldAuthViewController: (AuthViewController *) controller {
-    // ユーザデフォルトから認証情報を取得してセットする
-    KxSMBAuth *auth = [KxSMBAuth smbAuthWorkgroup:[[NSUserDefaults standardUserDefaults] stringForKey:@"Workgroup"]
-                                         username:[[NSUserDefaults standardUserDefaults] stringForKey:@"Username"]
-                                         password:[[NSUserDefaults standardUserDefaults] stringForKey:@"Password"]];
     
+    // エントリマネージャから認証情報を取得してセットする
+    KxSMBAuth *auth = [KxSMBAuth smbAuthWorkgroup:[OPNUserEntryManager sharedManager].lastUserEntry.workgroup
+                                         username:[OPNUserEntryManager sharedManager].lastUserEntry.userName
+                                         password:[OPNUserEntryManager sharedManager].lastUserEntry.password];
+
     if (controller) {
-        _cachedAuths[controller.server.ip.uppercaseString] = auth;
+        _cachedAuths[controller.targetServer.ip.uppercaseString] = auth;
     }
     
     NSLog(@"store auth for %@ -> %@/%@:%@",

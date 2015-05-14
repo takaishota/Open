@@ -166,6 +166,7 @@ UIBarButtonSystemItemTrash
     if (error) {
         // エラーメッセージ
     }
+    [OPNUserEntryManager sharedManager].lastUserEntry = self.selectedUserEntry;
     [LoginStatusManager sharedManager].isLaunchedApp = NO;
 }
 

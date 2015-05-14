@@ -45,7 +45,7 @@
     }
     
     [self.userEntries addObject:entry];
-    [self save];
+    [self saveEntries];
 }
 
 - (void)insertUserEntry:(OPNUserEntry *)entry inUserEntriesAtIndex:(NSUInteger)index {
@@ -57,7 +57,7 @@
     }
     
     [self.userEntries insertObject:entry atIndex:index];
-    [self save];
+    [self saveEntries];
 }
 
 - (void)removeUserEntry:(NSUInteger)index {
@@ -66,7 +66,7 @@
     }
     
     [self.userEntries removeObjectAtIndex:index];
-    [self save];
+    [self saveEntries];
 }
 
 - (void)removeAllUserEntries {
@@ -75,7 +75,7 @@
     }
     
     [self.userEntries removeAllObjects];
-    [self save];
+    [self saveEntries];
 }
 
 - (void)moveUserEntryAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex {
@@ -90,10 +90,10 @@
     userEntry = [self.userEntries objectAtIndex:fromIndex];
     [self.userEntries removeObject:userEntry];
     [self.userEntries insertObject:userEntry atIndex:toIndex];
-    [self save];
+    [self saveEntries];
 }
 
-- (void)save {
+- (void)saveEntries {
     // ユーザデフォルトにエントリを保存
     NSArray *userEntries = [self.userEntries copy];
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userEntries];

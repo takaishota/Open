@@ -14,7 +14,7 @@
 #import "ServerListViewController.h"
 #import "TreeViewController.h"
 
-@interface SplitViewController () <AuthViewControllerDelegate, KxSMBProviderDelegate, TreeViewControllerDelegate, ServerListViewControllerDelegate, FileViewControllerDelegate>
+@interface SplitViewController () <KxSMBProviderDelegate, TreeViewControllerDelegate, ServerListViewControllerDelegate, FileViewControllerDelegate>
 @property (nonatomic) ServerListViewController *rootTreeViewController;
 @property (nonatomic) UINavigationController   *navigationControllerForMaster;
 @property (nonatomic) UINavigationController   *navigationControllerForDetail;
@@ -67,9 +67,8 @@
 - (void) presentAuthViewControllerForServer: (NSString *) server {
     if (!_authViewController) {
         _authViewController           = [[AuthViewController alloc] init];
-        _authViewController.delegate  = self;
-        _authViewController.username  = [[NSUserDefaults standardUserDefaults] stringForKey:@"Username"];
-        _authViewController.remoteDir = [[NSUserDefaults standardUserDefaults] stringForKey:@"RemoteDirectory"];
+        _authViewController.userName  = [[NSUserDefaults standardUserDefaults] stringForKey:@"Username"];
+        _authViewController.remoteDirectory = [[NSUserDefaults standardUserDefaults] stringForKey:@"RemoteDirectory"];
         _authViewController.password  = [[NSUserDefaults standardUserDefaults] stringForKey:@"Password"];
         _authViewController.workgroup = [[NSUserDefaults standardUserDefaults] stringForKey:@"Workgroup"];
     }
@@ -79,7 +78,7 @@
     if (nav.presentedViewController)
         return;
     
-    _authViewController.server.ip = server;
+    _authViewController.targetServer.ip = server;
     [self couldAuthViewController:_authViewController];
     
 }
@@ -127,7 +126,7 @@
     }
     
     NSLog(@"store auth for %@ -> %@/%@:%@",
-          controller.server, auth.workgroup, auth.username, auth.password);
+          controller.targetServer, auth.workgroup, auth.username, auth.password);
     
     UINavigationController *nav = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     [nav dismissViewControllerAnimated:YES completion:nil];

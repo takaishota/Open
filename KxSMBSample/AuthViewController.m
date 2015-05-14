@@ -96,18 +96,60 @@
 }
 
 #pragma mark - Private
+- (OPNUserEntry*)generateEntry {
+    OPNUserEntry *entry = [OPNUserEntry new];
+    
+    if ([self isNilOrEmpty:self.userName]) {
+        NSLog(@"userName is nill");
+        return nil;
+    } else {
+        entry.userName = self.userName;
+    }
+    
+    if ([self isNilOrEmpty:self.password]) {
+        NSLog(@"password is nill");
+        return nil;
+    } else {
+        entry.password = self.password;
+    }
+    
+    if (self.remoteDirectory) {
+        entry.remoteDirectory = self.remoteDirectory;
+    }
+    
+    if([self isNilOrEmpty:self.workgroup]) {
+        NSLog(@"workgroup is nill");
+        return nil;
+    } else {
+        entry.workgroup = self.workgroup;
+    }
+    
+    if ([self isNilOrEmpty:self.targetServer.ip]) {
+        NSLog(@"serverIp is nill");
+        return nil;
+    } else {
+        entry.targetServer = [[Server alloc] initWithIp:self.targetServer.ip NetworkType:@"LAN"];
+    }
+    
+    return entry;
+}
+
+- (BOOL)isNilOrEmpty :(NSString*)field{
+    return (!field || [field isEqualToString:@""]);
+}
+
 - (void)initiateProperties {
     if (!self.userEntry) {
-        self.server = [[Server alloc] init];
-        self.remoteDir  = [NSString string];
+        self.targetServer = [[Server alloc] init];
+        self.remoteDirectory  = [NSString string];
         self.workgroup = [NSString string];
-        self.username  = [NSString string];
+        self.userName  = [NSString string];
         self.password  = [NSString string];
     } else {
-        self.server    = self.userEntry.targetServer;
-        self.remoteDir  = self.userEntry.remoteDirectory;
+        self.targetServer    = self.userEntry.targetServer;
+        self.remoteDirectory  = self.userEntry.remoteDirectory;
         self.workgroup = self.userEntry.workgroup;
-        self.username  = self.userEntry.userName;
+        self.userName  = self.userEntry.userName;
         self.password  = self.userEntry.password;
     }
 }
@@ -236,54 +278,37 @@ const CGFloat _labelInterval = 80;
     for (int i = 0; i < [_propertyList count]; i++) {
         // テキストフィールドの参照をプロパティ、ユーザデフォルトにセットする
         UITextField *uf = _fieldsList[i];
-        [self setValue:uf.text forKey:_propertyList[i]];
+        if ([_propertyList[i] isEqualToString:@"targetServer"]) {
+            Server *server = [[Server alloc] initWithIp:uf.text NetworkType:@"LAN"];
+            [self setValue:server forKey:_propertyList[i]];
+        } else {
+            [self setValue:uf.text forKey:_propertyList[i]];
+        }
         [ud setObject:uf.text forKey:_userdefaultKeys[i]];
     }
     
-    OPNUserEntry *entry = [OPNUserEntry new];
-    if (self.username) {
-        entry.userName = self.username;
-    } else {
-        NSLog(@"userName is nill");
-        return;
-    }
-    if (self.password) {
-        entry.password = self.password;
-    } else {
-        NSLog(@"password is nill");
-        return;
-    }
-    if (self.remoteDir) {
-        entry.remoteDirectory = self.remoteDir;
-    }
-    if(self.workgroup) {
-        entry.workgroup = self.workgroup;
-    } else {
-        NSLog(@"workgroup is nill");
-        return;
-    }
-    if (self.server.ip) {
-        entry.targetServer = [[Server alloc] initWithIp:self.server.ip NetworkType:@"LAN"];
-    } else {
-        NSLog(@"serverIp is nill");
-        return;
-    }
-    
-    [[OPNUserEntryManager sharedManager] addUserEntry:entry];
-    
-    if (![ud synchronize]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"エラー" message:@"保存ができませんでした" delegate:self cancelButtonTitle:@"閉じる" otherButtonTitles:nil, nil];
+    OPNUserEntry *entry = [self generateEntry];
+    if (!entry) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"エラー" message:@"入力されていないフィールドがあります。" delegate:self cancelButtonTitle:@"閉じる" otherButtonTitles:nil, nil];
         [alert show];
+        
+    } else {
+        [[OPNUserEntryManager sharedManager] addUserEntry:entry];
+        
+        if (![ud synchronize]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"エラー" message:@"保存ができませんでした" delegate:self cancelButtonTitle:@"閉じる" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        
+        // viewを閉じる
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        __strong id p = self.delegate;
+        if (p && [p respondsToSelector:@selector(reload)])
+            [p reload];
     }
     
-    // viewを閉じる
-    [self.navigationController popViewControllerAnimated:YES];
     
-    __strong id p = self.delegate;
-    if (p && [p respondsToSelector:@selector(couldAuthViewController:)])
-        [p couldAuthViewController:self];
-    if (p && [p respondsToSelector:@selector(reload)])
-        [p reload];
     
 }
 
@@ -311,7 +336,7 @@ const CGFloat _labelInterval = 80;
 #pragma mark - NSObject
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"AuthViewController description:\n%@ delegate: %@\nserver: %@\nlocalDir: %@\nworkgroup: %@\nusername: %@\npassword: %@\n",[super description], self.delegate, self.server, self.remoteDir, self.workgroup, self.username, self.password];
+    return [NSString stringWithFormat:@"AuthViewController description:\n%@ delegate: %@\nserver: %@\nlocalDir: %@\nworkgroup: %@\nusername: %@\npassword: %@\n",[super description], self.delegate, self.targetServer, self.remoteDirectory, self.workgroup, self.userName, self.password];
 }
 
 @end

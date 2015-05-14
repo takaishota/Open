@@ -21,7 +21,6 @@
 @implementation TreeViewController {
     NSArray     *_items;
     BOOL        _needNewPath;
-    NSString    *_lastConnectedServerPath;
 }
 
 #pragma mark - LifeCycle
@@ -190,13 +189,7 @@
 
 # pragma mark - pushed navigationbar button
 - (void) requestNewPath {
-    
-    if (!_lastConnectedServerPath) {
-        _lastConnectedServerPath = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastServer"];
-    }
-    NSString *entryPath = [_lastConnectedServerPath stringByAppendingString:[[NSUserDefaults standardUserDefaults] objectForKey:@"RemoteDirectory"]];
-    
-    self.path = entryPath;
+    self.path = _path;
 }
 
 - (void) updateStatus: (id) status

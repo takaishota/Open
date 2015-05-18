@@ -309,6 +309,9 @@ const static CGFloat masterViewWidth = 320.0f;
     webView.userInteractionEnabled = YES;
     
     [webView addGestureRecognizer:[self getSingleTapGestureRecognizer]];
+    [webView addGestureRecognizer:[self getScrollUpGestureRecognizer]];
+    [webView addGestureRecognizer:[self getScrollDownGestureRecognizer]];
+    
     if ([@[@"txt"] containsObject:[[_smbFile.path pathExtension] lowercaseString]]) {
         NSString *str = [[NSString alloc] initWithContentsOfFile:_filePath
                                                         encoding:NSUTF8StringEncoding
@@ -335,6 +338,22 @@ const static CGFloat masterViewWidth = 320.0f;
         [self hideNavigationToolBar];
     }
     _isNavigationBarHidden = !_isNavigationBarHidden;
+}
+
+- (void)didScrollUpView {
+    if (_currentFileIsPdf) return;
+    if (!_isNavigationBarHidden) {
+        [self hideNavigationToolBar];
+        _isNavigationBarHidden = YES;
+    }
+}
+
+- (void)didScrollDownView {
+    if (_currentFileIsPdf) return;
+    if (_isNavigationBarHidden) {
+        [self showNavigationToolBar];
+        _isNavigationBarHidden = NO;
+    }
 }
 
 - (void)download {
@@ -367,6 +386,21 @@ const static CGFloat masterViewWidth = 320.0f;
     singleTap.delegate = self;
     return singleTap;
 }
+
+- (UISwipeGestureRecognizer*)getScrollUpGestureRecognizer {
+    UISwipeGestureRecognizer *scrollUpGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(didScrollUp)];
+    scrollUpGesture.direction = UISwipeGestureRecognizerDirectionUp;
+    [self.view addGestureRecognizer:scrollUpGesture];
+    return scrollUpGesture;
+}
+
+- (UISwipeGestureRecognizer*)getScrollDownGestureRecognizer {
+    UISwipeGestureRecognizer *scrollDownGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(didScrollDown)];
+    scrollDownGesture.direction = UISwipeGestureRecognizerDirectionDown;
+    [self.view addGestureRecognizer:scrollDownGesture];
+    return scrollDownGesture;
+}
+
 - (void)showNavigationToolBar {
     UINavigationBar *navBar = self.navigationController.navigationBar;
     float animationDuration = 0.1;

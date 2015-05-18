@@ -34,7 +34,6 @@
 - (id)init {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
-//        _isLogin = NO;
     }
     return self;
 }

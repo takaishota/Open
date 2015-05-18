@@ -329,6 +329,17 @@ const static CGFloat masterViewWidth = 320.0f;
     }];
 }
 
+- (void)popupControllButtonDidPushed {
+    _treeViewIsHidden = !_treeViewIsHidden;
+    if ([self isLandscape]) {
+        [self updateLeftBarButtonItem];
+    }
+    // primaryViewを閉じる
+    if ([self.delegate respondsToSelector:@selector(hideTreeView:)]) {
+        [self.delegate hideTreeView:_treeViewIsHidden];
+    }
+}
+
 #pragma mark - split view delegate
 // 縦向きになるときに呼ばれる
 - (void)splitViewController:(UISplitViewController *)svc
@@ -358,17 +369,6 @@ const static CGFloat masterViewWidth = 320.0f;
         return NO;
     }else {
         return YES;
-    }
-}
-
-- (void)popupControllButtonDidPushed {
-    _treeViewIsHidden = !_treeViewIsHidden;
-    if ([self isLandscape]) {
-        [self updateLeftBarButtonItem];
-    }
-    // primaryViewを閉じる
-    if ([self.delegate respondsToSelector:@selector(hideTreeView:)]) {
-        [self.delegate hideTreeView:_treeViewIsHidden];
     }
 }
 

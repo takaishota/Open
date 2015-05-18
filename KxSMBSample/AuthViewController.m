@@ -27,6 +27,7 @@
     UIColor *_labelTextColor;
     UIColor *_inputTextColor;
     AuthViewTextField *_lastActiveField;
+    BOOL _isUpdate;
 }
 
 #define BACKGROUND_COLOR [UIColor WhiteColor]
@@ -37,6 +38,7 @@
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         self.title =  NSLocalizedString(@"エントリを作成", nil);
+        _isUpdate = NO;
     }
     return self;
 }
@@ -46,6 +48,7 @@
     if (self) {
         self.title = NSLocalizedString(@"エントリを編集", nil);
         self.userEntry = userEntry;
+        _isUpdate = YES;
     }
     return self;
 }
@@ -293,7 +296,7 @@ const CGFloat _labelInterval = 80;
         [alert show];
         
     } else {
-        [[OPNUserEntryManager sharedManager] addUserEntry:entry];
+        [self commitEntry:entry forUserEntriesAtIndex:self.selectedEntryIndex];
         
         if (![ud synchronize]) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"エラー" message:@"保存ができませんでした" delegate:self cancelButtonTitle:@"閉じる" otherButtonTitles:nil, nil];
@@ -307,9 +310,14 @@ const CGFloat _labelInterval = 80;
         if (p && [p respondsToSelector:@selector(reload)])
             [p reload];
     }
-    
-    
-    
+}
+
+- (void)commitEntry:(OPNUserEntry*)entry forUserEntriesAtIndex:(NSUInteger)index {
+    if (_isUpdate) {
+        [[OPNUserEntryManager sharedManager] updateUserEntry:entry inUserEntriesAtIndex:index];
+    } else {
+        [[OPNUserEntryManager sharedManager] addUserEntry:entry];
+    }
 }
 
 #pragma mark - Text Field Delegate

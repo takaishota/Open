@@ -23,7 +23,8 @@
 @property (nonatomic) NSString *password;
 @property (nonatomic) Server *targetServer;
 @property (nonatomic) OPNUserEntry *userEntry;
+@property (nonatomic) NSUInteger selectedEntryIndex;
 
-- (id)initWithUserEntry:(OPNUserEntry*) userEntry;
+- (id)initWithUserEntry:(OPNUserEntry*)userEntry;
 
 @end

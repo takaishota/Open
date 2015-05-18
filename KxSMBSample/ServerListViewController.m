@@ -141,6 +141,7 @@ UIBarButtonSystemItemTrash
     // ユーザデフォルトのエントリ配列を取り出して設定する
     OPNUserEntry *userEntry = [OPNUserEntryManager sharedManager].userEntries[index];
     AuthViewController *vc = [[AuthViewController alloc] initWithUserEntry:userEntry];
+    vc.selectedEntryIndex = index;
     
     // split view controller にdelegateする
     [self.navigationController pushViewController:vc animated:YES];

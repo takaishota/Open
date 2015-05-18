@@ -54,6 +54,22 @@
     [self saveEntries];
 }
 
+- (void)updateUserEntry:(OPNUserEntry*)entry inUserEntriesAtIndex:(NSUInteger)index {
+    if (!entry) {
+        return;
+    }
+    if (index > [self.userEntries count]) {
+        return;
+    }
+    
+    OPNUserEntry *userEntry;
+    userEntry = [self.userEntries objectAtIndex:index];
+    [self.userEntries removeObject:userEntry];
+    [self.userEntries insertObject:entry atIndex:index];
+    
+    [self saveEntries];
+}
+
 - (void)insertUserEntry:(OPNUserEntry *)entry inUserEntriesAtIndex:(NSUInteger)index {
     if (!entry) {
         return;

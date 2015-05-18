@@ -38,21 +38,21 @@
     return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
     [self closeFiles];
 }
 
-- (void) loadView {
-    self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
+- (void)loadView {
+    self.view                 = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+
     [self downloadAction];
-    
-    NSString *fileName = [[_smbFile.path componentsSeparatedByString:@"/"] lastObject];
+
+    NSString *fileName        = [[_smbFile.path componentsSeparatedByString:@"/"] lastObject];
     self.navigationItem.title = fileName;
-    
-    _downloadLabel = [self setupDownloadLabel];
-    _downloadProgress = [self setupDownloadProgress];
+
+    _downloadLabel            = [self setupDownloadLabel];
+    _downloadProgress         = [self setupDownloadProgress];
 
     [self.view addSubview:_downloadLabel];
     [self.view addSubview:_downloadProgress];
@@ -80,18 +80,19 @@
     
     [self updateLeftBarButtonItem];
 }
-- (void) viewWillDisappear:(BOOL)animated {
+
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     if ([LoginStatusManager sharedManager].isLaunchedApp) {
         self.topViewController = [TopViewController new];
         self.topViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         [self presentViewController:self.topViewController animated:YES completion:nil];
     }
     self.navigationController.hidesBarsOnSwipe = YES;
-    self.navigationController.hidesBarsOnTap = YES;
+    self.navigationController.hidesBarsOnTap   = YES;
 }
 
 const static CGFloat masterViewWidth = 320.0f;
@@ -99,9 +100,9 @@ const static CGFloat masterViewWidth = 320.0f;
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     CGRect windowSize = [[UIScreen mainScreen] bounds];
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-        _webView.frame = CGRectMake(0, _webView.frame.origin.y, windowSize.size.height - masterViewWidth, windowSize.size.width);
+    _webView.frame    = CGRectMake(0, _webView.frame.origin.y, windowSize.size.height - masterViewWidth, windowSize.size.width);
     }else {
-        _webView.frame = CGRectMake(0, _webView.frame.origin.y, windowSize.size.width, windowSize.size.height);
+    _webView.frame    = CGRectMake(0, _webView.frame.origin.y, windowSize.size.width, windowSize.size.height);
     }
 }
 
@@ -112,17 +113,17 @@ const static CGFloat masterViewWidth = 320.0f;
 }
 
 - (void)updateLeftBarButtonItem {
-    UIImage *btnImg = [[UIImage alloc] initWithTreeViewStatus:_treeViewIsHidden];
-    UINavigationController *navController = (UINavigationController*)self.parentViewController;
-    
-    UIViewController *lastrVc = [navController.viewControllers lastObject];
+    UIImage *btnImg                          = [[UIImage alloc] initWithTreeViewStatus:_treeViewIsHidden];
+    UINavigationController *navController    = (UINavigationController*)self.parentViewController;
+
+    UIViewController *lastrVc                = [navController.viewControllers lastObject];
     lastrVc.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:btnImg
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
                                                                         action:@selector(popupControllButtonDidPushed)];
 }
 
-- (void) closeFiles {
+- (void)closeFiles {
     if (_fileHandle) {
         
         [_fileHandle closeFile];
@@ -135,13 +136,13 @@ const static CGFloat masterViewWidth = 320.0f;
 - (void)closeCurrentFile:(UIView*)view {
     [_webView removeFromSuperview];
     [[FileUtility sharedUtility] removeFileAtPath:_filePath];
-    _webView = nil;
-    _filePath = nil;
+    _webView   = nil;
+    _filePath  = nil;
     [self.navigationItem setRightBarButtonItems:nil animated:YES];
     self.title = @"";
 }
 
-- (UILabel*) setupDownloadLabel {
+- (UILabel*)setupDownloadLabel {
     const float W                  = self.view.bounds.size.width;
     UILabel *downloadLabel         = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, W - 20, 40)];
     downloadLabel.font             = [UIFont systemFontOfSize:14];;
@@ -154,38 +155,38 @@ const static CGFloat masterViewWidth = 320.0f;
     return downloadLabel;
 }
 
-- (UIProgressView*) setupDownloadProgress {
-    const float W = self.view.bounds.size.width;
+- (UIProgressView*)setupDownloadProgress {
+    const float W                = self.view.bounds.size.width;
     UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-    _downloadProgress.frame = CGRectMake(10, 190, W - 20, 30);
-    _downloadProgress.hidden = YES;
+    _downloadProgress.frame      = CGRectMake(10, 190, W - 20, 30);
+    _downloadProgress.hidden     = YES;
     
     return progressView;
 }
 
-- (void) downloadAction {
+- (void)downloadAction {
     if (!_fileHandle) {
         
-        NSString *folder = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+        NSString *folder   = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                                 NSUserDomainMask,
                                                                 YES) lastObject];
         NSString *filename = _smbFile.path.lastPathComponent;
-        _filePath = [folder stringByAppendingPathComponent:filename];
-        
-        NSFileManager *fm = [[NSFileManager alloc] init];
+        _filePath          = [folder stringByAppendingPathComponent:filename];
+
+        NSFileManager *fm  = [[NSFileManager alloc] init];
         if ([fm fileExistsAtPath:_filePath])
             [fm removeItemAtPath:_filePath error:nil];
         [fm createFileAtPath:_filePath contents:nil attributes:nil];
         
         // ???:アプリ起動時にDocumentsフォルダではなくDocumentsファイルができてしまい、ファイルを保存できないので削除してからDocumentsフォルダを作成する
         //     なぜファイルができるかは不明。
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *dir = [paths objectAtIndex:0];
+        NSArray *paths             = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *dir              = [paths objectAtIndex:0];
         BOOL isDirectory;
         if(!([fm fileExistsAtPath:dir isDirectory:&isDirectory] && isDirectory)) {
             NSLog(@"Documentsフォルダが存在しません");
-            BOOL resultRemoveFile = [fm removeItemAtPath:dir error:nil];
-            BOOL resultCreateDirectory = [fm createDirectoryAtPath:dir
+        BOOL resultRemoveFile      = [fm removeItemAtPath:dir error:nil];
+        BOOL resultCreateDirectory = [fm createDirectoryAtPath:dir
                    withIntermediateDirectories:YES
                                     attributes:nil error:nil];
             if (!resultRemoveFile) {
@@ -201,12 +202,12 @@ const static CGFloat masterViewWidth = 320.0f;
  
         if (_fileHandle) {
         
-            _downloadLabel.text = @"starting ..";
-            
-            _downloadedBytes = 0;
+            _downloadLabel.text        = @"starting ..";
+
+            _downloadedBytes           = 0;
             _downloadProgress.progress = 0;
-            _downloadProgress.hidden = NO;
-            _timestamp = [NSDate date];
+            _downloadProgress.hidden   = NO;
+            _timestamp                 = [NSDate date];
             
             [self download];
             
@@ -221,13 +222,13 @@ const static CGFloat masterViewWidth = 320.0f;
     }
 }
 
--(void) updateDownloadStatus: (id) result {
+-(void)updateDownloadStatus:(id)result {
     if ([result isKindOfClass:[NSError class]]) {
          
-        NSError *error = result;
-        
-        _downloadLabel.text = [NSString stringWithFormat:@"failed: %@", error.localizedDescription];
-        _downloadProgress.hidden = YES;        
+        NSError *error           = result;
+
+        _downloadLabel.text      = [NSString stringWithFormat:@"failed: %@", error.localizedDescription];
+        _downloadProgress.hidden = YES;
        [self closeFiles];
         
     } else if ([result isKindOfClass:[NSData class]]) {
@@ -240,9 +241,9 @@ const static CGFloat masterViewWidth = 320.0f;
             
         } else {
             
-            NSTimeInterval time = -[_timestamp timeIntervalSinceNow];
-            
-            _downloadedBytes += data.length;
+            NSTimeInterval time        = -[_timestamp timeIntervalSinceNow];
+
+            _downloadedBytes           += data.length;
             _downloadProgress.progress = (float)_downloadedBytes / (float)_smbFile.stat.size;
             
             CGFloat value;
@@ -251,7 +252,7 @@ const static CGFloat masterViewWidth = 320.0f;
             if (_downloadedBytes < 1024) {
                 
                 value = _downloadedBytes;
-                unit = @"B";
+                unit  = @"B";
                 
             } else if (_downloadedBytes < 1048576) {
                 
@@ -293,17 +294,19 @@ const static CGFloat masterViewWidth = 320.0f;
     }
 }
 
-- (UIWebView*) generateWebView {
-    UIWebView *webView = [UIWebView new];
-    webView.scalesPageToFit = YES;
+- (UIWebView*)generateWebView {
+    UIWebView *webView       = [UIWebView new];
+    webView.scalesPageToFit  = YES;
     webView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    webView.frame = CGRectMake(0,
+    webView.frame            = CGRectMake(0,
                                0,
                                self.view.frame.size.width,
                                self.view.frame.size.height);
-    webView.contentMode = UIViewContentModeScaleAspectFit;
+    webView.contentMode      = UIViewContentModeScaleAspectFit;
     if ([@[@"txt"] containsObject:[[_smbFile.path pathExtension] lowercaseString]]) {
-        NSString *str = [[NSString alloc] initWithContentsOfFile:_filePath encoding:NSUTF8StringEncoding error:nil];
+        NSString *str = [[NSString alloc] initWithContentsOfFile:_filePath
+                                                        encoding:NSUTF8StringEncoding
+                                                           error:nil];
         [webView loadHTMLString:str baseURL:nil];
     } else {
         NSURLRequest *urlrequest = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:_filePath]];
@@ -313,7 +316,7 @@ const static CGFloat masterViewWidth = 320.0f;
     return webView;
 }
 
-- (void) download {
+- (void)download {
     __weak __typeof(self) weakSelf = self;
     [_smbFile readDataOfLength:32768
                          block:^(id result)

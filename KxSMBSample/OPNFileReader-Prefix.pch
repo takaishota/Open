@@ -33,10 +33,3 @@
 #define ACCENT_COLOR [UIColor colorWithRed:1.0 green:0.25 blue:0.50 alpha:1.0]
 #define FILE_BACKGROUND_COLOR INFOCUS_UNDERLINE_COLOR
 
-// From here to end of file added by Injection Plugin //
-
-#ifdef DEBUG
-#define INJECTION_ENABLED
-#endif
-
-#import "/Users/s-takai/Library/Application Support/Developer/Shared/Xcode/Plug-ins/InjectionPlugin.xcplugin/Contents/Resources/BundleInterface.h"

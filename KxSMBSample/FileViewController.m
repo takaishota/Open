@@ -15,7 +15,7 @@
 #import "TopViewController.h"
 #import "TreeViewController.h"
 
-@interface FileViewController () <UISplitViewControllerDelegate>
+@interface FileViewController () <UISplitViewControllerDelegate, UIGestureRecognizerDelegate>
 @property (nonatomic) TopViewController *topViewController;
 @end
 
@@ -28,6 +28,8 @@
     NSDate          *_timestamp;
     UIWebView       *_webView;
     BOOL            _treeViewIsHidden;
+    BOOL            _isNavigationBarHidden;
+    BOOL            _currentFileIsPdf;
 }
 
 #pragma mark - Lifecycle
@@ -69,6 +71,7 @@
     } else {
         _treeViewIsHidden = YES;
     }
+    _isNavigationBarHidden = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -303,6 +306,9 @@ const static CGFloat masterViewWidth = 320.0f;
                                self.view.frame.size.width,
                                self.view.frame.size.height);
     webView.contentMode      = UIViewContentModeScaleAspectFit;
+    webView.userInteractionEnabled = YES;
+    
+    [webView addGestureRecognizer:[self getSingleTapGestureRecognizer]];
     if ([@[@"txt"] containsObject:[[_smbFile.path pathExtension] lowercaseString]]) {
         NSString *str = [[NSString alloc] initWithContentsOfFile:_filePath
                                                         encoding:NSUTF8StringEncoding
@@ -313,7 +319,22 @@ const static CGFloat masterViewWidth = 320.0f;
         [webView loadRequest:urlrequest];
         
     }
+    if ([@[@"pdf"] containsObject:[[_smbFile.path pathExtension] lowercaseString]]) {
+        _currentFileIsPdf = YES;
+    } else {
+        _currentFileIsPdf = NO;
+    }
     return webView;
+}
+
+- (void)didTapOnView {
+    if (_currentFileIsPdf) return;
+    if (_isNavigationBarHidden) {
+        [self showNavigationToolBar];
+    } else {
+        [self hideNavigationToolBar];
+    }
+    _isNavigationBarHidden = !_isNavigationBarHidden;
 }
 
 - (void)download {
@@ -338,6 +359,48 @@ const static CGFloat masterViewWidth = 320.0f;
     if ([self.delegate respondsToSelector:@selector(hideTreeView:)]) {
         [self.delegate hideTreeView:_treeViewIsHidden];
     }
+}
+
+- (UITapGestureRecognizer*)getSingleTapGestureRecognizer {
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnView)];
+    singleTap.numberOfTapsRequired = 1;
+    singleTap.delegate = self;
+    return singleTap;
+}
+- (void)showNavigationToolBar {
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    float animationDuration = 0.1;
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    navBar.frame = CGRectMake(navBar.frame.origin.x,
+                              -navBar.frame.size.height + 20,
+                              navBar.frame.size.width,
+                              navBar.frame.size.height);
+    
+    [UIView animateWithDuration:animationDuration animations:^{
+        navBar.frame = CGRectMake(navBar.frame.origin.x,
+                                  20,
+                                  navBar.frame.size.width,
+                                  navBar.frame.size.height);
+    }];
+}
+
+- (void)hideNavigationToolBar {
+    UINavigationBar *navBar = self.navigationController.navigationBar;
+    float animationDuration = 0.1;
+    
+    [UIView animateWithDuration:animationDuration animations:^{
+        navBar.frame = CGRectMake(navBar.frame.origin.x,
+                                  -navBar.frame.size.height + 20,
+                                  navBar.frame.size.width,
+                                  navBar.frame.size.height);
+    } completion:^(BOOL finished) {
+        [self.navigationController setNavigationBarHidden:YES animated:NO];
+    }];
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 #pragma mark - split view delegate

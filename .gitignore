@@ -1,6 +1,6 @@
 
 ## xcode specific
-build/*
+build/
 *.pbxuser
 *.mode2v3
 *.mode1v3
@@ -10,8 +10,12 @@ build/*
 
 ## ignore private workspace stuff added by Xcode4
 xcuserdata
-project.xcworkspace
-*.xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
 
 ## generic files to ignore
 *~
@@ -28,7 +32,6 @@ plan
 
 ## this project only
 *.json
-*.ipa
 *.dSYM.zip
 iOSInjectionProject/*
 

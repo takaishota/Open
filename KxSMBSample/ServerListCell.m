@@ -19,7 +19,9 @@
         self.textLabel.font = [UIFont fontWithName:@"Avenir-Light" size:20];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        self.accessoryView = [self generateAccessoryButton];
+        if ([reuseIdentifier isEqualToString:@"EditableCell"]) {
+            self.accessoryView = [self generateAccessoryButton];
+        }
     }
     return self;
 }

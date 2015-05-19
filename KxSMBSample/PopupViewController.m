@@ -36,6 +36,7 @@
 }
 
 #pragma mark - Private
+static NSString *kCellIdentifier = @"cellIdentifier";
 - (void) setupServerList {
     self.dataLoader = [[DataLoader alloc] initWithJSONFile:@"servers.json"];
     
@@ -46,11 +47,10 @@
     self.tableView                 = serverListView;
     self.tableView.rowHeight       = 50;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.tableView registerClass:[ServerListCell class] forCellReuseIdentifier:cellId];
+    [self.tableView registerClass:[ServerListCell class] forCellReuseIdentifier:kCellIdentifier];
     [self resetPopover];
 }
 
-static NSString *cellId = @"cellIdentifier";
 - (void)resetPopover {
     self.popover  = [DXPopover new];
     _popoverWidth = CGRectGetWidth(self.parentViewController.view.bounds);
@@ -96,9 +96,10 @@ static NSString *cellId = @"cellIdentifier";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ServerListCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    ServerListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    
     if (!cell) {
-        cell = (ServerListCell*)[[ServerListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell = (ServerListCell*)[[ServerListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier];
     }
     cell.separatorInset = UIEdgeInsetsZero;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

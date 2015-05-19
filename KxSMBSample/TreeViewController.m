@@ -56,7 +56,7 @@
     [super didReceiveMemoryWarning];
 }
 
-- (BOOL)shouldAInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (BOOL)shouldInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
@@ -271,6 +271,7 @@
 {
     static NSString *cellIdentifier = @"Cell";
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
                                       reuseIdentifier:cellIdentifier];

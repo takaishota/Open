@@ -15,8 +15,6 @@
 #import "Server.h"
 #import "ServerListCell.h"
 
-static NSString * const kCellIdentifier = @"cellIdentifier";
-
 @interface ServerListViewController () <AuthViewControllerDelegate, UITextFieldDelegate>
 @property (nonatomic) DataLoader   *dataLoader;
 @property (nonatomic) NSArray      *userEntries;
@@ -27,6 +25,7 @@ static NSString * const kCellIdentifier = @"cellIdentifier";
 @implementation ServerListViewController
 
 #pragma mark - Lifecycle
+static NSString * const kEditableCellIdentifier = @"EditableCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -42,7 +41,7 @@ UIBarButtonSystemItemTrash
     self.userEntries = [OPNUserEntryManager sharedManager].userEntries;
     
     [self setTableViewStyle];
-    [self.tableView registerClass:[ServerListCell class] forCellReuseIdentifier:@"cellIdentifier"];
+    [self.tableView registerClass:[ServerListCell class] forCellReuseIdentifier:kEditableCellIdentifier];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,12 +74,11 @@ UIBarButtonSystemItemTrash
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"Cell";
-    ServerListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+    ServerListCell *cell = [tableView dequeueReusableCellWithIdentifier:kEditableCellIdentifier forIndexPath:indexPath];
     
     if (cell == nil) {
         cell = (ServerListCell*)[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
-                                      reuseIdentifier:cellIdentifier];
+                                      reuseIdentifier:kEditableCellIdentifier];
     }
 
     cell.textLabel.text = [[OPNUserEntryManager sharedManager] getServerIpAtIndex:indexPath.row];

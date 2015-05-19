@@ -10,7 +10,7 @@
 #import "LoginStatusManager.h"
 #import "MLPSpotlight.h"
 
-@interface TopViewController () <UITextFieldDelegate, PopupViewDelegate>
+@interface TopViewController () <UITextFieldDelegate>
 @property (nonatomic) UILabel *appNameLabel;
 @property (nonatomic) UILabel *descriptionLabel;
 @property (nonatomic) UIButton *loginButton;

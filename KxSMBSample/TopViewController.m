@@ -9,10 +9,8 @@
 #import "AuthViewTextField.h"
 #import "LoginStatusManager.h"
 #import "MLPSpotlight.h"
-#import "PopupViewController.h"
 
 @interface TopViewController () <UITextFieldDelegate, PopupViewDelegate>
-@property (nonatomic) PopupViewController *popupViewController;
 @property (nonatomic) UILabel *appNameLabel;
 @property (nonatomic) UILabel *descriptionLabel;
 @property (nonatomic) UIButton *loginButton;

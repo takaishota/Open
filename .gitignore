@@ -9,6 +9,9 @@ build/
 *~.nib
 
 ## ignore private workspace stuff added by Xcode4
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcworkspace/contents.xcworkspacedata
 xcuserdata
 *.xccheckout
 *.moved-aside

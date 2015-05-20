@@ -11,7 +11,8 @@
 
 @protocol FileViewControllerDelegate <NSObject>
 @optional
-- (void) hideTreeView:(BOOL)isHidden;
+- (void)hideTreeView;
+- (void)showTreeView;
 @end
 
 @interface FileViewController : UIViewController <UISplitViewControllerDelegate>

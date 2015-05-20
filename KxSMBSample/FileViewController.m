@@ -15,7 +15,7 @@
 #import "TopViewController.h"
 #import "TreeViewController.h"
 
-@interface FileViewController () <UISplitViewControllerDelegate, UIGestureRecognizerDelegate>
+@interface FileViewController () <UIGestureRecognizerDelegate>
 @property (nonatomic) TopViewController *topViewController;
 @end
 
@@ -31,6 +31,7 @@
     BOOL            _isNavigationBarHidden;
     BOOL            _currentFileIsPdf;
 }
+const static CGFloat masterViewWidth = 320.0f;
 
 #pragma mark - Lifecycle
 - (id)init {
@@ -123,7 +124,7 @@ const static CGFloat masterViewWidth = 320.0f;
     lastrVc.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:btnImg
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
-                                                                        action:@selector(popupControllButtonDidPushed)];
+                                                                        action:@selector(resizeFileView)];
 }
 
 - (void)closeFiles {
@@ -369,15 +370,26 @@ const static CGFloat masterViewWidth = 320.0f;
     }];
 }
 
-- (void)popupControllButtonDidPushed {
-    _treeViewIsHidden = !_treeViewIsHidden;
+- (void)resizeFileView {
+    NSLog(@"self.view: %@",self.view);
+    NSLog(@"treeViewIsHidden: %d",_treeViewIsHidden);
+
+
     if ([self isLandscape]) {
         [self updateLeftBarButtonItem];
     }
     // primaryViewを閉じる
-    if ([self.delegate respondsToSelector:@selector(hideTreeView:)]) {
-        [self.delegate hideTreeView:_treeViewIsHidden];
+    if (_treeViewIsHidden) {
+        if ([self.delegate respondsToSelector:@selector(showTreeView)]) {
+            [self.delegate showTreeView];
+        }
+    } else {
+        if ([self.delegate respondsToSelector:@selector(hideTreeView)]) {
+            [self.delegate hideTreeView];
     }
+    
+    }
+    _treeViewIsHidden = !_treeViewIsHidden;
 }
 
 - (UITapGestureRecognizer*)getSingleTapGestureRecognizer {
@@ -416,6 +428,29 @@ const static CGFloat masterViewWidth = 320.0f;
                                   navBar.frame.size.width,
                                   navBar.frame.size.height);
     }];
+    
+    
+//    UIToolbar *toolBar = self.navigationController.toolbar;
+//    CGRect screenRect = [[UIScreen mainScreen] bounds];
+//    float height;
+//    if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+//        height = screenRect.size.height;
+//    } else {
+//        height  = screenRect.size.width;
+//    }
+//    
+//    [self.navigationController setToolbarHidden:NO animated:NO];
+//    toolBar.frame = CGRectMake(toolBar.frame.origin.x,
+//                               height,
+//                               toolBar.frame.size.width,
+//                               toolBar.frame.size.height);
+//    
+//    [UIView animateWithDuration:animationDuration animations:^{
+//        toolBar.frame = CGRectMake(toolBar.frame.origin.x,
+//                                   height - toolBar.frame.size.height,
+//                                   toolBar.frame.size.width,
+//                                   toolBar.frame.size.height);
+//    }];
 }
 
 - (void)hideNavigationToolBar {
@@ -430,43 +465,24 @@ const static CGFloat masterViewWidth = 320.0f;
     } completion:^(BOOL finished) {
         [self.navigationController setNavigationBarHidden:YES animated:NO];
     }];
+    
+    
+//    UIToolbar *toolBar = self.navigationController.toolbar;
+//    CGRect screenRect = [[UIScreen mainScreen] bounds];
+//    
+//    [UIView animateWithDuration:animationDuration animations:^{
+//        toolBar.frame = CGRectMake(toolBar.frame.origin.x,
+//                                   screenRect.size.height,
+//                                   toolBar.frame.size.width,
+//                                   toolBar.frame.size.height);
+//    } completion:^(BOOL finished) {
+//        [self.navigationController setToolbarHidden:YES animated:NO];
+//    }];
 }
 
 #pragma mark - UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
-}
-
-#pragma mark - split view delegate
-// 縦向きになるときに呼ばれる
-- (void)splitViewController:(UISplitViewController *)svc
-     willHideViewController:(UIViewController *)aViewController
-          withBarButtonItem:(UIBarButtonItem *)barButtonItem
-       forPopoverController:(UIPopoverController *)pc {
-    _treeViewIsHidden = YES;
-    [self updateLeftBarButtonItem];
-}
-
-// 横向きになるときに呼ばれる
-- (void)splitViewController:(UISplitViewController *)svc
-     willShowViewController:(UIViewController *)aViewController
-  invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-    _treeViewIsHidden = NO;
-    [self updateLeftBarButtonItem];
-}
-
-// マスタビューが出てくるときに呼ばれる
-- (void)splitViewController:(UISplitViewController *)svc popoverController:(UIPopoverController *)pc willPresentViewController:(UIViewController *)aViewController {
-    _treeViewIsHidden = NO;
-    
-}
-
-- (BOOL)splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation {
-    if (UIInterfaceOrientationIsLandscape(orientation)) {
-        return NO;
-    }else {
-        return YES;
-    }
 }
 
 #pragma mark - NSObject

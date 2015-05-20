@@ -155,30 +155,44 @@
 }
 
 #pragma mark - File View Controller Delegate
-- (void) hideTreeView:(BOOL)isHidden {
-    isHidden = !isHidden;
-    
-    // FIXME:回転時にViewの位置、サイズがおかしい
+- (void)showTreeView {
+    CGFloat xOffset       = 320.0f;
     if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait) {
         [UIView animateWithDuration:0.2f animations:^{
             self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
         } completion:^(BOOL finished) {
             self.preferredDisplayMode = UISplitViewControllerDisplayModeAutomatic;
         }];
-    }else {
-        CGFloat xOffset       = 320.0f;
-        CGFloat fileViewWidth = 480;
+    } else {
         [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-            if (isHidden) {
-                self.view.frame = CGRectMake(0,
-                                             0,
-                                             [[UIScreen mainScreen] applicationFrame].size.width,
-                                             [[UIScreen mainScreen] applicationFrame].size.height);
-                self.navigationControllerForDetail.view.frame = CGRectMake(xOffset,
-                                                                           0,
-                                                                           fileViewWidth,
-                                                                           self.view.frame.size.height);
-            } else {
+            self.view.frame = CGRectMake(0,
+                                         0,
+                                         [[UIScreen mainScreen] applicationFrame].size.width,
+                                         [[UIScreen mainScreen] applicationFrame].size.height);
+            self.navigationControllerForDetail.view.frame = CGRectMake(xOffset,
+                                                                       0,
+                                                                       [[UIScreen mainScreen] applicationFrame].size.width - xOffset,
+                                                                       self.view.frame.size.height);
+        } completion:^ (BOOL finished){
+            // 完了時のコールバック
+            NSLog(@"finish Animation");
+        }];
+    }
+}
+
+- (void) hideTreeView {
+    
+    // FIXME:回転時にViewの位置、サイズがおかしい
+    CGFloat xOffset       = 320.0f;
+    if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait) {
+        [UIView animateWithDuration:0.2f animations:^{
+            self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
+        } completion:^(BOOL finished) {
+            self.preferredDisplayMode = UISplitViewControllerDisplayModeAutomatic;
+        }];
+    } else {
+        
+        [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 self.view.frame = CGRectMake(-xOffset,
                                              0,
                                              self.view.frame.size.width + xOffset,
@@ -187,7 +201,6 @@
                                                                            0,
                                                                            [[UIScreen mainScreen] applicationFrame].size.width,
                                                                            self.view.frame.size.height);
-            }
         } completion:^ (BOOL finished){
             // 完了時のコールバック
             NSLog(@"finish Animation");

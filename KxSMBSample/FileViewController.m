@@ -14,6 +14,7 @@
 #import "LoginStatusManager.h"
 #import "TopViewController.h"
 #import "TreeViewController.h"
+#import "UIView+Utility.h"
 
 @interface FileViewController () <UIGestureRecognizerDelegate>
 @property (nonatomic) TopViewController *topViewController;
@@ -37,6 +38,7 @@ const static CGFloat masterViewWidth = 320.0f;
 - (id)init {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
     }
     return self;
 }
@@ -69,8 +71,11 @@ const static CGFloat masterViewWidth = 320.0f;
     
     if ([self isLandscape]) {
         _treeViewIsHidden = NO;
+        [self updateLeftBarButtonItem];
+
     } else {
         _treeViewIsHidden = YES;
+        [self updateLeftBarButtonItem];
     }
     _isNavigationBarHidden = NO;
 }
@@ -81,8 +86,6 @@ const static CGFloat masterViewWidth = 320.0f;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [self updateLeftBarButtonItem];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -97,17 +100,35 @@ const static CGFloat masterViewWidth = 320.0f;
     }
     self.navigationController.hidesBarsOnSwipe = YES;
     self.navigationController.hidesBarsOnTap   = YES;
+    
+    [self updateLeftBarButtonItem];
 }
 
-const static CGFloat masterViewWidth = 320.0f;
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+#pragma mark - When Rotation
+- (void)viewDidLayoutSubviews {
     CGRect windowSize = [[UIScreen mainScreen] bounds];
-    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-    _webView.frame    = CGRectMake(0, _webView.frame.origin.y, windowSize.size.height - masterViewWidth, windowSize.size.width);
-    }else {
-    _webView.frame    = CGRectMake(0, _webView.frame.origin.y, windowSize.size.width, windowSize.size.height);
+//    NSLog(@"windowSize: %@", NSStringFromCGRect(windowSize));
+    
+    if (windowSize.size.width <= windowSize.size.height) {
+        _webView.frame = CGRectMake(0, _webView.frame.origin.y, windowSize.size.width, windowSize.size.height);
+    } else {
+        _webView.frame = CGRectMake(0, _webView.frame.origin.y, windowSize.size.width - masterViewWidth, windowSize.size.height);
     }
+//    NSLog(@"_webView.frame: %@", NSStringFromCGRect(_webView.frame));
+}
+
+
+- (void)orientationDidChange
+{
+    if (![self isLandscape]) {
+        _treeViewIsHidden = NO;
+        [self updateLeftBarButtonItem];
+    } else {
+        _treeViewIsHidden = YES;
+        [self updateLeftBarButtonItem];
+        self.navigationController.parentViewController.view.x = 0;
+    }
+
 }
 
 #pragma mark - Private
@@ -371,14 +392,8 @@ const static CGFloat masterViewWidth = 320.0f;
 }
 
 - (void)resizeFileView {
-    NSLog(@"self.view: %@",self.view);
-    NSLog(@"treeViewIsHidden: %d",_treeViewIsHidden);
-
-
-    if ([self isLandscape]) {
-        [self updateLeftBarButtonItem];
-    }
-    // primaryViewを閉じる
+    
+    // primaryViewが非表示の場合、表示する
     if (_treeViewIsHidden) {
         if ([self.delegate respondsToSelector:@selector(showTreeView)]) {
             [self.delegate showTreeView];
@@ -386,10 +401,13 @@ const static CGFloat masterViewWidth = 320.0f;
     } else {
         if ([self.delegate respondsToSelector:@selector(hideTreeView)]) {
             [self.delegate hideTreeView];
+        }
     }
     
-    }
     _treeViewIsHidden = !_treeViewIsHidden;
+    if ([self isLandscape]) {
+        [self updateLeftBarButtonItem];
+    }
 }
 
 - (UITapGestureRecognizer*)getSingleTapGestureRecognizer {

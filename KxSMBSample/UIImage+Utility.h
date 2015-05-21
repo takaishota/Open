@@ -8,6 +8,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UIImage(Utility)
-- (id) initWithTreeViewStatus:(BOOL)isHidden;
+//- (id) initWithTreeViewStatus:(BOOL)isHidden deviceOrientation:(BOOL)orientation;
 - (id) initWithUIImage:(NSString*)imageFileName;
 @end

@@ -15,29 +15,29 @@ enum {
 @implementation UIImage(Utility)
 
 #pragma mark - Lifecycle
-- (id) initWithTreeViewStatus:(BOOL)isHidden{
-    
-    self = [super init];
-    // 自分のステータスを見てセットする画像を変更する
-    if (self) {
-        NSString *image = nil;
-        
-        switch ([self getImageType:isHidden]) {
-            case ImageLeftArrow:
-                image = @"left.png";
-                break;
-            case ImageRightArrow:
-                image = @"right.png";
-                break;
-            default:
-                return self;
-                break;
-        }
-        
-        self = [self resizeImage:image];
-    }
-    return self;
-}
+//- (id) initWithTreeViewStatus:(BOOL)isHidden deviceOrientation:(BOOL)orientationIsLandScape {
+//    
+//    self = [super init];
+//    // 自分のステータスを見てセットする画像を変更する
+//    if (self) {
+//        NSString *image = nil;
+//        
+//        switch ([self getImageTypeWithHidden:isHidden deviceOrientation:orientationIsLandScape]) {
+//            case ImageLeftArrow:
+//                image = @"left.png";
+//                break;
+//            case ImageRightArrow:
+//                image = @"right.png";
+//                break;
+//            default:
+//                return self;
+//                break;
+//        }
+//        
+//        self = [self resizeImage:image];
+//    }
+//    return self;
+//}
 
 - (id) initWithUIImage:(NSString *)imageFileName {
     self = [super init];
@@ -49,12 +49,17 @@ enum {
 }
 
 #pragma mark - Private
-- (NSUInteger)getImageType :(BOOL)popupIsHidden{
+- (NSUInteger)getImageTypeWithHidden:(BOOL)popupGetHidden
+                   deviceOrientation:(BOOL)toOrientationIsPortrait {
     NSUInteger imgType = 0;
-    if (popupIsHidden) {
+    if (toOrientationIsPortrait) {
         imgType = ImageRightArrow;
     } else {
-        imgType = ImageLeftArrow;
+        if (popupGetHidden) {
+            imgType = ImageRightArrow;
+        } else {
+            imgType = ImageLeftArrow;
+        }
     }
     return imgType;
 }

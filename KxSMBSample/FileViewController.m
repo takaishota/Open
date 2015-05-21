@@ -32,7 +32,7 @@
     BOOL            _isNavigationBarHidden;
     BOOL            _currentFileIsPdf;
 }
-const static CGFloat masterViewWidth = 320.0f;
+//const static CGFloat masterViewWidth = 320.0f;
 
 #pragma mark - Lifecycle
 - (id)init {
@@ -105,30 +105,20 @@ const static CGFloat masterViewWidth = 320.0f;
 }
 
 #pragma mark - When Rotation
-- (void)viewDidLayoutSubviews {
-    CGRect windowSize = [[UIScreen mainScreen] bounds];
-//    NSLog(@"windowSize: %@", NSStringFromCGRect(windowSize));
-    
-    if (windowSize.size.width <= windowSize.size.height) {
-        _webView.frame = CGRectMake(0, _webView.frame.origin.y, windowSize.size.width, windowSize.size.height);
-    } else {
-        _webView.frame = CGRectMake(0, _webView.frame.origin.y, windowSize.size.width - masterViewWidth, windowSize.size.height);
-    }
-//    NSLog(@"_webView.frame: %@", NSStringFromCGRect(_webView.frame));
-}
-
-
 - (void)orientationDidChange
 {
-    if (![self isLandscape]) {
-        _treeViewIsHidden = NO;
+    // ポートレイトからランドスケープへ
+    if ([self isPortrait]) {
+//        _treeViewIsHidden = NO; // 常にNO
         [self updateLeftBarButtonItem];
-    } else {
-        _treeViewIsHidden = YES;
+        
+    // ランドスケープからポートレイトへ
+    } else if ([self isLandscape]){
+//        _treeViewIsHidden = YES; // 常にYES
         [self updateLeftBarButtonItem];
+        
         self.navigationController.parentViewController.view.x = 0;
     }
-
 }
 
 #pragma mark - Private
@@ -136,13 +126,30 @@ const static CGFloat masterViewWidth = 320.0f;
     UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
     return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
+- (BOOL)isPortrait {
+    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+}
 
 - (void)updateLeftBarButtonItem {
-    UIImage *btnImg                          = [[UIImage alloc] initWithTreeViewStatus:_treeViewIsHidden];
+    
+//    UIImage *btnImg                          = [[UIImage alloc] initWithTreeViewStatus:_treeViewIsHidden
+//                                                                     deviceOrientation:![self isLandscape]]; // FIXME:これが回転前のステータスになっている ここを遷移後の画面の向きの結果を返したい
+    UIImage *btnImage;
+    if ([self isPortrait]) {
+        btnImage = [[UIImage alloc] initWithUIImage:@"right.png"];
+    } else {
+        if (_treeViewIsHidden) {
+            btnImage = [[UIImage alloc] initWithUIImage:@"left.png"];
+        } else {
+            btnImage = [[UIImage alloc] initWithUIImage:@"right.png"];
+        }
+    }
+    
     UINavigationController *navController    = (UINavigationController*)self.parentViewController;
 
     UIViewController *lastrVc                = [navController.viewControllers lastObject];
-    lastrVc.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:btnImg
+    lastrVc.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:btnImage
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
                                                                         action:@selector(resizeFileView)];
@@ -446,29 +453,6 @@ const static CGFloat masterViewWidth = 320.0f;
                                   navBar.frame.size.width,
                                   navBar.frame.size.height);
     }];
-    
-    
-//    UIToolbar *toolBar = self.navigationController.toolbar;
-//    CGRect screenRect = [[UIScreen mainScreen] bounds];
-//    float height;
-//    if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
-//        height = screenRect.size.height;
-//    } else {
-//        height  = screenRect.size.width;
-//    }
-//    
-//    [self.navigationController setToolbarHidden:NO animated:NO];
-//    toolBar.frame = CGRectMake(toolBar.frame.origin.x,
-//                               height,
-//                               toolBar.frame.size.width,
-//                               toolBar.frame.size.height);
-//    
-//    [UIView animateWithDuration:animationDuration animations:^{
-//        toolBar.frame = CGRectMake(toolBar.frame.origin.x,
-//                                   height - toolBar.frame.size.height,
-//                                   toolBar.frame.size.width,
-//                                   toolBar.frame.size.height);
-//    }];
 }
 
 - (void)hideNavigationToolBar {
@@ -483,19 +467,6 @@ const static CGFloat masterViewWidth = 320.0f;
     } completion:^(BOOL finished) {
         [self.navigationController setNavigationBarHidden:YES animated:NO];
     }];
-    
-    
-//    UIToolbar *toolBar = self.navigationController.toolbar;
-//    CGRect screenRect = [[UIScreen mainScreen] bounds];
-//    
-//    [UIView animateWithDuration:animationDuration animations:^{
-//        toolBar.frame = CGRectMake(toolBar.frame.origin.x,
-//                                   screenRect.size.height,
-//                                   toolBar.frame.size.width,
-//                                   toolBar.frame.size.height);
-//    } completion:^(BOOL finished) {
-//        [self.navigationController setToolbarHidden:YES animated:NO];
-//    }];
 }
 
 #pragma mark - UIGestureRecognizerDelegate

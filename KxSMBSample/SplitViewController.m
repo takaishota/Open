@@ -8,7 +8,8 @@
 #import "SplitViewController.h"
 // :: Other ::
 #import "AuthViewController.h"
-#import "FileViewController.h"
+#import "OPNFileDataController.h"
+#import "OPNFileViewController.h"
 #import "KxSMBProvider.h"
 #import "OPNUserEntry.h"
 #import "OPNUserEntryManager.h"
@@ -16,7 +17,7 @@
 #import "ServerListViewController.h"
 #import "TreeViewController.h"
 
-@interface SplitViewController () <KxSMBProviderDelegate, TreeViewControllerDelegate, ServerListViewControllerDelegate, FileViewControllerDelegate>
+@interface SplitViewController () <KxSMBProviderDelegate, TreeViewControllerDelegate, ServerListViewControllerDelegate, OPNFileViewControllerDelegate>
 @property (nonatomic) ServerListViewController *rootTreeViewController;
 @property (nonatomic) UINavigationController   *navigationControllerForMaster;
 @property (nonatomic) UINavigationController   *navigationControllerForDetail;
@@ -26,6 +27,8 @@
     NSMutableDictionary *_cachedAuths;
     AuthViewController *_authViewController;
 }
+
+const float statusBarHeight = 20;
 
 #pragma mark - Lifecycle
 - (id)init {
@@ -38,7 +41,7 @@
         self.navigationControllerForMaster     = [[UINavigationController alloc] initWithRootViewController:self.rootTreeViewController];
 
         // detailViewControllerの生成
-        FileViewController *fileViewController = [FileViewController new];
+        OPNFileViewController *fileViewController = [OPNFileViewController new];
         fileViewController.delegate            = self;
         self.navigationControllerForDetail     = [[UINavigationController alloc] initWithRootViewController:fileViewController];
 
@@ -112,7 +115,7 @@
 }
 
 - (void) pushDetailViewController:(KxSMBItem*)item {
-    FileViewController *vc = [[FileViewController alloc] init];
+    OPNFileViewController *vc = [[OPNFileViewController alloc] init];
     vc.smbFile             = (KxSMBItemFile *)item;
     vc.delegate            = self;
 
@@ -155,9 +158,10 @@
 }
 
 #pragma mark - File View Controller Delegate
+const CGFloat xOffset       = 320.0f;
 - (void)showTreeView {
-    CGFloat xOffset       = 320.0f;
-    if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait) {
+    // ポートレイトの場合は、SplitViewControllerのディスプレイモードを使う
+    if ([[OPNFileDataController sharedInstance] isPortrait]) {
         [UIView animateWithDuration:0.2f animations:^{
             self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
         } completion:^(BOOL finished) {
@@ -168,7 +172,7 @@
             self.view.frame = CGRectMake(0,
                                          0,
                                          [[UIScreen mainScreen] applicationFrame].size.width,
-                                         [[UIScreen mainScreen] applicationFrame].size.height);
+                                         [[UIScreen mainScreen] applicationFrame].size.height + statusBarHeight);
             self.navigationControllerForDetail.view.frame = CGRectMake(xOffset,
                                                                        0,
                                                                        [[UIScreen mainScreen] applicationFrame].size.width - xOffset,
@@ -181,17 +185,13 @@
 }
 
 - (void) hideTreeView {
-    
-    // FIXME:回転時にViewの位置、サイズがおかしい
-    CGFloat xOffset       = 320.0f;
-    if ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait) {
+    if ([[OPNFileDataController sharedInstance] isPortrait]) {
         [UIView animateWithDuration:0.2f animations:^{
             self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
         } completion:^(BOOL finished) {
             self.preferredDisplayMode = UISplitViewControllerDisplayModeAutomatic;
         }];
     } else {
-        
         [UIView animateWithDuration:0.2f delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
                 self.view.frame = CGRectMake(-xOffset,
                                              0,

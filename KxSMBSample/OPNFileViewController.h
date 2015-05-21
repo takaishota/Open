@@ -1,5 +1,5 @@
 //
-//  FileViewController.h
+//  OPNFileViewController.h
 //  SMBFileReader
 //
 //  Created by Shota Takai on 2015/03/20.
@@ -9,13 +9,13 @@
 
 @class KxSMBItemFile;
 
-@protocol FileViewControllerDelegate <NSObject>
+@protocol OPNFileViewControllerDelegate <NSObject>
 @optional
 - (void)hideTreeView;
 - (void)showTreeView;
 @end
 
-@interface FileViewController : UIViewController <UISplitViewControllerDelegate>
-@property (nonatomic) id <FileViewControllerDelegate> delegate;
+@interface OPNFileViewController : UIViewController <UISplitViewControllerDelegate>
+@property (nonatomic) id <OPNFileViewControllerDelegate> delegate;
 @property (readwrite, nonatomic, strong) KxSMBItemFile* smbFile;
 @end

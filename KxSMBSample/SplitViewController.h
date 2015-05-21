@@ -8,4 +8,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SplitViewController : UISplitViewController
+extern const float statusBarHeight;
 @end

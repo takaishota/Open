@@ -1,12 +1,12 @@
 //
-//  FileViewController.m
+//  OPNFileViewController.m
 //  SMBFileReader
 //
 //  Created by Shota Takai on 2015/03/20..
 //
 
 
-#import "FileViewController.h"
+#import "OPNFileViewController.h"
 // :: Other ::
 #import "FileUtility.h"
 #import "KxSMBProvider.h"
@@ -15,12 +15,14 @@
 #import "TopViewController.h"
 #import "TreeViewController.h"
 #import "UIView+Utility.h"
+#import "OPNFileDataController.h"
+#import "SplitViewController.h"
 
-@interface FileViewController () <UIGestureRecognizerDelegate>
+@interface OPNFileViewController () <UIGestureRecognizerDelegate>
 @property (nonatomic) TopViewController *topViewController;
 @end
 
-@implementation FileViewController {
+@implementation OPNFileViewController {
     UIProgressView  *_downloadProgress;
     UILabel         *_downloadLabel;
     NSString        *_filePath;
@@ -28,20 +30,9 @@
     long            _downloadedBytes;
     NSDate          *_timestamp;
     UIWebView       *_webView;
-    BOOL            _treeViewIsHidden;
-    BOOL            _isNavigationBarHidden;
-    BOOL            _currentFileIsPdf;
 }
-//const static CGFloat masterViewWidth = 320.0f;
 
 #pragma mark - Lifecycle
-- (id)init {
-    self = [super initWithNibName:nil bundle:nil];
-    if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
-    }
-    return self;
-}
 
 - (void)dealloc {
     [self closeFiles];
@@ -61,6 +52,9 @@
 
     [self.view addSubview:_downloadLabel];
     [self.view addSubview:_downloadProgress];
+    
+    // 回転イベントのNotification登録
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)viewDidLoad {
@@ -68,16 +62,6 @@
     [self.navigationItem setHidesBackButton:YES animated:NO];
     
     self.view.backgroundColor = FILE_BACKGROUND_COLOR;
-    
-    if ([self isLandscape]) {
-        _treeViewIsHidden = NO;
-        [self updateLeftBarButtonItem];
-
-    } else {
-        _treeViewIsHidden = YES;
-        [self updateLeftBarButtonItem];
-    }
-    _isNavigationBarHidden = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,67 +88,70 @@
     [self updateLeftBarButtonItem];
 }
 
-#pragma mark - When Rotation
-- (void)orientationDidChange
-{
-    // ポートレイトからランドスケープへ
-    if ([self isPortrait]) {
-//        _treeViewIsHidden = NO; // 常にNO
-        [self updateLeftBarButtonItem];
-        
-    // ランドスケープからポートレイトへ
-    } else if ([self isLandscape]){
-//        _treeViewIsHidden = YES; // 常にYES
-        [self updateLeftBarButtonItem];
-        
-        self.navigationController.parentViewController.view.x = 0;
-    }
-}
-
 #pragma mark - Private
-- (BOOL)isLandscape {
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    return UIInterfaceOrientationIsLandscape(interfaceOrientation);
-}
-- (BOOL)isPortrait {
-    UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-    return UIInterfaceOrientationIsPortrait(interfaceOrientation);
-}
-
 - (void)updateLeftBarButtonItem {
-    
-//    UIImage *btnImg                          = [[UIImage alloc] initWithTreeViewStatus:_treeViewIsHidden
-//                                                                     deviceOrientation:![self isLandscape]]; // FIXME:これが回転前のステータスになっている ここを遷移後の画面の向きの結果を返したい
     UIImage *btnImage;
-    if ([self isPortrait]) {
+    // ポートレイトの場合
+    if ([[OPNFileDataController sharedInstance] isPortrait]) {
         btnImage = [[UIImage alloc] initWithUIImage:@"right.png"];
     } else {
-        if (_treeViewIsHidden) {
-            btnImage = [[UIImage alloc] initWithUIImage:@"left.png"];
-        } else {
+        // ランドスケープでtreeViewが非表示の場合
+        if ([OPNFileDataController sharedInstance].treeViewIsHidden) {
             btnImage = [[UIImage alloc] initWithUIImage:@"right.png"];
+        } else {
+            // ランドスケープでtreeViewが表示されている場合
+            btnImage = [[UIImage alloc] initWithUIImage:@"left.png"];
         }
     }
     
     UINavigationController *navController    = (UINavigationController*)self.parentViewController;
-
+    
     UIViewController *lastrVc                = [navController.viewControllers lastObject];
     lastrVc.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:btnImage
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                        action:@selector(resizeFileView)];
+                                                                                style:UIBarButtonItemStylePlain
+                                                                               target:self
+                                                                               action:@selector(resizeFileView)];
 }
 
-- (void)closeFiles {
-    if (_fileHandle) {
+#pragma mark - Rotate
+- (void)orientationDidChange
+{
+    // ランドスケープ → ポートレイト
+    if ([[OPNFileDataController sharedInstance] isPortrait]) {
+        [OPNFileDataController sharedInstance].treeViewIsHidden = YES;
+        self.navigationController.parentViewController.view.x = 0;
+        self.navigationController.parentViewController.view.width = [[UIScreen mainScreen] bounds].size.width;
+        _webView.height = [[UIScreen mainScreen] bounds].size.height;;
         
-        [_fileHandle closeFile];
-        _fileHandle = nil;
+    // ポートレイト → ランドスケープ
+    } else if ([[OPNFileDataController sharedInstance] isLandscape]){
+        [OPNFileDataController sharedInstance].treeViewIsHidden = NO;
+        self.view.height = [[UIScreen mainScreen] bounds].size.height;
+        _webView.height = [[UIScreen mainScreen] bounds].size.height;
     }
-    
-    [_smbFile close];
+    [self updateLeftBarButtonItem];
 }
 
+#pragma mark - Push Resize Button
+- (void)resizeFileView {
+    if ([OPNFileDataController sharedInstance].treeViewIsHidden) {
+        if ([self.delegate respondsToSelector:@selector(showTreeView)]) {
+            [self.delegate showTreeView];
+        }
+    } else {
+        if ([self.delegate respondsToSelector:@selector(hideTreeView)]) {
+            [self.delegate hideTreeView];
+        }
+    }
+    [OPNFileDataController sharedInstance].treeViewIsHidden = ![OPNFileDataController sharedInstance].treeViewIsHidden;
+    
+    // ランドスケープの時だけリサイズボタンの画像を変更する
+    if ([[OPNFileDataController sharedInstance] isLandscape]) {
+        [self updateLeftBarButtonItem];
+    }
+}
+
+#pragma mark - Push Close Button
 - (void)closeCurrentFile:(UIView*)view {
     [_webView removeFromSuperview];
     [[FileUtility sharedUtility] removeFileAtPath:_filePath];
@@ -174,6 +161,7 @@
     self.title = @"";
 }
 
+#pragma mark - WebView Dowonload
 - (UILabel*)setupDownloadLabel {
     const float W                  = self.view.bounds.size.width;
     UILabel *downloadLabel         = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, W - 20, 40)];
@@ -254,6 +242,19 @@
     }
 }
 
+- (void)download {
+    __weak __typeof(self) weakSelf = self;
+    [_smbFile readDataOfLength:32768
+                         block:^(id result)
+     {
+         OPNFileViewController *p = weakSelf;
+         //if (p && p.isViewLoaded && p.view.window) {
+         if (p) {
+             [p updateDownloadStatus:result];
+         }
+     }];
+}
+
 -(void)updateDownloadStatus:(id)result {
     if ([result isKindOfClass:[NSError class]]) {
          
@@ -326,6 +327,16 @@
     }
 }
 
+- (void)closeFiles {
+    if (_fileHandle) {
+        
+        [_fileHandle closeFile];
+        _fileHandle = nil;
+    }
+    
+    [_smbFile close];
+}
+
 - (UIWebView*)generateWebView {
     UIWebView *webView       = [UIWebView new];
     webView.scalesPageToFit  = YES;
@@ -352,68 +363,37 @@
         
     }
     if ([@[@"pdf"] containsObject:[[_smbFile.path pathExtension] lowercaseString]]) {
-        _currentFileIsPdf = YES;
+        [OPNFileDataController sharedInstance].currentFileIsPdf = YES;
     } else {
-        _currentFileIsPdf = NO;
+        [OPNFileDataController sharedInstance].currentFileIsPdf = NO;
     }
     return webView;
 }
 
+#pragma mark - WebView Gesture Recognizer
 - (void)didTapOnView {
-    if (_currentFileIsPdf) return;
-    if (_isNavigationBarHidden) {
+    if ([OPNFileDataController sharedInstance].currentFileIsPdf) return;
+    if ([OPNFileDataController sharedInstance].isNavigationBarHidden) {
         [self showNavigationToolBar];
     } else {
         [self hideNavigationToolBar];
     }
-    _isNavigationBarHidden = !_isNavigationBarHidden;
+    [OPNFileDataController sharedInstance].isNavigationBarHidden = ![OPNFileDataController sharedInstance].isNavigationBarHidden;
 }
 
 - (void)didScrollUpView {
-    if (_currentFileIsPdf) return;
-    if (!_isNavigationBarHidden) {
+    if ([OPNFileDataController sharedInstance].currentFileIsPdf) return;
+    if (![OPNFileDataController sharedInstance].isNavigationBarHidden) {
         [self hideNavigationToolBar];
-        _isNavigationBarHidden = YES;
+        [OPNFileDataController sharedInstance].isNavigationBarHidden = YES;
     }
 }
 
 - (void)didScrollDownView {
-    if (_currentFileIsPdf) return;
-    if (_isNavigationBarHidden) {
+    if ([OPNFileDataController sharedInstance].currentFileIsPdf) return;
+    if ([OPNFileDataController sharedInstance].isNavigationBarHidden) {
         [self showNavigationToolBar];
-        _isNavigationBarHidden = NO;
-    }
-}
-
-- (void)download {
-    __weak __typeof(self) weakSelf = self;
-    [_smbFile readDataOfLength:32768
-                         block:^(id result)
-    {
-        FileViewController *p = weakSelf;
-        //if (p && p.isViewLoaded && p.view.window) {
-        if (p) {
-            [p updateDownloadStatus:result];
-        }
-    }];
-}
-
-- (void)resizeFileView {
-    
-    // primaryViewが非表示の場合、表示する
-    if (_treeViewIsHidden) {
-        if ([self.delegate respondsToSelector:@selector(showTreeView)]) {
-            [self.delegate showTreeView];
-        }
-    } else {
-        if ([self.delegate respondsToSelector:@selector(hideTreeView)]) {
-            [self.delegate hideTreeView];
-        }
-    }
-    
-    _treeViewIsHidden = !_treeViewIsHidden;
-    if ([self isLandscape]) {
-        [self updateLeftBarButtonItem];
+        [OPNFileDataController sharedInstance].isNavigationBarHidden = NO;
     }
 }
 
@@ -443,7 +423,7 @@
     float animationDuration = 0.1;
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     navBar.frame = CGRectMake(navBar.frame.origin.x,
-                              -navBar.frame.size.height + 20,
+                              -navBar.frame.size.height + statusBarHeight,
                               navBar.frame.size.width,
                               navBar.frame.size.height);
     
@@ -461,7 +441,7 @@
     
     [UIView animateWithDuration:animationDuration animations:^{
         navBar.frame = CGRectMake(navBar.frame.origin.x,
-                                  -navBar.frame.size.height + 20,
+                                  -navBar.frame.size.height + statusBarHeight,
                                   navBar.frame.size.width,
                                   navBar.frame.size.height);
     } completion:^(BOOL finished) {
@@ -476,7 +456,7 @@
 
 #pragma mark - NSObject
 - (NSString *)description {
-    return [NSString stringWithFormat:@"FileViewController description:\n%@ delegate: %@\nsmbFile: %@\n",[super description], self.delegate, self.smbFile];
+    return [NSString stringWithFormat:@"OPNFileViewController description:\n%@ delegate: %@\nsmbFile: %@\n",[super description], self.delegate, self.smbFile];
 }
 
 @end

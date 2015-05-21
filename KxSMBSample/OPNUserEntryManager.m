@@ -9,7 +9,6 @@
 #import "OPNUserEntryManager.h"
 // :: Other ::
 #import "OPNUserEntry.h"
-#import "OPNUserEntry.h"
 
 @implementation OPNUserEntryManager
 + (OPNUserEntryManager*)sharedManager {

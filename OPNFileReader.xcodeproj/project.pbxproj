@@ -26,6 +26,7 @@
 		1F570E311ACA8EA600447727 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F570E301ACA8EA600447727 /* folder.png */; };
 		1F570E331ACA8ECF00447727 /* file.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F570E321ACA8ECF00447727 /* file.png */; };
 		1F62900C1ACE1114009CF4E3 /* DXPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F62900B1ACE1114009CF4E3 /* DXPopover.m */; };
+		1F6316221B0EA2D60026B74B /* OPNFileDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6316211B0EA2D60026B74B /* OPNFileDataController.m */; };
 		1F6A52BE1AE8B34900D76CDF /* OPNDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6A52BD1AE8B34900D76CDF /* OPNDocument.m */; };
 		1F6A52C11AE8D61200D76CDF /* OPNUserEntryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F6A52C01AE8D61200D76CDF /* OPNUserEntryManager.m */; };
 		1F7A32561ADF89F200663D97 /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A32551ADF89F200663D97 /* SplitViewController.m */; };
@@ -72,7 +73,7 @@
 		87085FA11705D46C009CD258 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87085FA01705D46C009CD258 /* Default@2x.png */; };
 		87085FA31705D46C009CD258 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87085FA21705D46C009CD258 /* Default-568h@2x.png */; };
 		87085FB41705D494009CD258 /* KxSMBProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 87085FB31705D494009CD258 /* KxSMBProvider.m */; };
-		87085FBB1705D4AB009CD258 /* FileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87085FB61705D4AB009CD258 /* FileViewController.m */; };
+		87085FBB1705D4AB009CD258 /* OPNFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87085FB61705D4AB009CD258 /* OPNFileViewController.m */; };
 		87085FBD1705D4AB009CD258 /* TreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87085FBA1705D4AB009CD258 /* TreeViewController.m */; };
 		87085FC41705D4CA009CD258 /* libsmbclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085FBF1705D4CA009CD258 /* libsmbclient.a */; };
 		87085FC51705D4CA009CD258 /* libtalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87085FC11705D4CA009CD258 /* libtalloc.a */; };
@@ -137,6 +138,8 @@
 		1F570E321ACA8ECF00447727 /* file.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = file.png; sourceTree = "<group>"; };
 		1F62900A1ACE1114009CF4E3 /* DXPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXPopover.h; sourceTree = "<group>"; };
 		1F62900B1ACE1114009CF4E3 /* DXPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXPopover.m; sourceTree = "<group>"; };
+		1F6316201B0EA2D60026B74B /* OPNFileDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNFileDataController.h; sourceTree = "<group>"; };
+		1F6316211B0EA2D60026B74B /* OPNFileDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNFileDataController.m; sourceTree = "<group>"; };
 		1F6A52BC1AE8B34900D76CDF /* OPNDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNDocument.h; sourceTree = "<group>"; };
 		1F6A52BD1AE8B34900D76CDF /* OPNDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNDocument.m; sourceTree = "<group>"; };
 		1F6A52BF1AE8D61200D76CDF /* OPNUserEntryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNUserEntryManager.h; sourceTree = "<group>"; };
@@ -208,8 +211,8 @@
 		87085FA21705D46C009CD258 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		87085FB21705D494009CD258 /* KxSMBProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxSMBProvider.h; sourceTree = "<group>"; };
 		87085FB31705D494009CD258 /* KxSMBProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxSMBProvider.m; sourceTree = "<group>"; };
-		87085FB51705D4AB009CD258 /* FileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FileViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		87085FB61705D4AB009CD258 /* FileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileViewController.m; sourceTree = "<group>"; };
+		87085FB51705D4AB009CD258 /* OPNFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OPNFileViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		87085FB61705D4AB009CD258 /* OPNFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNFileViewController.m; sourceTree = "<group>"; };
 		87085FB91705D4AB009CD258 /* TreeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeViewController.h; sourceTree = "<group>"; };
 		87085FBA1705D4AB009CD258 /* TreeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeViewController.m; sourceTree = "<group>"; };
 		87085FBF1705D4CA009CD258 /* libsmbclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsmbclient.a; path = libs/libsmbclient.a; sourceTree = "<group>"; };
@@ -348,8 +351,10 @@
 		1F2F50591AC3B94A00E43763 /* detail */ = {
 			isa = PBXGroup;
 			children = (
-				87085FB51705D4AB009CD258 /* FileViewController.h */,
-				87085FB61705D4AB009CD258 /* FileViewController.m */,
+				1F6316201B0EA2D60026B74B /* OPNFileDataController.h */,
+				1F6316211B0EA2D60026B74B /* OPNFileDataController.m */,
+				87085FB51705D4AB009CD258 /* OPNFileViewController.h */,
+				87085FB61705D4AB009CD258 /* OPNFileViewController.m */,
 			);
 			name = detail;
 			sourceTree = "<group>";
@@ -818,6 +823,7 @@
 				1FB240381AE4D53C00719C20 /* UIColor+CustomColors.m in Sources */,
 				87085FB41705D494009CD258 /* KxSMBProvider.m in Sources */,
 				1FB302631ADE21A800EE17DC /* SettingsViewController.m in Sources */,
+				1F6316221B0EA2D60026B74B /* OPNFileDataController.m in Sources */,
 				1FE188AC1AD52BBE0086BE57 /* NSJSONSerialization+JSONFile.m in Sources */,
 				1FE4B7181AE79B2300FC83D5 /* UIImage+Utility.m in Sources */,
 				1FB240351AE4840800719C20 /* ServerListViewController.m in Sources */,
@@ -828,7 +834,7 @@
 				1F62900C1ACE1114009CF4E3 /* DXPopover.m in Sources */,
 				1F3C5B571ABBE94200DCFFED /* AuthViewTextField.m in Sources */,
 				1F2F50511AC3A46A00E43763 /* LocalFileViewController.m in Sources */,
-				87085FBB1705D4AB009CD258 /* FileViewController.m in Sources */,
+				87085FBB1705D4AB009CD258 /* OPNFileViewController.m in Sources */,
 				1FC48B8E1AE618940023598B /* OPNUserEntry.m in Sources */,
 				87085FBD1705D4AB009CD258 /* TreeViewController.m in Sources */,
 			);

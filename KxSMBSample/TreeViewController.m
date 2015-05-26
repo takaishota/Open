@@ -14,6 +14,7 @@
 #import "SettingsViewController.h"
 #import "UIImage+Utility.h"
 #import "UIColor+CustomColors.h"
+#import "UIView+Utility.h"
 
 
 @interface TreeViewController () <UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate>
@@ -188,10 +189,7 @@
     return filteredResult;
 }
 
-- (void)setupTreeViewCell:(UITableViewCell*)cell WithItem:(KxSMBItem*)item{
-    cell.textLabel.text = item.path.lastPathComponent;
-    cell.detailTextLabel.textColor = [UIColor customGrayColor];
-    
+- (void)setupTreeViewCell:(UITableViewCell*)cell WithItem:(KxSMBItem*)item {
     UIImage *image = nil;
     NSString *fileSize = @"";
     NSString *timeStamp = @"";
@@ -207,7 +205,14 @@
     if (timeStamp.length) {
         timeStamp = [timeStamp substringToIndex:16];
     }
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@      %@", fileSize, timeStamp];
+    
+    cell.textLabel.text = item.path.lastPathComponent;
+    cell.textLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    cell.textLabel.numberOfLines = 2;
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+    
+    cell.detailTextLabel.textColor = [UIColor customGrayColor];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@     %@", timeStamp, fileSize];
     cell.imageView.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
@@ -257,7 +262,7 @@
 }
 
 - (UILabel*)setupCellLabel:(NSString*)text textColor:(UIColor*)color {
-    UIFont *font = [UIFont boldSystemFontOfSize:16];
+    UIFont *font = [UIFont boldSystemFontOfSize:14];
     const float W = self.tableView.frame.size.width;
     
     UILabel *label         = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, W, font.lineHeight)];

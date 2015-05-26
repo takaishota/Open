@@ -13,6 +13,7 @@
 #import "LocalFileViewController.h"
 #import "SettingsViewController.h"
 #import "UIImage+Utility.h"
+#import "UIColor+CustomColors.h"
 
 
 @interface TreeViewController () <UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate>
@@ -187,6 +188,29 @@
     return filteredResult;
 }
 
+- (void)setupTreeViewCell:(UITableViewCell*)cell WithItem:(KxSMBItem*)item{
+    cell.textLabel.text = item.path.lastPathComponent;
+    cell.detailTextLabel.textColor = [UIColor customGrayColor];
+    
+    UIImage *image = nil;
+    NSString *fileSize = @"";
+    NSString *timeStamp = @"";
+    if ([item isKindOfClass:[KxSMBItemTree class]]) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        image = [UIImage imageNamed:@"folder.png"];
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        fileSize = [NSString stringWithFormat:@"%ld KB", item.stat.size / 1000];
+        timeStamp = [NSString stringWithFormat:@"%@", item.stat.lastModified];
+        image = [UIImage imageNamed:@"file.png"];
+    }
+    if (timeStamp.length) {
+        timeStamp = [timeStamp substringToIndex:16];
+    }
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@      %@", fileSize, timeStamp];
+    cell.imageView.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
 # pragma mark - pushed navigationbar button
 - (void) requestNewPath {
     self.path = _path;
@@ -273,25 +297,10 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                       reuseIdentifier:cellIdentifier];
     }
-    
-    KxSMBItem *item = _items[indexPath.row];
-    cell.textLabel.text = item.path.lastPathComponent;
-    
-    UIImage *image = nil;
-    if ([item isKindOfClass:[KxSMBItemTree class]]) {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.detailTextLabel.text =  @"";
-        image = [UIImage imageNamed:@"folder.png"];
-    } else {
-        
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld KB", item.stat.size / 1000];
-        image = [UIImage imageNamed:@"file.png"];
-    }
-    cell.imageView.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];;
+    [self setupTreeViewCell:cell WithItem:_items[indexPath.row]];
     
     return cell;
 }

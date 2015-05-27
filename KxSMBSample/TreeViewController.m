@@ -17,7 +17,9 @@
 #import "UIView+Utility.h"
 
 
-@interface TreeViewController () <UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate>
+@interface TreeViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate>
+@property (nonatomic) NSArray *smbItemSearchResult;
+@property (nonatomic) UISearchBar *searchBar;
 @end
 
 @implementation TreeViewController {
@@ -93,7 +95,55 @@
     self.tableView.rowHeight = 70.f;
 }
 
-- (void) reloadPath {
+- (UISearchBar*)generateSearchBar {
+    // 検索バーを作成する
+    self.searchBar = [UISearchBar new];
+    self.searchBar.delegate = self;
+    self.searchBar.frame = CGRectMake(0, 0, 320, 44.0f);
+    self.searchBar.layer.position = CGPointMake(self.view.width/2, statusBarHeight);
+    
+    // キャンセルボタンを有効にする
+    self.searchBar.showsCancelButton = YES;
+    
+    // ブックマークボタンを無効にする
+    self.searchBar.showsBookmarkButton = NO;
+    
+    // バースタイルをDefaultに設定する
+    self.searchBar.searchBarStyle = UISearchBarStyleDefault;
+    
+    // 説明文を設定する
+    self.searchBar.placeholder = @"検索";
+    
+    // カーソル、キャンセルボタンの色を設定する.
+    self.searchBar.tintColor = [UIColor customRedColor];
+    
+    // 検索結果表示ボタンは非表示にする.
+    self.searchBar.showsSearchResultsButton = NO;
+    
+    return self.searchBar;
+}
+
+- (void)setupToolBar {
+    UIBarButtonItem *localFileListButton = [[UIBarButtonItem alloc] initWithTitle:@"ローカル" style:UIBarButtonItemStylePlain target:self action:@selector(appearLocalFileList)];
+    UIImage *btnImg = [[UIImage alloc] initWithUIImage:@"settings.png"];
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:btnImg
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(showSettingViewController)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    self.toolbarItems = @[localFileListButton, flexibleSpace, settingsButton];
+}
+
+- (UIBarButtonItem*)generateResizingBarButtonItemWithImage:(NSString*)fileName {
+    UIImage *btnImg = [[UIImage alloc] initWithUIImage:fileName];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithImage:btnImg
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(requestNewPath)];
+    return barButtonItem;
+}
+
+- (void)reloadPath {
     NSString *path = _path;
     
     [self setupTitle:path];
@@ -148,27 +198,7 @@
     return urlShemeAddedPath;
 }
 
-- (void) setupToolBar {
-    UIBarButtonItem *localFileListButton = [[UIBarButtonItem alloc] initWithTitle:@"ローカル" style:UIBarButtonItemStylePlain target:self action:@selector(appearLocalFileList)];
-    UIImage *btnImg = [[UIImage alloc] initWithUIImage:@"settings.png"];
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:btnImg
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(showSettingViewController)];
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    self.toolbarItems = @[localFileListButton, flexibleSpace, settingsButton];
-}
-
-- (UIBarButtonItem*)generateResizingBarButtonItemWithImage:(NSString*)fileName {
-    UIImage *btnImg = [[UIImage alloc] initWithUIImage:fileName];
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithImage:btnImg
-                                                                      style:UIBarButtonItemStylePlain
-                                                                     target:self
-                                                                     action:@selector(requestNewPath)];
-    return barButtonItem;
-}
-
-- (void) showSettingViewController {
+- (void)showSettingViewController {
     SettingsViewController *vc = [SettingsViewController new];
     // TODO:iOS8から背景が透過しない
     vc.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -187,33 +217,6 @@
         }
     }
     return filteredResult;
-}
-
-- (void)setupTreeViewCell:(UITableViewCell*)cell WithItem:(KxSMBItem*)item {
-    UIImage *image = nil;
-    NSString *fileSize = @"";
-    NSString *timeStamp = @"";
-    if ([item isKindOfClass:[KxSMBItemTree class]]) {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        image = [UIImage imageNamed:@"folder.png"];
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        fileSize = [NSString stringWithFormat:@"%ld KB", item.stat.size / 1000];
-        timeStamp = [NSString stringWithFormat:@"%@", item.stat.lastModified];
-        image = [UIImage imageNamed:@"file.png"];
-    }
-    if (timeStamp.length) {
-        timeStamp = [timeStamp substringToIndex:16];
-    }
-    
-    cell.textLabel.text = item.path.lastPathComponent;
-    cell.textLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
-    cell.textLabel.numberOfLines = 2;
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
-    
-    cell.detailTextLabel.textColor = [UIColor customGrayColor];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@     %@", timeStamp, fileSize];
-    cell.imageView.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
 # pragma mark - pushed navigationbar button
@@ -254,9 +257,8 @@
         [self.refreshControl endRefreshing];
         
     } else {
-        
-        self.tableView.tableHeaderView = nil;
-        
+        // テーブルビューのヘッダーにサーチバーを設定する
+        self.tableView.tableHeaderView = [self generateSearchBar];
         [self.refreshControl endRefreshing];
     }
 }
@@ -308,6 +310,33 @@
     [self setupTreeViewCell:cell WithItem:_items[indexPath.row]];
     
     return cell;
+}
+
+- (void)setupTreeViewCell:(UITableViewCell*)cell WithItem:(KxSMBItem*)item {
+    UIImage *image = nil;
+    NSString *fileSize = @"";
+    NSString *timeStamp = @"";
+    if ([item isKindOfClass:[KxSMBItemTree class]]) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        image = [UIImage imageNamed:@"folder.png"];
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        fileSize = [NSString stringWithFormat:@"%ld KB", item.stat.size / 1000];
+        timeStamp = [NSString stringWithFormat:@"%@", item.stat.lastModified];
+        image = [UIImage imageNamed:@"file.png"];
+    }
+    if (timeStamp.length) {
+        timeStamp = [timeStamp substringToIndex:16];
+    }
+    
+    cell.textLabel.text = item.path.lastPathComponent;
+    cell.textLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    cell.textLabel.numberOfLines = 2;
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+    
+    cell.detailTextLabel.textColor = [UIColor customGrayColor];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@     %@", timeStamp, fileSize];
+    cell.imageView.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
 #pragma mark - Table view delegate

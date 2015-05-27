@@ -19,8 +19,9 @@
 
 
 @interface TreeViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate>
-@property (nonatomic) NSArray *smbItemSearchResult;
+@property (nonatomic) NSMutableArray *smbItemSearchResult;
 @property (nonatomic) UISearchBar *searchBar;
+@property (nonatomic) UIView *overlayView;
 @end
 
 @implementation TreeViewController {
@@ -373,6 +374,7 @@
     self.searchBar.showsCancelButton = NO;
     UITextField *textField = [self findTextFieldOfSearchBar:searchBar];
     [textField resignFirstResponder];
+    [self.overlayView removeFromSuperview];
 }
 
 - (UITextField *)findTextFieldOfSearchBar:(UIView *)searchBar
@@ -389,8 +391,50 @@
     }
     return nil;
 }
+
+- (void)updateFilteredContentForSmbItemName:(NSString *)smbItemName
+{
+    // 検索結果配列の初期化
+    self.smbItemSearchResult = [@[] mutableCopy];
+    
+    //検索対象の文字列がない場合
+    if ((smbItemName == nil) || [smbItemName length] == 0)
+    {
+        [self.smbItemSearchResult removeAllObjects];
+        return;
+    }
+
+    for (KxSMBItem *item in _items) {
+        NSUInteger searchOptions = NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch;
+        NSString *itemName = [item.path lastPathComponent];
+        NSRange itemNameRange = NSMakeRange(0, itemName.length);
+        NSRange foundRange = [itemName rangeOfString:smbItemName options:searchOptions range:itemNameRange];
+        if (foundRange.length > 0)
+        {
+            //文字列がマッチしていれば検索結果のためのNSMutableArrayに追加
+            [self.smbItemSearchResult addObject:itemName];
+        }
+    }
+    
+    if (self.smbItemSearchResult) {
+        [self.tableView reloadData];
+    }
+}
+
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     self.searchBar.showsCancelButton = YES;
+    
+    // ツリービューの上からviewControllerをオーバーレイ表示する
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, self.tableView.height)];
+    view.backgroundColor = [UIColor blackColor];
+    view.alpha = 0.4;
+    self.overlayView = view;
+    [self.view addSubview:view];
+    
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self updateFilteredContentForSmbItemName:searchText];
 }
 
 #pragma mark - NSObject

@@ -103,23 +103,15 @@
     self.searchBar.frame = CGRectMake(0, 0, 320, 44.0f);
     self.searchBar.layer.position = CGPointMake(self.view.width/2, statusBarHeight);
     
-    // キャンセルボタンを有効にする
-    self.searchBar.showsCancelButton = YES;
-    
-    // ブックマークボタンを無効にする
+    self.searchBar.showsCancelButton = NO;
+    self.searchBar.showsSearchResultsButton = NO;
     self.searchBar.showsBookmarkButton = NO;
-    
-    // バースタイルをDefaultに設定する
     self.searchBar.searchBarStyle = UISearchBarStyleDefault;
     
-    // 説明文を設定する
     self.searchBar.placeholder = @"検索";
     
     // カーソル、キャンセルボタンの色を設定する.
     self.searchBar.tintColor = [UIColor customRedColor];
-    
-    // 検索結果表示ボタンは非表示にする.
-    self.searchBar.showsSearchResultsButton = NO;
     
     return self.searchBar;
 }
@@ -378,6 +370,7 @@
 
 #pragma mark - Search ItemName
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = NO;
     UITextField *textField = [self findTextFieldOfSearchBar:searchBar];
     [textField resignFirstResponder];
 }
@@ -396,6 +389,10 @@
     }
     return nil;
 }
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = YES;
+}
+
 #pragma mark - NSObject
 - (NSString *)description
 {

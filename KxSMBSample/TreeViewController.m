@@ -12,6 +12,7 @@
 #import "KxSMBProvider.h"
 #import "LocalFileViewController.h"
 #import "SettingsViewController.h"
+#import "SplitViewController.h"
 #import "UIImage+Utility.h"
 #import "UIColor+CustomColors.h"
 #import "UIView+Utility.h"

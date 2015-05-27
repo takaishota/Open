@@ -254,7 +254,6 @@
                                     textColor:[UIColor redColor]];
         
         self.tableView.tableHeaderView = label;
-        
         [self.refreshControl endRefreshing];
         
     } else {
@@ -377,6 +376,26 @@
     }
 }
 
+#pragma mark - Search ItemName
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    UITextField *textField = [self findTextFieldOfSearchBar:searchBar];
+    [textField resignFirstResponder];
+}
+
+- (UITextField *)findTextFieldOfSearchBar:(UIView *)searchBar
+{
+    for (UIView *view in searchBar.subviews) {
+        if ([view isKindOfClass:[UITextField class]]) {
+            return (UITextField *) view;
+        } else {
+            UITextField *textField = [self findTextFieldOfSearchBar:view];
+            if (textField) {
+                return textField;
+            }
+        }
+    }
+    return nil;
+}
 #pragma mark - NSObject
 - (NSString *)description
 {

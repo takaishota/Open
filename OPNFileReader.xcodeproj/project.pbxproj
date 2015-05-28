@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F04ADF21AEA2E6A006935CF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F04ADF11AEA2E6A006935CF /* Images.xcassets */; };
+		1F12713E1B1713FE009294C9 /* OPNSearchResultTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F12713D1B1713FE009294C9 /* OPNSearchResultTableViewController.m */; };
 		1F16691D1AC4EC0100182F93 /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F16691C1AC4EC0100182F93 /* left.png */; };
 		1F1669231AC54EF100182F93 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F1669221AC54EF100182F93 /* right.png */; };
 		1F167A251B09D02C0046B5F0 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F167A231B09D02C0046B5F0 /* Icon-72.png */; };
@@ -113,6 +114,8 @@
 /* Begin PBXFileReference section */
 		18A91746D289963B8F991D10 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		1F04ADF11AEA2E6A006935CF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = OPNFileReader/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		1F12713C1B1713FE009294C9 /* OPNSearchResultTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPNSearchResultTableViewController.h; sourceTree = "<group>"; };
+		1F12713D1B1713FE009294C9 /* OPNSearchResultTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OPNSearchResultTableViewController.m; sourceTree = "<group>"; };
 		1F16691C1AC4EC0100182F93 /* left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left.png; sourceTree = "<group>"; };
 		1F1669221AC54EF100182F93 /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right.png; sourceTree = "<group>"; };
 		1F167A231B09D02C0046B5F0 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
@@ -344,6 +347,8 @@
 				1F3C5B531ABBE94200DCFFED /* AuthViewController.m */,
 				1F2F504F1AC3A46A00E43763 /* LocalFileViewController.h */,
 				1F2F50501AC3A46A00E43763 /* LocalFileViewController.m */,
+				1F12713C1B1713FE009294C9 /* OPNSearchResultTableViewController.h */,
+				1F12713D1B1713FE009294C9 /* OPNSearchResultTableViewController.m */,
 			);
 			name = master;
 			sourceTree = "<group>";
@@ -830,6 +835,7 @@
 				1FE363471AD3BC6F0062ECBB /* DataLoader.m in Sources */,
 				1FF960E51B003AB70077C875 /* UIView+Utility.m in Sources */,
 				1F6A52BE1AE8B34900D76CDF /* OPNDocument.m in Sources */,
+				1F12713E1B1713FE009294C9 /* OPNSearchResultTableViewController.m in Sources */,
 				1FB578FE1AD6603C00924C9C /* TopViewController.m in Sources */,
 				1F62900C1ACE1114009CF4E3 /* DXPopover.m in Sources */,
 				1F3C5B571ABBE94200DCFFED /* AuthViewTextField.m in Sources */,

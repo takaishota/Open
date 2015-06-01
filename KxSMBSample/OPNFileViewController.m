@@ -44,7 +44,7 @@
 
     [self downloadAction];
 
-    NSString *fileName        = [[_smbFile.path componentsSeparatedByString:@"/"] lastObject];
+    NSString *fileName        = [[self.smbFile.path componentsSeparatedByString:@"/"] lastObject];
     self.navigationItem.title = fileName;
 
     _downloadLabel            = [self setupDownloadLabel];
@@ -190,7 +190,7 @@
         NSString *folder   = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                                 NSUserDomainMask,
                                                                 YES) lastObject];
-        NSString *filename = _smbFile.path.lastPathComponent;
+        NSString *filename = self.smbFile.path.lastPathComponent;
         _filePath          = [folder stringByAppendingPathComponent:filename];
 
         NSFileManager *fm  = [[NSFileManager alloc] init];
@@ -244,7 +244,7 @@
 
 - (void)download {
     __weak __typeof(self) weakSelf = self;
-    [_smbFile readDataOfLength:32768
+    [self.smbFile readDataOfLength:32768
                          block:^(id result)
      {
          OPNFileViewController *p = weakSelf;
@@ -277,7 +277,7 @@
             NSTimeInterval time        = -[_timestamp timeIntervalSinceNow];
 
             _downloadedBytes           += data.length;
-            _downloadProgress.progress = (float)_downloadedBytes / (float)_smbFile.stat.size;
+            _downloadProgress.progress = (float)_downloadedBytes / (float)self.smbFile.stat.size;
             
             CGFloat value;
             NSString *unit;
@@ -306,7 +306,7 @@
                 
                 [_fileHandle writeData:data];
                 
-                if(_downloadedBytes == _smbFile.stat.size) {
+                if(_downloadedBytes == self.smbFile.stat.size) {
                     [self closeFiles];
                     
                     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(closeCurrentFile:)];
@@ -334,7 +334,7 @@
         _fileHandle = nil;
     }
     
-    [_smbFile close];
+    [self.smbFile close];
 }
 
 - (UIWebView*)generateWebView {
@@ -362,7 +362,7 @@
         [webView loadRequest:urlrequest];
         
     }
-    if ([@[@"pdf"] containsObject:[[_smbFile.path pathExtension] lowercaseString]]) {
+    if ([@[@"pdf"] containsObject:[[self.smbFile.path pathExtension] lowercaseString]]) {
         [OPNFileDataController sharedInstance].currentFileIsPdf = YES;
     } else {
         [OPNFileDataController sharedInstance].currentFileIsPdf = NO;

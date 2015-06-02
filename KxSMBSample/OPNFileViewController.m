@@ -356,24 +356,32 @@
         NSError *error;
         
         // 文字エンコードの判定
-        // ファイルサイズが0Bより大きいが、ファイル読み込みがnilの場合、エンコード指定を変えてファイル読み込みを行う
         NSStringEncoding encoding = NSUTF8StringEncoding;
-        
         NSString *str = [[NSString alloc] initWithContentsOfFile:_filePath
                                                         encoding:encoding
                                                            error:&error];
-        // TODO:他の文字コードも対応する
+        // TODO:他の文字コードも対応する（文字コードの配列を持っておいて判定する）
         if (error) {
             // TODO: alertを表示する（その他のエラー）
-            NSLog(@"encoding is not utf-8");
+            NSLog(@"instance, file system or encoding errors");
+            error = nil;
             encoding = NSShiftJISStringEncoding;
             str = [[NSString alloc] initWithContentsOfFile:_filePath
                                                   encoding:encoding
                                                      error:&error];
         }
+        if (error) {
+            // TODO: alertを表示する（その他のエラー）
+            NSLog(@"instance, file system or encoding errors");
+        }
         
-        // TODO:改行ごとに文字列を読み込んで表示するようにする
-        [webView loadHTMLString:str baseURL:nil];
+        
+        NSMutableString *stringConvertedLineBreak = [NSMutableString string];
+        [str enumerateLinesUsingBlock:^(NSString *line, BOOL *stop) {
+            [stringConvertedLineBreak appendString:line];
+            [stringConvertedLineBreak appendString:@"<br/>"];
+        }];
+        [webView loadHTMLString:stringConvertedLineBreak baseURL:nil];
         
     } else {
         NSURLRequest *urlrequest = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:_filePath]];

@@ -363,7 +363,7 @@
     [webView addGestureRecognizer:[self getScrollDownGestureRecognizer]];
     
     if ([@[@"txt"] containsObject:[[self.smbFile.path pathExtension] lowercaseString]]) {
-        NSError *error;
+        NSError *error = nil;
         
         // 文字エンコードの判定
         NSStringEncoding encoding = NSUTF8StringEncoding;
@@ -383,6 +383,7 @@
         if (error) {
             // TODO: alertを表示する（その他のエラー）
             NSLog(@"instance, file system or encoding errors");
+            error = nil;
         }
         
         

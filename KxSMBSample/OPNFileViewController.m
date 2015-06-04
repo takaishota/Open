@@ -111,6 +111,7 @@
                                                                                 style:UIBarButtonItemStylePlain
                                                                                target:self
                                                                                action:@selector(resizeFileView)];
+    self.navigationController.toolbarHidden = NO;
 }
 
 #pragma mark - Rotate
@@ -311,6 +312,8 @@
                     
                     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(closeCurrentFile:)];
                     
+                    [self setToolbar];
+                    
                     // webViewを生成する
                     UIWebView *view = [self generateWebView];
                     [self.view addSubview:view];
@@ -325,6 +328,13 @@
     } else {
         NSAssert(false, @"bugcheck");
     }
+}
+
+-(void) setToolbar {
+    UIBarButtonItem *flexibleButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(switchOfficialApp)];
+    // ボタン追加
+    self.toolbarItems = @[flexibleButton, button];
 }
 
 - (void)closeFiles {

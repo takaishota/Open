@@ -20,6 +20,7 @@
 
 @interface OPNFileViewController () <UIGestureRecognizerDelegate>
 @property (nonatomic) TopViewController *topViewController;
+@property UIDocumentInteractionController *docInteractionController;
 @end
 
 @implementation OPNFileViewController {
@@ -331,10 +332,35 @@
 }
 
 -(void) setToolbar {
-    UIBarButtonItem *flexibleButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(switchOfficialApp)];
+    // アプリのドキュメントディレクトリの参照を取得
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirPath = [paths objectAtIndex:0];
+    NSString *filepath = [NSString stringWithFormat:@"%@/%@", documentsDirPath, self.smbFile.path.lastPathComponent];
+    
+    self.docInteractionController = [UIDocumentInteractionController
+                                     interactionControllerWithURL:[NSURL fileURLWithPath:filepath]];
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(switchOfficialApp:)];
+    
     // ボタン追加
+    UIBarButtonItem *flexibleButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     self.toolbarItems = @[flexibleButton, button];
+}
+
+#pragma mark - Popover ViewController Handler
+- (void)switchOfficialApp:(UIBarButtonItem*)sender {
+    BOOL isValid;
+    isValid = [self.docInteractionController presentOptionsMenuFromBarButtonItem:sender animated:YES];
+    
+    if (!isValid) {
+        [self showAlert:@"データを開けるアプリケーションが見つかりません。"];
+    }
+}
+
+- (void)showAlert:(NSString*)message {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:message preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)closeFiles {

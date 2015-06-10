@@ -9,6 +9,7 @@
 #import "Server.h"
 
 @interface OPNUserEntry : NSObject <NSCoding>
+@property (nonatomic) NSString *entryName;
 @property (nonatomic) NSString *userName;
 @property (nonatomic) NSString *password;
 @property (nonatomic) NSString *workgroup;

@@ -17,6 +17,7 @@
 
 @interface AuthViewController : UIViewController
 @property (nonatomic, weak)id <AuthViewControllerDelegate>delegate;
+@property (nonatomic) NSString *entryName;
 @property (nonatomic) NSString *remoteDirectory;
 @property (nonatomic) NSString *workgroup;
 @property (nonatomic) NSString *userName;

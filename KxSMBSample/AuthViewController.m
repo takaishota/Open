@@ -69,12 +69,12 @@
     _fieldsList = [NSMutableArray array];
     
     // プロパティの参照を配列にセットする
-    _propertyList = [@[@"targetServer", @"remoteDirectory", @"workgroup", @"userName", @"password"] mutableCopy];
+    _propertyList = [@[@"entryName", @"targetServer", @"remoteDirectory", @"workgroup", @"userName", @"password"] mutableCopy];
     
     // フォームに表示する項目
-    _formLabels      = @[@"サーバアドレス", @"リモートディレクトリ", @"ワークグループ", @"ユーザ名", @"パスワード"];
+    _formLabels      = @[@"エントリ名", @"サーバアドレス", @"リモートディレクトリ", @"ワークグループ", @"ユーザ名", @"パスワード"];
     // 対応するユーザデフォルトのキー名
-    _userdefaultKeys = @[@"LastServer", @"RemoteDirectory", @"Workgroup", @"Username", @"Password"];
+    _userdefaultKeys = @[@"EntryName", @"LastServer", @"RemoteDirectory", @"Workgroup", @"Username", @"Password"];
     
     [self setupformItems];
 }
@@ -91,16 +91,41 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    AuthViewTextField *firstTf = _fieldsList[0];
-    firstTf.underLineColor = self.view.tintColor;
-    firstTf.enabled = NO;
+    [self setPopoverTextField];
+    [self setFocusTextField:_fieldsList[0]];
+}
+
+int popoverNumber = 1;
+- (void)setPopoverTextField {
+    // サーバ入力欄をポップアップで選択するようにする
+    AuthViewTextField *popoverTextField = _fieldsList[popoverNumber];
+    popoverTextField.enabled = NO;
+    [self setupPopupButton:(UIView*)popoverTextField];
+}
+
+- (void)setupPopupButton:(UIView*)superView {
+    self.btn =[UIButton buttonWithType:UIButtonTypeCustom];
+    self.btn.frame           = superView.frame;
+    self.btn.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.btn];
     
-    [self setupPopupButton:(UIView*)firstTf];
+    [self.btn addTarget:self action:@selector(didPushShowPopupButton) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)setFocusTextField:(AuthViewTextField*)textFiled {
+    textFiled.underLineColor = self.view.tintColor;
 }
 
 #pragma mark - Private
 - (OPNUserEntry*)generateEntry {
     OPNUserEntry *entry = [OPNUserEntry new];
+    
+    if ([self isNilOrEmpty:self.userName]) {
+        NSLog(@"entryName is nill");
+        return nil;
+    } else {
+        entry.entryName = self.entryName;
+    }
     
     if ([self isNilOrEmpty:self.userName]) {
         NSLog(@"userName is nill");
@@ -121,9 +146,6 @@
     }
     
     if([self isNilOrEmpty:self.workgroup]) {
-        NSLog(@"workgroup is nill");
-        return nil;
-    } else {
         entry.workgroup = self.workgroup;
     }
     
@@ -143,27 +165,20 @@
 
 - (void)initiateProperties {
     if (!self.userEntry) {
+        self.entryName = [NSString string];
         self.targetServer = [[Server alloc] init];
         self.remoteDirectory  = [NSString string];
         self.workgroup = [NSString string];
         self.userName  = [NSString string];
         self.password  = [NSString string];
     } else {
+        self.entryName = self.entryName;
         self.targetServer    = self.userEntry.targetServer;
         self.remoteDirectory  = self.userEntry.remoteDirectory;
         self.workgroup = self.userEntry.workgroup;
         self.userName  = self.userEntry.userName;
         self.password  = self.userEntry.password;
     }
-}
-
-- (void)setupPopupButton:(UIView*)superView {
-    self.btn =[UIButton buttonWithType:UIButtonTypeCustom];
-    self.btn.frame           = superView.frame;
-    self.btn.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.btn];
-    
-    [self.btn addTarget:self action:@selector(didPushShowPopupButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
 //////////////////////////////////////////////////////////////
@@ -322,14 +337,14 @@ const CGFloat _labelInterval = 80;
 
 #pragma mark - Text Field Delegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    AuthViewTextField *field = _fieldsList[0];
+    AuthViewTextField *field = _fieldsList[popoverNumber];
     if (textField.tag != field.tag) {
         field.underLineColor = INFOCUS_UNDERLINE_COLOR;
     }
 }
 
 - (void)setSelectedServer:(NSString *)serverIp {
-    AuthViewTextField *field = _fieldsList[0];
+    AuthViewTextField *field = _fieldsList[popoverNumber];
     field.text = serverIp;
 }
 

@@ -81,7 +81,7 @@ UIBarButtonSystemItemTrash
                                       reuseIdentifier:kEditableCellIdentifier];
     }
 
-    cell.textLabel.text = [[OPNUserEntryManager sharedManager] getServerIpAtIndex:indexPath.row];
+    cell.textLabel.text = [[OPNUserEntryManager sharedManager] getEntryName:indexPath.row];
     UIImage *img = [UIImage imageNamed:@"mac"];
     cell.imageView.image = img;
     [(UIButton*)cell.accessoryView addTarget:self action:@selector(didPushEditButton:event:) forControlEvents:UIControlEventTouchUpInside];

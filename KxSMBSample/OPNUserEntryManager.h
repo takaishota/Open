@@ -22,5 +22,6 @@
 - (void)removeAllUserEntries;
 - (void)moveUserEntryAtIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex;
 - (NSString*)getServerIpAtIndex:(NSUInteger)index;
+- (NSString*)getEntryName:(NSUInteger)index;
 
 @end

@@ -138,4 +138,13 @@
     return entry.targetServer.ip;
 }
 
+- (NSString*)getEntryName:(NSUInteger)index {
+    NSMutableArray *entries = self.userEntries;
+    if (![entries count]) {
+        return nil;
+    }
+    OPNUserEntry *entry = entries[index];
+    return entry.entryName;
+}
+
 @end

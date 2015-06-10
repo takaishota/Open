@@ -11,7 +11,7 @@
 
 #pragma mark - NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder *)coder {
-    
+    [coder encodeObject:_entryName forKey:@"_entryName"];
     [coder encodeObject:_userName forKey:@"_userName"];
     [coder encodeObject:_password forKey:@"_password"];
     [coder encodeObject:_workgroup forKey:@"_workgroup"];
@@ -22,6 +22,7 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     if (self){
+        _entryName       = [decoder decodeObjectForKey:@"_entryName"];
         _userName        = [decoder decodeObjectForKey:@"_userName"];
         _password        = [decoder decodeObjectForKey:@"_password"];
         _workgroup       = [decoder decodeObjectForKey:@"_workgroup"];
@@ -34,6 +35,6 @@
 #pragma mark - NSObject
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"OPNUserEntry description:\n%@ userName: %@\npassword: %@\nworkgroup: %@\nremoteDirectory: %@\ntargetServer: %@\n",[super description], self.userName, self.password, self.workgroup, self.remoteDirectory, self.targetServer];
+    return [NSString stringWithFormat:@"OPNUserEntry description:\n%@ entryName: %@\nuserName: %@\npassword: %@\nworkgroup: %@\nremoteDirectory: %@\ntargetServer: %@\n",[super description], self.entryName,self.userName, self.password, self.workgroup, self.remoteDirectory, self.targetServer];
 }
 @end

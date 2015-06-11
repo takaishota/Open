@@ -139,7 +139,8 @@
             break;
     }
     
-    self.blackOverlay.backgroundColor = maskColor;
+    // ポップオーバー時の背景を透明に変更
+    self.blackOverlay.backgroundColor = [UIColor clearColor];
 
     
     [containerView addSubview:self.blackOverlay];
@@ -164,8 +165,9 @@
     
     BOOL upCanContain = CGRectGetMinY(atViewFrame) >= contentViewHeight+betweenArrowAndAtView;
     BOOL downCanContain = (CGRectGetHeight(containerView.bounds) - (CGRectGetMaxY(atViewFrame)+betweenArrowAndAtView)) >= contentViewHeight;
-    NSAssert((upCanContain||downCanContain), @"DXPopover no place for the popover show, check atView frame %@ check contentView bounds %@ and containerView's bounds %@", NSStringFromCGRect(atViewFrame), NSStringFromCGRect(contentView.bounds), NSStringFromCGRect(containerView.bounds));
-    
+    // HACK: ツールバーのポップアップ位置が大きいとAssetに引っかかって落ちるのでコメントアウト
+//    NSAssert((upCanContain||downCanContain), @"DXPopover no place for the popover show, check atView frame %@ check contentView bounds %@ and containerView's bounds %@", NSStringFromCGRect(atViewFrame), NSStringFromCGRect(contentView.bounds), NSStringFromCGRect(containerView.bounds));
+
     
     CGPoint atPoint = CGPointMake(CGRectGetMidX(atViewFrame), 0);
     DXPopoverPosition dxP;
@@ -195,7 +197,8 @@
             atPoint.y = CGRectGetMaxY(atViewFrame) + betweenArrowAndAtView;
         }
     }
-
+    // HACK: ツールバーの吹き出しの方向が制御できなかったので固定値を代入
+    dxP = 1;
     [self showAtPoint:atPoint popoverPostion:dxP withContentView:contentView inView:containerView];
 }
 

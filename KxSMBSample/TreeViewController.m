@@ -9,6 +9,7 @@
 #import "TreeViewController.h"
 // :: Other ::
 #import "AuthViewController.h"
+#import "DXPopover.h"
 #import "KxSMBProvider.h"
 #import "LocalFileViewController.h"
 #import "SettingsViewController.h"
@@ -119,13 +120,16 @@
 
 - (void)setupToolBar {
     UIBarButtonItem *localFileListButton = [[UIBarButtonItem alloc] initWithTitle:@"ローカル" style:UIBarButtonItemStylePlain target:self action:@selector(appearLocalFileList)];
-    UIImage *btnImg = [[UIImage alloc] initWithUIImage:@"settings.png"];
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:btnImg
+    UIImage *settingBtnImg = [[UIImage alloc] initWithUIImage:@"settings.png"];
+    UIImage *sortBtnImg = [[UIImage alloc] initWithUIImage:@"sort.png"];
+    
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:settingBtnImg
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(showSettingViewController)];
+    UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithImage:sortBtnImg style:UIBarButtonItemStylePlain target:self action:@selector(showSortPopupviewController:)];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    self.toolbarItems = @[localFileListButton, flexibleSpace, settingsButton];
+    self.toolbarItems = @[localFileListButton, flexibleSpace, sortButton, settingsButton];
 }
 
 - (UIBarButtonItem*)generateResizingBarButtonItemWithImage:(NSString*)fileName {
@@ -135,6 +139,20 @@
                                                                      target:self
                                                                      action:@selector(requestNewPath)];
     return barButtonItem;
+}
+
+- (void)showSortPopupviewController:(UIBarButtonItem*)sender {
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 140, 120)];
+    tableView.rowHeight = 30;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tableView.backgroundColor = [UIColor whiteColor];
+    
+    UIView *view = [sender valueForKey:@"view"];
+    view.height = self.view.height - 45;
+    
+    DXPopover *popover = [DXPopover popover];
+    [popover showAtView:view popoverPostion:DXPopoverPositionUp withContentView:tableView inView:self.navigationController.view];
+    
 }
 
 - (void)reloadPath {

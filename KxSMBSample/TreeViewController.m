@@ -312,11 +312,13 @@
     if ([item isKindOfClass:[KxSMBItemTree class]]) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         image = [UIImage imageNamed:@"folder.png"];
+        cell.imageView.tintColor = [UIColor colorWithRed:0.94 green:0.86 blue:0.74 alpha:1];
     } else {
         cell.accessoryType = UITableViewCellAccessoryNone;
         fileSize = [NSString stringWithFormat:@"%ld KB", item.stat.size / 1000];
         timeStamp = [NSString stringWithFormat:@"%@", item.stat.lastModified];
         image = [UIImage imageNamed:@"file.png"];
+        cell.imageView.tintColor = [UIColor colorWithRed:0.93 green:0.94 blue:0.95 alpha:1];
     }
     if (timeStamp.length) {
         timeStamp = [timeStamp substringToIndex:16];

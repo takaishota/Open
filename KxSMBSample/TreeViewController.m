@@ -18,11 +18,18 @@
 #import "UIColor+CustomColors.h"
 #import "UIView+Utility.h"
 
+typedef NS_ENUM (NSUInteger, kSortType) {
+    kSortTypeDate,
+    kSortTypeFileExtension,
+    kSortTypeName,
+    kSortTypeFileSize
+};
 
 @interface TreeViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate>
 @property (nonatomic) NSMutableArray *smbItemSearchResult;
 @property (nonatomic) UISearchBar *searchBar;
 @property (nonatomic) UIView *overlayView;
+@property (nonatomic) NSUInteger currentSortType;
 @end
 
 @implementation TreeViewController {
@@ -142,17 +149,86 @@
 }
 
 - (void)showSortPopupviewController:(UIBarButtonItem*)sender {
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 140, 120)];
-    tableView.rowHeight = 30;
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.backgroundColor = [UIColor whiteColor];
+    
+    UIView *contentsView = [self generateSortPopupView];
     
     UIView *view = [sender valueForKey:@"view"];
     view.height = self.view.height - 45;
     
     DXPopover *popover = [DXPopover popover];
-    [popover showAtView:view popoverPostion:DXPopoverPositionUp withContentView:tableView inView:self.navigationController.view];
+    [popover showAtView:view popoverPostion:DXPopoverPositionUp withContentView:contentsView inView:self.navigationController.view];
+}
+
+- (UIView*)generateSortPopupView {
     
+    UIViewController *vc = [UIViewController new];
+    UIView *view = vc.view;
+    view.width = 140;
+    view.height = 120;
+    
+    // sortTypeのボタン作成
+    NSArray *sortType = @[@"日付", @"種類", @"名前", @"サイズ"];
+    for (int i = 0; i < sortType.count; i++) {
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [btn setTitle:sortType[i] forState:UIControlStateNormal];
+        btn.tag = i;
+        btn.frame = CGRectMake(20, (i * 25) + 10, 100, 20);
+        [btn addTarget:self action:@selector(selectSortTypeBtn:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [view addSubview:btn];
+    }
+    return vc.view;
+}
+
+- (void)selectSortTypeBtn:(UIButton*)sender {
+    NSLog(@"sender: %@",sender);
+    NSLog(@"sender property: %d", sender.tag);
+    switch (sender.tag) {
+        case 0:
+            self.currentSortType = kSortTypeDate;
+            break;
+        case 1:
+            self.currentSortType = kSortTypeFileExtension;
+            break;
+        case 2:
+            self.currentSortType = kSortTypeName;
+            break;
+        case 3:
+            self.currentSortType = kSortTypeFileSize;
+            break;
+        default:
+            break;
+    }
+    
+    [self updateTabelViewBySelectedSortType];
+}
+
+- (void)updateTabelViewBySelectedSortType {
+    
+    // _items配列をsmbItemごとにソートしなおす
+    switch (self.currentSortType) {
+        case kSortTypeDate:
+            NSLog(@"ソートの種類:日付");
+            break;
+        case kSortTypeFileExtension:
+            NSLog(@"ソートの種類:拡張子");
+            break;
+        case kSortTypeName:
+            NSLog(@"ソートの種類:なまえ");
+            break;
+        case kSortTypeFileSize:
+            NSLog(@"ソートの種類:ファイルサイズ");
+            break;
+        default:
+            break;
+    }
+    NSMutableArray *sortedItems = [NSMutableArray array];
+    for (KxSMBItem *smbItem in _items) {
+        [sortedItems addObject:smbItem];
+    }
+    _items = [sortedItems copy];
+    
+    [self.tableView reloadData];
 }
 
 - (void)reloadPath {

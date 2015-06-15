@@ -145,7 +145,11 @@ int popoverNumber = 1;
         entry.remoteDirectory = self.remoteDirectory;
     }
     
+    // TODO: 必須ではなく、任意にする
     if([self isNilOrEmpty:self.workgroup]) {
+        NSLog(@"workgroup is nill");
+        return nil;
+    } else {
         entry.workgroup = self.workgroup;
     }
     

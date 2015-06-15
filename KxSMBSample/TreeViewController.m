@@ -181,8 +181,7 @@ typedef NS_ENUM (NSUInteger, kSortType) {
 }
 
 - (void)selectSortTypeBtn:(UIButton*)sender {
-    NSLog(@"sender: %@",sender);
-    NSLog(@"sender property: %d", sender.tag);
+    
     switch (sender.tag) {
         case 0:
             self.currentSortType = kSortTypeDate;
@@ -205,28 +204,31 @@ typedef NS_ENUM (NSUInteger, kSortType) {
 
 - (void)updateTabelViewBySelectedSortType {
     
-    // _items配列をsmbItemごとにソートしなおす
+    NSSortDescriptor* sortDesc = nil;
     switch (self.currentSortType) {
         case kSortTypeDate:
-            NSLog(@"ソートの種類:日付");
+            // ソートの種類:日付
+            sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"stat.lastModified" ascending:NO];
+            _items = [_items sortedArrayUsingDescriptors:@[sortDesc]];
             break;
         case kSortTypeFileExtension:
-            NSLog(@"ソートの種類:拡張子");
+            // ソートの種類:拡張子
+            sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"path.pathExtension" ascending:YES];
+            _items = [_items sortedArrayUsingDescriptors:@[sortDesc]];
             break;
         case kSortTypeName:
-            NSLog(@"ソートの種類:なまえ");
+            // ソートの種類:なまえ
+            sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"path.lastPathComponent" ascending:YES];
+            _items = [_items sortedArrayUsingDescriptors:@[sortDesc]];
             break;
         case kSortTypeFileSize:
-            NSLog(@"ソートの種類:ファイルサイズ");
+            // ソートの種類:ファイルサイズ
+            sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"stat.size" ascending:NO];
+            _items = [_items sortedArrayUsingDescriptors:@[sortDesc]];
             break;
         default:
             break;
     }
-    NSMutableArray *sortedItems = [NSMutableArray array];
-    for (KxSMBItem *smbItem in _items) {
-        [sortedItems addObject:smbItem];
-    }
-    _items = [sortedItems copy];
     
     [self.tableView reloadData];
 }

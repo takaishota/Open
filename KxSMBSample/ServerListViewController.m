@@ -12,6 +12,7 @@
 #import "LoginStatusManager.h"
 #import "OPNUserEntry.h"
 #import "OPNUserEntryManager.h"
+#import "Reachability.h"
 #import "Server.h"
 #import "ServerListCell.h"
 
@@ -100,11 +101,43 @@ UIBarButtonSystemItemTrash
     if (!self.delegate) {
         return;
     }
+    if (![self isAvailableNetwork]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ネットワーク接続がありません。" message:@"Wi-Fiかモバイルデータ通信をONにしてください。" delegate:self cancelButtonTitle:@"閉じる" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
     self.selectedUserEntry = [OPNUserEntryManager sharedManager].userEntries[indexPath.row];
     if (!self.selectedUserEntry) {
         return;
     }
     [self connectServer];
+}
+
+- (BOOL)isAvailableNetwork {
+    // ネット接続状態確認
+    Reachability *currentReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus netStatus = [currentReachability currentReachabilityStatus];
+    
+    BOOL isAvailable = NO;
+    switch (netStatus)
+    {
+        case NotReachable:        {
+            // 圏外の場合
+            isAvailable = NO;
+            break;
+        }
+        case ReachableViaWWAN:        {
+            // 携帯回線に接続可能な場合
+            isAvailable = YES;
+            break;
+        }
+        case ReachableViaWiFi:        {
+            // wifiに接続可能な場合
+            isAvailable = YES;
+            break;
+        }
+    }
+    return isAvailable;
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {

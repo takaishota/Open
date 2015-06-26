@@ -378,7 +378,7 @@
     webView.scalesPageToFit  = YES;
     webView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     webView.frame            = CGRectMake(0,
-                               0,
+                               [UIApplication sharedApplication].statusBarFrame.size.height,
                                self.view.frame.size.width,
                                self.view.frame.size.height);
     webView.contentMode      = UIViewContentModeScaleAspectFit;

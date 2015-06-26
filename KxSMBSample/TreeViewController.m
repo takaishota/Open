@@ -30,6 +30,8 @@ typedef NS_ENUM (NSUInteger, kSortType) {
 @property (nonatomic) UISearchBar *searchBar;
 @property (nonatomic) UIView *overlayView;
 @property (nonatomic) NSUInteger currentSortType;
+@property (nonatomic) int reloadCount;
+
 @end
 
 @implementation TreeViewController {
@@ -43,6 +45,7 @@ typedef NS_ENUM (NSUInteger, kSortType) {
     self = [super init];
     if (self) {
         self.title   = @"";
+        self.reloadCount = 0;
         _needNewPath = YES;
     }
     return self;
@@ -249,12 +252,10 @@ typedef NS_ENUM (NSUInteger, kSortType) {
     [provider fetchAtPath:urlShemeAddedPath
                     block:^(id result)
     {
-        if ([result isKindOfClass:[NSError class]]) {
-            
+        if ([result isKindOfClass:[NSError class]] && self.reloadCount > 0) {
             [self updateStatus:result];
-            
+            self.reloadCount = 0;
         } else {
-        
             [self updateStatus:nil];
             
             if ([result isKindOfClass:[NSArray class]]) {
@@ -265,6 +266,7 @@ typedef NS_ENUM (NSUInteger, kSortType) {
             }
             
             [self.tableView reloadData];
+            self.reloadCount++;
         }
     }];
 }
@@ -341,13 +343,17 @@ typedef NS_ENUM (NSUInteger, kSortType) {
         
         UILabel *label = [self setupCellLabel:((NSError *)status).localizedDescription
                                     textColor:[UIColor redColor]];
-        
         self.tableView.tableHeaderView = label;
         [self.refreshControl endRefreshing];
         
     } else {
-        // テーブルビューのヘッダーにサーチバーを設定する
-        self.tableView.tableHeaderView = [self generateSearchBar];
+        // サーバ初回アクセス時（navigationController.childViewControllersが2）はreloadが完了した後
+        // ディレクトリ展開時（navigationController.childViewControllersが3以上）は最初から
+        // サーチバーを表示する
+        if ((self.navigationController.childViewControllers.count == 2 && self.reloadCount > 0)
+            || self.navigationController.childViewControllers.count > 2) {
+            self.tableView.tableHeaderView = [self generateSearchBar];
+        }
         [self.refreshControl endRefreshing];
     }
 }

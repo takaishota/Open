@@ -180,8 +180,8 @@
 - (UIProgressView*)setupDownloadProgress {
     const float W                = self.view.bounds.size.width;
     UIProgressView *progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-    _downloadProgress.frame      = CGRectMake(10, 190, W - 20, 30);
-    _downloadProgress.hidden     = YES;
+    progressView.frame      = CGRectMake(10, 190, W / 2 - 20, 30);
+    progressView.hidden     = YES;
     
     return progressView;
 }
@@ -304,6 +304,8 @@
                                    value, unit,
                                    _downloadProgress.progress * 100.f,
                                    value / time, unit];
+            _downloadProgress.hidden = NO;
+            
             if (_fileHandle) {
                 
                 [_fileHandle writeData:data];

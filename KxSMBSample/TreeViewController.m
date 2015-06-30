@@ -12,6 +12,7 @@
 #import "DXPopover.h"
 #import "KxSMBProvider.h"
 #import "LocalFileViewController.h"
+#import "OPNSearchResultTableViewController.h"
 #import "SettingsViewController.h"
 #import "SplitViewController.h"
 #import "UIImage+Utility.h"
@@ -31,6 +32,8 @@ typedef NS_ENUM (NSUInteger, kSortType) {
 @property (nonatomic) UIView *overlayView;
 @property (nonatomic) NSUInteger currentSortType;
 @property (nonatomic) int reloadCount;
+@property (nonatomic) UIGestureRecognizer *singleTapGestureRecognizer;
+@property (nonatomic) OPNSearchResultTableViewController *resultsTableVc;
 
 @end
 
@@ -475,9 +478,12 @@ typedef NS_ENUM (NSUInteger, kSortType) {
 
 #pragma mark - Search ItemName
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    self.tableView.scrollEnabled = YES;
     self.searchBar.showsCancelButton = NO;
     UITextField *textField = [self findTextFieldOfSearchBar:searchBar];
+    textField.text = @"";
     [textField resignFirstResponder];
+    [self.resultsTableVc.view removeFromSuperview];
     [self.overlayView removeFromSuperview];
 }
 
@@ -516,12 +522,13 @@ typedef NS_ENUM (NSUInteger, kSortType) {
         if (foundRange.length > 0)
         {
             //文字列がマッチしていれば検索結果のためのNSMutableArrayに追加
-            [self.smbItemSearchResult addObject:itemName];
+            [self.smbItemSearchResult addObject:item];
         }
     }
     
+    // 新たにテーブルビューを生成してオーバーレイビューの上に表示する
     if (self.smbItemSearchResult) {
-        [self.tableView reloadData];
+        [self appearSearchResultTableView];
     }
 }
 
@@ -534,12 +541,20 @@ typedef NS_ENUM (NSUInteger, kSortType) {
     view.alpha = 0.4;
     [view addGestureRecognizer:[self getSingleTapGestureRecognizer]];
     
+    self.tableView.scrollEnabled = NO;
     self.overlayView = view;
-    [self.view addSubview:view];
-    
+    [self.view addSubview:self.overlayView];
+}
+
+- (void)appearSearchResultTableView {
+    self.resultsTableVc = [OPNSearchResultTableViewController new];
+    self.resultsTableVc.view.frame = CGRectMake(0, 44, 320, self.tableView.height);
+    self.resultsTableVc.searchResults = self.smbItemSearchResult;
+    [self.view addSubview:self.resultsTableVc.view];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self.resultsTableVc.view removeFromSuperview];
     [self updateFilteredContentForSmbItemName:searchText];
 }
 

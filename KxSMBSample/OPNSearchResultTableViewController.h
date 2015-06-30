@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface OPNSearchResultTableViewController : UITableViewController
-@property NSMutableArray *researchResult;
+@property NSMutableArray *searchResults;
 @end

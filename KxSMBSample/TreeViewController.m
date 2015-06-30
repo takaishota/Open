@@ -25,7 +25,7 @@ typedef NS_ENUM (NSUInteger, kSortType) {
     kSortTypeFileSize
 };
 
-@interface TreeViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, AuthViewControllerDelegate>
+@interface TreeViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate , AuthViewControllerDelegate>
 @property (nonatomic) NSMutableArray *smbItemSearchResult;
 @property (nonatomic) UISearchBar *searchBar;
 @property (nonatomic) UIView *overlayView;
@@ -532,6 +532,8 @@ typedef NS_ENUM (NSUInteger, kSortType) {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, self.tableView.height)];
     view.backgroundColor = [UIColor blackColor];
     view.alpha = 0.4;
+    [view addGestureRecognizer:[self getSingleTapGestureRecognizer]];
+    
     self.overlayView = view;
     [self.view addSubview:view];
     
@@ -539,6 +541,18 @@ typedef NS_ENUM (NSUInteger, kSortType) {
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [self updateFilteredContentForSmbItemName:searchText];
+}
+
+- (void)didTapOnView {
+    [self searchBarCancelButtonClicked:self.searchBar];
+}
+
+#pragma mark - Gesture Recognizer
+- (UITapGestureRecognizer*)getSingleTapGestureRecognizer {
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapOnView)];
+    singleTap.numberOfTapsRequired = 1;
+    singleTap.delegate = self;
+    return singleTap;
 }
 
 #pragma mark - NSObject

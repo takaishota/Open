@@ -72,7 +72,12 @@
 }
 
 #pragma mark - UITableView Delegate
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    KxSMBItem *item = self.searchResults[indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(searchResultView:didSelectItem:)]) {
+        [self.delegate searchResultView:self didSelectItem:item];
+    }
     
 }
 @end

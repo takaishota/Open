@@ -26,7 +26,7 @@ typedef NS_ENUM (NSUInteger, kSortType) {
     kSortTypeFileSize
 };
 
-@interface TreeViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate , AuthViewControllerDelegate>
+@interface TreeViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate , AuthViewControllerDelegate, OPNSearchResultTableViewControllerDelegate>
 @property (nonatomic) NSMutableArray *smbItemSearchResult;
 @property (nonatomic) UISearchBar *searchBar;
 @property (nonatomic) UIView *overlayView;
@@ -476,6 +476,28 @@ typedef NS_ENUM (NSUInteger, kSortType) {
     }
 }
 
+#pragma mark - OPNSearchResultTableViewController Delegate
+// 検索結果テーブルの選択時に SplitView Controllerのデリゲートメソッドを呼び出す
+- (void)searchResultView:(OPNSearchResultTableViewController *)searchResultView didSelectItem:(KxSMBItem *)item {
+    // オーバーレイを削除する
+    [self.overlayView removeFromSuperview];
+    self.overlayView = nil;
+    
+    // 検索フィールドのフォーカスを外す
+    UITextField *textField = [self findTextFieldOfSearchBar:self.searchBar];
+    [textField resignFirstResponder];
+    
+    if ([item isKindOfClass:[KxSMBItemTree class]]) {
+        if ([self.delegate respondsToSelector:@selector(pushMasterViewController:)]) {
+            [self.delegate pushMasterViewController:item];
+        }
+    } else if ([item isKindOfClass:[KxSMBItemFile class]]) {
+        if ([self.delegate respondsToSelector:@selector(pushDetailViewController:)]) {
+            [self.delegate pushDetailViewController:item];
+        }
+    }
+}
+
 #pragma mark - Search ItemName
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     self.tableView.scrollEnabled = YES;
@@ -485,6 +507,7 @@ typedef NS_ENUM (NSUInteger, kSortType) {
     [textField resignFirstResponder];
     [self.resultsTableVc.view removeFromSuperview];
     [self.overlayView removeFromSuperview];
+    self.overlayView = nil;
 }
 
 - (UITextField *)findTextFieldOfSearchBar:(UIView *)searchBar
@@ -532,28 +555,44 @@ typedef NS_ENUM (NSUInteger, kSortType) {
     }
 }
 
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    self.searchBar.showsCancelButton = YES;
-    
-    // ツリービューの上からviewControllerをオーバーレイ表示する
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, self.tableView.height)];
-    view.backgroundColor = [UIColor blackColor];
-    view.alpha = 0.4;
-    [view addGestureRecognizer:[self getSingleTapGestureRecognizer]];
-    
-    self.tableView.scrollEnabled = NO;
-    self.overlayView = view;
-    [self.view addSubview:self.overlayView];
-}
-
 - (void)appearSearchResultTableView {
     self.resultsTableVc = [OPNSearchResultTableViewController new];
     self.resultsTableVc.view.frame = CGRectMake(0, 44, 320, self.tableView.height);
     self.resultsTableVc.searchResults = self.smbItemSearchResult;
+    self.resultsTableVc.delegate = self;
+    
     [self.view addSubview:self.resultsTableVc.view];
 }
 
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.searchBar.showsCancelButton = YES;
+    
+    // 検索フィールドに文字列がある場合はオーバレイを表示しない
+    if (self.searchBar.text.length) return;
+    
+    // ツリービューの上からviewControllerをオーバーレイ表示する
+    if (!self.overlayView) {
+        self.overlayView = [self generateOverlayView];
+        [self.view addSubview:self.overlayView];
+    }
+    
+    self.tableView.scrollEnabled = NO;
+}
+
+- (UIView*)generateOverlayView {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, self.tableView.height)];
+    view.backgroundColor = [UIColor blackColor];
+    view.alpha = 0.4;
+    [view addGestureRecognizer:[self getSingleTapGestureRecognizer]];
+    return view;
+}
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    
+    if (searchText.length > 0 && !self.overlayView) {
+        self.overlayView = [self generateOverlayView];
+        [self.view addSubview:self.overlayView];
+    }
     [self.resultsTableVc.view removeFromSuperview];
     [self updateFilteredContentForSmbItemName:searchText];
 }
